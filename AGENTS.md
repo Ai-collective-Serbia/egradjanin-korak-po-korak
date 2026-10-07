@@ -127,9 +127,12 @@ In short:
   makes them open in a new tab; do not write HTML `<a>` tags.
 - Keep `start:` pointing at the first screen. Tests and the accessibility audit pick representative
   screens from `graph.yaml` automatically, so content changes need no test changes.
-- Every number the reader sees carries its year and source; nothing is claimed for people over 75.
+- Every statistic or count about the world (counters, accounts, users, percentages) carries its year
+  and source; numbers the reader acts on (PIN length, time limits, opening hours) need none; nothing
+  is claimed for people over 75.
 - When an eUprava step changes, fix the screen in the same pull request; when a step disappears,
-  repoint every `next` to it and delete its folder. Never leave a stale screen with a note.
+  repoint every `next` to it, delete its node from `content/graph.yaml` and delete its folder. Never
+  leave a stale screen with a note.
 
 ## Language review before a pull request
 
