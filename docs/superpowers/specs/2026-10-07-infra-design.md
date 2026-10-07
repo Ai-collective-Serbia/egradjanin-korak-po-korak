@@ -148,10 +148,11 @@ Answer labels and titles are transliterated with everything else.
   - `/step/<node-id>/` and `/lat/step/<node-id>/` — one page per node.
   - The script toggle links between the two versions of the current page.
 - Transliteration runs at build time over titles, answer labels, UI
-  strings, and rendered Markdown HTML. Direction is Cyrillic to Latin
-  only. `translit-overrides.yaml` is applied first for words where the
-  rule-based mapping is wrong (foreign names, digraph edge cases). URLs,
-  image paths, and HTML attributes are left untouched.
+  strings, and each node's Markdown source (see the loader bullet below).
+  Direction is Cyrillic to Latin only. `translit-overrides.yaml` is
+  applied first for words where the rule-based mapping is wrong (foreign
+  names, digraph edge cases). Only Cyrillic code points change, so URLs,
+  image paths, and Markdown syntax are untouched.
 - Images go through Astro's image pipeline: resized for phone widths,
   served as WebP with original as fallback. Authors drop in any size.
 - The Latin mirror is produced by the content loader, not by
@@ -195,7 +196,8 @@ Answer labels and titles are transliterated with everything else.
 ## Deploy and quality gates
 
 - One GitHub Actions workflow:
-  - On pull request: install, lint, test, build, Lighthouse CI.
+  - On pull request: install, format check, type check, unit tests,
+    build, built-output tests, Lighthouse CI.
   - On push to `main`: the same, then publish the build to GitHub Pages
     with the official `actions/upload-pages-artifact` and
     `actions/deploy-pages`.
@@ -230,8 +232,8 @@ Answer labels and titles are transliterated with everything else.
 ## Contributing notes (to be written as CONTRIBUTING.md)
 
 - How to add a node: create the folder, write `index.md`, add the node to
-  `graph.yaml`, run `pnpm build`.
-- How to run locally: `pnpm install`, `pnpm dev`.
+  `graph.yaml`, run `npm run build`.
+- How to run locally: `npm install`, `npm run dev`.
 - Where fixed UI labels live and that they are Cyrillic only.
 - The manual phone checklist above.
 
