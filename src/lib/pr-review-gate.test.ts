@@ -34,6 +34,14 @@ describe('pull-request language review gate', () => {
     }
   });
 
+  it('reads the last Language review section when a pasted review repeats the heading', () => {
+    const pasted =
+      '## Language review\n\n<!-- paste -->\n\n## Language review\n\n| # | Criterion |\n\n';
+    const changedFiles = ['content/nodes/a/index.md'];
+    expect(checkPullRequest({ body: pasted + 'Verdict: pass\n', changedFiles }).ok).toBe(true);
+    expect(checkPullRequest({ body: pasted, changedFiles }).ok).toBe(false);
+  });
+
   it('ignores a verdict that sits under a later heading', () => {
     const body = '## Language review\n\nnothing\n\n## Notes\n\nVerdict: pass';
     expect(checkPullRequest({ body, changedFiles: ['content/nodes/a/index.md'] }).ok).toBe(false);

@@ -12,7 +12,7 @@ export const MESSAGE =
   'Run /language-review and paste the result under "## Language review".';
 
 function sectionAfter(body, heading) {
-  const start = body.indexOf(heading);
+  const start = body.lastIndexOf(heading);
   if (start < 0) return '';
   const rest = body.slice(start + heading.length);
   const next = rest.search(/^## /m);
