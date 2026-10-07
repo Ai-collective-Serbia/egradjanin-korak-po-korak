@@ -50,4 +50,15 @@ describe('built pages', () => {
     expect(html).toContain('target="_blank"');
     expect(html).toContain('Када завршите, вратите се овде.');
   });
+
+  it('has home pages in both scripts with resume hooks and the client script', () => {
+    const cyr = read('index.html');
+    const lat = read('lat/index.html');
+    expect(cyr).toContain('data-resume');
+    expect(cyr).toContain('data-fresh');
+    // Astro inlines the client script because its bundle is under Vite's 4 KB inline limit.
+    expect(cyr).toContain('<script type="module">');
+    expect(cyr).toContain('egradjanin-progress');
+    expect(lat).toContain('Nastavite gde ste stali');
+  });
 });

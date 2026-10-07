@@ -1,15 +1,5 @@
 ---
-import Base from '../layouts/Base.astro';
-import { nodePath, withBase } from '../lib/paths';
-import { graph, ui } from '../lib/site';
-
-const base = import.meta.env.BASE_URL;
+import HomePage from '../components/HomePage.astro';
 ---
 
-<Base script="cyr" title={ui.tagline} pagePath="">
-  <h1>{ui.siteName}</h1>
-  <p>{ui.tagline}</p>
-  <a class="btn btn-primary" href={withBase(base, nodePath('cyr', graph.start))}>
-    {ui.start}
-  </a>
-</Base>
+<HomePage script="cyr" />

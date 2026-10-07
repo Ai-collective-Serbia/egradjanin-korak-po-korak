@@ -5,7 +5,7 @@ import { groupPosition, outgoing } from '../lib/graph';
 import { makeT } from '../lib/i18n';
 import { homePath, nodePath, withBase } from '../lib/paths';
 import { collectionFor, type Script } from '../lib/script';
-import { graph, overrides, ui } from '../lib/site';
+import { bodyIds, graph, overrides, ui } from '../lib/site';
 
 interface Props {
   script: Script;
@@ -18,7 +18,7 @@ if (!node) throw new Error(`unknown node "${id}"`);
 
 const t = makeT(script, overrides);
 const base = import.meta.env.BASE_URL;
-const entry = await getEntry(collectionFor(script), id);
+const entry = bodyIds.has(id) ? await getEntry(collectionFor(script), id) : undefined;
 const Content = entry ? (await render(entry)).Content : null;
 const edges = outgoing(node);
 const position = groupPosition(graph, id);
@@ -76,7 +76,7 @@ const external = node.type === 'step' ? node.external : undefined;
         </button>
       </p>
     )}
-    <nav class="nav-back">
+    <nav class="nav-back" aria-label={t(ui.back)}>
       <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
         {t(ui.back)}
       </a>
