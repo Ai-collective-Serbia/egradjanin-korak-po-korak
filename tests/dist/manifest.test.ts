@@ -21,3 +21,7 @@ it('pages link the manifest and the apple touch icon with the base path', () => 
   expect(html).toContain(`<link rel="manifest" href="${BASE}manifest.webmanifest">`);
   expect(html).toContain(`<link rel="apple-touch-icon" href="${BASE}icons/apple-touch-icon.png">`);
 });
+
+it('ships the service worker at the site root', () => {
+  expect(dist('sw.js')).toContain("CACHE = 'egradjanin-v1'");
+});
