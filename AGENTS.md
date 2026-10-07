@@ -88,6 +88,9 @@ The same check prints warnings that do not fail the build: sentences over 15 wor
 words, a bold "Ово радите" or "Ово проверавате" banner instead of the blockquote callout, dashes
 between numbers, double spaces, a space before punctuation. Fix them when you touch the screen.
 
+CI also fails a pull request that changes `docs/terms.md` or `docs/writing-guide.md` without a
+dated row in `docs/language-decisions.md` (`scripts/check-pr-language-review.mjs`).
+
 ## Writing rules
 
 The standard is `docs/writing-guide.md` (Serbian, 27 rules with examples) and the words we use are
@@ -124,6 +127,9 @@ Before opening or updating a pull request that changes anything under `content/`
    description. CI fails a content pull request that has no verdict there.
 3. If the verdict is "needs work", fix the screens and run the review again before asking for a
    merge.
+4. If the pull request changes `docs/terms.md` or `docs/writing-guide.md`, add a dated row to
+   `docs/language-decisions.md` in the same pull request. CI fails the pull request without it,
+   whether or not `content/` changed.
 
 ## Workflow for a content change
 

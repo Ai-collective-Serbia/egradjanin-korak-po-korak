@@ -1,6 +1,10 @@
 // src/lib/pr-review-gate.test.ts
 import { describe, expect, it } from 'vitest';
-import { checkPullRequest } from '../../scripts/check-pr-language-review.mjs';
+import {
+  checkPullRequest,
+  DECISION_MESSAGE,
+  MESSAGE,
+} from '../../scripts/check-pr-language-review.mjs';
 
 const review =
   '## What changed\n\nx\n\n## Language review\n\n| # | Criterion | Score | Note |\n\nVerdict: pass\n';
@@ -60,5 +64,47 @@ describe('pull-request language review gate', () => {
   it('ignores a verdict that sits under a later heading', () => {
     const body = '## Language review\n\nnothing\n\n## Notes\n\nVerdict: pass';
     expect(checkPullRequest({ body, changedFiles: ['content/nodes/a/index.md'] }).ok).toBe(false);
+  });
+});
+
+describe('pull-request decision log gate', () => {
+  it('fails when docs/terms.md changed without docs/language-decisions.md', () => {
+    expect(checkPullRequest({ body: null, changedFiles: ['docs/terms.md'] })).toEqual({
+      ok: false,
+      reason: DECISION_MESSAGE,
+    });
+  });
+
+  it('passes when docs/writing-guide.md changed together with the log', () => {
+    expect(
+      checkPullRequest({
+        body: null,
+        changedFiles: ['docs/writing-guide.md', 'docs/language-decisions.md'],
+      }).ok,
+    ).toBe(true);
+  });
+
+  it('fails a content pull request with a verdict when the term list changed without the log', () => {
+    expect(
+      checkPullRequest({
+        body: review,
+        changedFiles: ['docs/terms.md', 'content/nodes/a/index.md'],
+      }),
+    ).toEqual({ ok: false, reason: DECISION_MESSAGE });
+  });
+
+  it('reports the missing language review first when both checks fail', () => {
+    expect(
+      checkPullRequest({
+        body: null,
+        changedFiles: ['docs/terms.md', 'content/nodes/a/index.md'],
+      }),
+    ).toEqual({ ok: false, reason: MESSAGE });
+  });
+
+  it('passes when only the decision log changed', () => {
+    expect(checkPullRequest({ body: null, changedFiles: ['docs/language-decisions.md'] }).ok).toBe(
+      true,
+    );
   });
 });

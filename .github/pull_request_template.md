@@ -8,6 +8,7 @@
 - [ ] Titles, labels, and bodies are Serbian Cyrillic; ids and file names are English
 - [ ] Every screenshot has alt text describing what is on it
 - [ ] Nothing under `src/`, `tests/`, `.github/`, or config files changed (or the change is explained above)
+- [ ] If docs/terms.md or docs/writing-guide.md changed, docs/language-decisions.md has a dated row for it
 
 ## Language review
 
