@@ -161,9 +161,16 @@ nodes:
       url: https://registracija.eid.gov.rs/sr-Cyrl-RS/kreiranje-naloga?userCategory=Serbian
     answers:
       - label: Видим формулар
-        next: register-upload
+        next: upload-menu
       - label: Страница се не отвара
         next: help-technical
+
+  upload-menu:
+    type: step
+    title: Шта пише у менију за фотографије
+    checked: 2026-10-07
+    group: Регистрација
+    next: register-upload
 
   register-upload:
     type: step
@@ -655,6 +662,13 @@ nodes:
   scan-qr-code:
     type: step
     title: Скенирајте QR код са потврде
+    checked: 2026-10-07
+    group: Апликација ConsentID
+    next: scan-qr-result
+
+  scan-qr-result:
+    type: step
+    title: Проверите да ли је успело
     checked: 2026-10-07
     group: Апликација ConsentID
     answers:
