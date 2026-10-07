@@ -8,7 +8,7 @@ nodes:
   # --- Увод ---------------------------------------------------------------
   welcome:
     type: step
-    title: Послове са државом завршите од куће
+    title: Постаните еГрађанин
     group: Увод
     answers:
       - label: Почните регистрацију
@@ -20,6 +20,12 @@ nodes:
   what-you-need:
     type: step
     title: Шта вам треба да почнете
+    group: Припрема
+    next: switch-tabs
+
+  switch-tabs:
+    type: step
+    title: Како да прелазите између страница
     group: Припрема
     next: have-id-card
 
@@ -50,8 +56,8 @@ nodes:
     title: Како да добијете нову личну карту
     group: Припрема
     external:
-      label: Отворите сајт МУП-а
-      url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna+karta
+      label: Отворите упутство МУП-а
+      url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna%20karta/vadjenje%20licne%20karte
     answers:
       - label: Добио/ла сам нову личну карту
         next: have-email
@@ -97,25 +103,31 @@ nodes:
       url: https://registracija.eid.gov.rs/sr-Cyrl-RS/kreiranje-naloga?userCategory=Serbian
     answers:
       - label: Видим формулар
-        next: register-personal-data
+        next: register-upload
       - label: Страница се не отвара
         next: help-technical
+
+  register-upload:
+    type: step
+    title: Приложите фотографије личне карте
+    group: Регистрација
+    next: register-personal-data
 
   register-personal-data:
     type: step
     title: Упишите своје податке
+    group: Регистрација
+    next: register-document-data
+
+  register-document-data:
+    type: step
+    title: Упишите податке о личној карти
     group: Регистрација
     next: register-login-data
 
   register-login-data:
     type: step
     title: Упишите имејл и смислите лозинку
-    group: Регистрација
-    next: register-upload
-
-  register-upload:
-    type: step
-    title: Приложите фотографије личне карте
     group: Регистрација
     next: register-submit
 
@@ -148,6 +160,9 @@ nodes:
     type: step
     title: Потврдите имејл адресу
     group: Активација налога
+    external:
+      label: Отворите Gmail
+      url: https://mail.google.com/
     answers:
       - label: Притиснуо/ла сам „Потврди“
         next: wait-activation
@@ -158,6 +173,9 @@ nodes:
     type: step
     title: Порука није стигла
     group: Активација налога
+    external:
+      label: Отворите Gmail
+      url: https://mail.google.com/
     answers:
       - label: Нашао/ла сам поруку
         next: confirm-email
@@ -209,7 +227,305 @@ nodes:
     type: step
     title: Идите на шалтер по QR код
     group: Апликација ConsentID
-    next: counter-card
+    answers:
+      - label: Погледајте списак шалтера
+        next: counter-list
+      - label: Знам где ћу ићи
+        next: counter-card
+
+  counter-list:
+    type: question
+    title: Којим словом почиње име вашег места?
+    group: Апликација ConsentID
+    answers:
+      - label: "А: Ада, Александровац…"
+        next: counter-list-a
+      - label: "Б: Београд, Бор, Бачка Паланка…"
+        next: counter-list-b
+      - label: "В: Ваљево, Варварин…"
+        next: counter-list-v
+      - label: "Г: Гаџин Хан, Гњилане…"
+        next: counter-list-g
+      - label: "Д: Деспотовац, Димитровград…"
+        next: counter-list-d
+      - label: "Ж: Жабаљ, Жабари…"
+        next: counter-list-zh
+      - label: "З: Зајечар, Звечан…"
+        next: counter-list-z
+      - label: "И: Ивањица, Инђија…"
+        next: counter-list-i
+      - label: "Ј: Јагодина"
+        next: counter-list-j
+      - label: "К: Кањижа, Кикинда…"
+        next: counter-list-k
+      - label: "Л: Лајковац, Лапово…"
+        next: counter-list-l
+      - label: "Љ: Љиг, Љубовија"
+        next: counter-list-lj
+      - label: "М: Мајданпек, Мали Зворник…"
+        next: counter-list-m
+      - label: "Н: Ниш, Нови Сад, Нови Пазар…"
+        next: counter-list-n
+      - label: "О: Опово, Ораховац…"
+        next: counter-list-o
+      - label: "П: Панчево, Параћин…"
+        next: counter-list-p
+      - label: "Р: Ражањ, Рача…"
+        next: counter-list-r
+      - label: "С: Свилајнац, Сврљиг…"
+        next: counter-list-s
+      - label: "Т: Темерин, Тител…"
+        next: counter-list-t
+      - label: "Ћ: Ћићевац, Ћуприја"
+        next: counter-list-tj
+      - label: "У: Уб, Ужице"
+        next: counter-list-u
+      - label: "Ц: Црна Трава"
+        next: counter-list-c
+      - label: "Ч: Чајетина, Чачак…"
+        next: counter-list-ch
+      - label: "Ш: Шабац, Шид…"
+        next: counter-list-sh
+
+  counter-list-a:
+    type: step
+    title: Шалтери, слово А
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-b:
+    type: step
+    title: Шалтери, слово Б
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-v:
+    type: step
+    title: Шалтери, слово В
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-g:
+    type: step
+    title: Шалтери, слово Г
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-d:
+    type: step
+    title: Шалтери, слово Д
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-zh:
+    type: step
+    title: Шалтери, слово Ж
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-z:
+    type: step
+    title: Шалтери, слово З
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-i:
+    type: step
+    title: Шалтери, слово И
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-j:
+    type: step
+    title: Шалтери, слово Ј
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-k:
+    type: step
+    title: Шалтери, слово К
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-l:
+    type: step
+    title: Шалтери, слово Л
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-lj:
+    type: step
+    title: Шалтери, слово Љ
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-m:
+    type: step
+    title: Шалтери, слово М
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-n:
+    type: step
+    title: Шалтери, слово Н
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-o:
+    type: step
+    title: Шалтери, слово О
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-p:
+    type: step
+    title: Шалтери, слово П
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-r:
+    type: step
+    title: Шалтери, слово Р
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-s:
+    type: step
+    title: Шалтери, слово С
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-t:
+    type: step
+    title: Шалтери, слово Т
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-tj:
+    type: step
+    title: Шалтери, слово Ћ
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-u:
+    type: step
+    title: Шалтери, слово У
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-c:
+    type: step
+    title: Шалтери, слово Ц
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-ch:
+    type: step
+    title: Шалтери, слово Ч
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
+
+  counter-list-sh:
+    type: step
+    title: Шалтери, слово Ш
+    group: Апликација ConsentID
+    answers:
+      - label: Нашао/ла сам шалтер
+        next: counter-card
+      - label: Изаберите друго слово
+        next: counter-list
 
   counter-card:
     type: card
@@ -231,13 +547,61 @@ nodes:
     type: step
     title: Укључите потпис у клауду
     group: Апликација ConsentID
-    external:
-      label: Отворите потпис у клауду
-      url: https://cloud.eid.gov.rs/
     answers:
-      - label: Урадио/ла сам
-        next: done
+      - label: Хоћу да га укључим сада
+        next: cloud-login
       - label: Урадићу касније
+        next: done
+
+  cloud-login:
+    type: step
+    title: Пријавите се на сајт eid.gov.rs
+    group: Апликација ConsentID
+    external:
+      label: Отворите пријаву на eid.gov.rs
+      url: https://eid.gov.rs/sr-Cyrl-RS/eid
+    next: cloud-approve
+
+  cloud-approve:
+    type: step
+    title: Потврдите пријаву у апликацији ConsentID
+    group: Апликација ConsentID
+    answers:
+      - label: Пријављен/а сам
+        next: cloud-issue
+      - label: Време је истекло
+        next: cloud-login
+      - label: Заборавио/ла сам ПИН
+        next: help-account
+
+  cloud-issue:
+    type: step
+    title: Укључите сертификат на сајту
+    group: Апликација ConsentID
+    external:
+      label: Отворите сајт eid.gov.rs
+      url: https://eid.gov.rs/
+    answers:
+      - label: Сертификат је активан
+        next: done
+      - label: Није успело
+        next: cloud-check-login
+
+  cloud-check-login:
+    type: step
+    title: Проверите да ли сте пријављени
+    group: Апликација ConsentID
+    external:
+      label: Отворите сајт eid.gov.rs
+      url: https://eid.gov.rs/
+    answers:
+      - label: Нисам пријављен/а
+        next: cloud-login
+      - label: Пријављен/а сам, покушаћу поново
+        next: cloud-issue
+      - label: Пријављен/а сам, а и даље не иде
+        next: help-account
+      - label: Сертификат је већ активан
         next: done
 
   # --- Крај ---------------------------------------------------------------
