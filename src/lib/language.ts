@@ -82,6 +82,7 @@ export const FORBIDDEN_PHRASES: { pattern: RegExp; write: string }[] = [
   { pattern: /(?<!\p{L})е-пошт/iu, write: 'имејл' },
   { pattern: /(?<!\p{L})мејл(?!\p{L})/iu, write: 'имејл' },
   { pattern: /(?<!\p{L})икониц/iu, write: 'сличица' },
+  { pattern: /(?<!\p{L})браузер/iu, write: 'прегледач' },
 ];
 
 /** The forbidden phrases a text contains, as (phrase as written, replacement) pairs. */

@@ -33,7 +33,7 @@ nodes:
 
   switch-tabs:
     type: step
-    title: Како да прелазите између страница
+    title: Како да прелазите између картица
     group: Припрема
     next: have-id-card
 

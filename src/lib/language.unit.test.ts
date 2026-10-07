@@ -287,6 +287,12 @@ describe('forbidden phrases from the term list (rule 29, terms)', () => {
     expect(finding.message).toContain('Вратите се у водич.');
   });
 
+  it('forbids „браузер“ and names „прегледач“', () => {
+    expect(rules(checkBody('x', 'Отворите страницу у другом браузеру.'))).toEqual(['error:terms']);
+    expect(checkBody('x', 'Отворите браузер.')[0].message).toContain('прегледач');
+    expect(rules(checkBody('x', 'Отворите страницу у другом прегледачу.'))).toEqual([]);
+  });
+
   it('errors on a listed phrase in a title or answer label', () => {
     const graph = parseGraph(`
 start: a
