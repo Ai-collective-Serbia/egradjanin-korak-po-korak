@@ -590,13 +590,13 @@ nodes:
 
   cloud-issue:
     type: step
-    title: Укључите сертификат на сајту
+    title: Укључите потпис у клауду на сајту
     group: Апликација ConsentID
     external:
       label: Отворите сајт eid.gov.rs
       url: https://eid.gov.rs/
     answers:
-      - label: Сертификат је активан
+      - label: Потпис у клауду је активан
         next: done
       - label: Није успело
         next: cloud-check-login
@@ -615,7 +615,7 @@ nodes:
         next: cloud-issue
       - label: Пријављен/а сам, а и даље не иде
         next: help-account
-      - label: Сертификат је већ активан
+      - label: Потпис у клауду је већ активан
         next: done
 
   # --- Крај ---------------------------------------------------------------
