@@ -56,7 +56,7 @@ nodes:
       - label: Добио/ла сам нову личну карту
         next: have-email
       - label: Треба ми помоћ
-        next: help-contact
+        next: help-id-card
 
   have-email:
     type: question
@@ -79,7 +79,7 @@ nodes:
       - label: Урадио/ла сам
         next: prepare-id-photos
       - label: Нисам успео/ла
-        next: help-contact
+        next: help-email
 
   # --- Регистрација -------------------------------------------------------
   prepare-id-photos:
@@ -99,7 +99,7 @@ nodes:
       - label: Видим формулар
         next: register-personal-data
       - label: Страница се не отвара
-        next: help-contact
+        next: help-technical
 
   register-personal-data:
     type: step
@@ -139,7 +139,7 @@ nodes:
       - label: Већ сам регистрован/а
         next: confirm-email
       - label: И даље не ради
-        next: help-contact
+        next: help-account
 
   # --- Активација налога --------------------------------------------------
   confirm-email:
@@ -162,7 +162,7 @@ nodes:
       - label: Погрешио/ла сам адресу
         next: register-open
       - label: Нема је ни после пола сата
-        next: help-contact
+        next: help-account
 
   wait-activation:
     type: step
@@ -172,7 +172,7 @@ nodes:
       - label: Стигла је порука да је налог активан
         next: account-ready
       - label: Прошло је више од 48 сати
-        next: help-contact
+        next: help-account
 
   account-ready:
     type: step
@@ -199,7 +199,7 @@ nodes:
       - label: Инсталирао/ла сам
         next: find-counter
       - label: Не могу да је нађем
-        next: help-contact
+        next: help-technical
 
   find-counter:
     type: step
@@ -221,7 +221,7 @@ nodes:
       - label: Апликација је активирана
         next: cloud-certificate
       - label: Нисам успео/ла
-        next: help-contact
+        next: help-account
 
   cloud-certificate:
     type: step
@@ -245,6 +245,18 @@ nodes:
     type: end
     title: Имате налог за основне услуге
 
-  help-contact:
+  help-id-card:
     type: end
-    title: Потражите помоћ
+    title: Прво вам треба лична карта са чипом
+
+  help-email:
+    type: end
+    title: Треба вам имејл адреса
+
+  help-technical:
+    type: end
+    title: Страница или апликација не ради
+
+  help-account:
+    type: end
+    title: Пишите подршци Портала еИД

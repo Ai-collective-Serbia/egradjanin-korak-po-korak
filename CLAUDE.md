@@ -45,7 +45,7 @@ nodes:
     external: { label: Отворите еУправу, url: https://euprava.gov.rs/ }
     answers:
       - { label: Урадио/ла сам, next: post-office-card }
-      - { label: Нисам успео/ла, next: help-contact }
+      - { label: Нисам успео/ла, next: help-account }
 
   post-office-card: # card: large text to show or print at a counter
     type: card
