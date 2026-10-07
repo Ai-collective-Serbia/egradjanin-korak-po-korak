@@ -12,7 +12,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
    `origin/main` instead. Review every screen whose `index.md`, title, labels or images changed.
    Read each one in full, with its entry in `content/graph.yaml`.
 2. Run `npm run validate` and read the language warnings for those screens.
-3. Score each of the 11 criteria below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
+3. Score each of the 13 criteria below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
    small slip you name, 1 broken in a way the reader will notice, 0 broken throughout.
 4. The verdict is `pass` when every criterion scores 2 or 3, otherwise `needs work`. If only images
    changed, score criteria 9 and 10, write "n/a" for the others, and give the verdict from those
@@ -36,6 +36,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 | 10 | Text matches the screenshot | Every label the text names appears, with the same spelling, in the screenshot it refers to. |
 | 11 | Help and failure screens | A screen whose id starts with `help-` opens with „Нисте ништа покварили.“, names one next action, offers the counter as a normal route where it applies, and gives no phone number. A step where the reader acts outside the guide and can get stuck has a failure answer that leads to a help screen or to the step to repeat. A set of changed screens with none of these scores 3. |
 | 12 | Helper safety | A screen where the reader may use someone else's phone (photographing the ID card, opening email or eUprava) says in one sentence what the helper deletes or signs out of afterwards; the password and PIN are always typed by the account holder. A set of changed screens with no such screen scores 3. |
+| 13 | Numbers carry a source | Every number the reader sees, other than step numbers and deadlines from the official site, has its year and source beside it; nothing is claimed for people over 75. |
 
 ## Output format
 

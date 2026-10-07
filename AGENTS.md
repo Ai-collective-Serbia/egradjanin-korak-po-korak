@@ -104,7 +104,7 @@ dated row in `docs/language-decisions.md` (`scripts/check-pr-language-review.mjs
 
 ## Writing rules
 
-The standard is `docs/writing-guide.md` (Serbian, 29 rules with examples) and the words we use are
+The standard is `docs/writing-guide.md` (Serbian, 32 rules with examples) and the words we use are
 in `docs/terms.md`. Read both before writing or reviewing a screen. The checker reports these rule
 ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation, help-screen, terms`.
 In short:
@@ -127,6 +127,9 @@ In short:
   makes them open in a new tab; do not write HTML `<a>` tags.
 - Keep `start:` pointing at the first screen. Tests and the accessibility audit pick representative
   screens from `graph.yaml` automatically, so content changes need no test changes.
+- Every number the reader sees carries its year and source; nothing is claimed for people over 75.
+- When an eUprava step changes, fix the screen in the same pull request; when a step disappears,
+  repoint every `next` to it and delete its folder. Never leave a stale screen with a note.
 
 ## Language review before a pull request
 
