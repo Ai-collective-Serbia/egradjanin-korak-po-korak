@@ -112,7 +112,7 @@ dated row in `docs/language-decisions.md` (`scripts/check-pr-language-review.mjs
 
 ## Writing rules
 
-The standard is `docs/writing-guide.md` (Serbian, 33 rules with examples) and the words we use are
+The standard is `docs/writing-guide.md` (Serbian, 34 rules with examples) and the words we use are
 in `docs/terms.md`. Read both before writing or reviewing a screen. The checker reports these rule
 ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation, help-screen, terms, checked-date`.
 In short:

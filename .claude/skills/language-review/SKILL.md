@@ -1,6 +1,6 @@
 ---
 name: language-review
-description: Review changed screens under content/ against the writing guide and term list, score the thirteen rubric criteria, and print the "## Language review" block for the pull request. Run it before opening or updating a content pull request.
+description: Review changed screens under content/ against the writing guide and term list, score the fourteen rubric criteria, and print the "## Language review" block for the pull request. Run it before opening or updating a content pull request.
 context: fork
 allowed-tools: Read, Grep, Glob, Bash(git diff:*), Bash(git merge-base:*), Bash(git status:*), Bash(git log:*), Bash(npm run validate)
 ---
@@ -20,7 +20,7 @@ exactly.
    `content/graph.yaml` (title, answers, external label). Read the screens it links to or that lead
    to it only when a criterion needs them (criteria 5 and 7).
 4. Run `npm run validate` and note the language warnings for the changed screens.
-5. Score the thirteen criteria from 0 to 3 as the rubric defines, with a one-line note for every score
+5. Score the fourteen criteria from 0 to 3 as the rubric defines, with a one-line note for every score
    under 3.
 6. Print only the output block from the rubric's "Output format" section, verdict and edits
    included. Do not edit any file.

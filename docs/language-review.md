@@ -12,7 +12,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
    `origin/main` instead. Review every screen whose `index.md`, title, labels or images changed.
    Read each one in full, with its entry in `content/graph.yaml`.
 2. Run `npm run validate` and read the language warnings for those screens.
-3. Score each of the 13 criteria below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
+3. Score each of the 14 criteria below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
    small slip you name, 1 broken in a way the reader will notice, 0 broken throughout.
 4. The verdict is `pass` when every criterion scores 2 or 3, otherwise `needs work`. If only images
    changed, score criteria 9 and 10, write "n/a" for the others, and give the verdict from those
@@ -37,6 +37,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 | 11 | Help and failure screens | A screen whose id starts with `help-` opens with „Нисте ништа покварили.“, names one next action, offers the counter as a normal route where it applies, and gives no phone number. A step where the reader acts outside the guide and can get stuck has a failure answer that leads to a help screen or to the step to repeat. A set of changed screens with none of these scores 3. |
 | 12 | Helper safety | `for-helper` carries every rule for using someone else's phone (sign out of email and eUprava, delete the ID-card photos); the screen where ID-card photos are taken (`prepare-id-photos`) repeats in one sentence that they are deleted afterwards, bin included; the password and PIN are always typed by the account holder. A set of changed screens with none of these scores 3. |
 | 13 | Statistics carry a source | Every statistic or count about the world the reader sees (how many counters, accounts or users; percentages) has its year and source beside it. Numbers the reader acts on (PIN length, time limits, opening hours) come from the official site and need none. Nothing is claimed for people over 75. |
+| 14 | Read-aloud and card voice | A helper can read the screen aloud in under a minute (short sentences, at most 150 words, numbered steps); a `card` body is written in the first person as the reader's message to the clerk. A set of changed screens with no card scores this on length alone. |
 
 ## Output format
 
