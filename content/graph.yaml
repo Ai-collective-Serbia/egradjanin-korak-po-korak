@@ -119,7 +119,21 @@ nodes:
     type: step
     title: Приложите фотографије личне карте
     group: Регистрација
-    next: register-personal-data
+    answers:
+      - label: Приложио/ла сам фотографије
+        next: register-personal-data
+      - label: Не могу да приложим фотографије
+        next: help-upload
+
+  help-upload:
+    type: step
+    title: Ако не можете да приложите фотографије
+    group: Регистрација
+    answers:
+      - label: Сада је успело
+        next: register-personal-data
+      - label: И даље не могу
+        next: help-account
 
   register-personal-data:
     type: step
@@ -574,7 +588,11 @@ nodes:
     external:
       label: Отворите пријаву на eid.gov.rs
       url: https://eid.gov.rs/sr-Cyrl-RS/eid
-    next: cloud-approve
+    answers:
+      - label: Урадио/ла сам
+        next: cloud-approve
+      - label: Не могу да се пријавим
+        next: help-account
 
   cloud-approve:
     type: step

@@ -98,6 +98,28 @@ describe('validateGraph', () => {
     ]);
   });
 
+  it('requires at least two answers on a step that opens another site', () => {
+    // A reader who leaves the guide can fail there; "next" alone gives them no way to say so.
+    const withNext = VALID.replace(
+      /    answers:\n      - \{ label: Урадио сам, next: card \}\n      - \{ label: Нисам успео, next: help \}\n/,
+      '    next: card\n',
+    );
+    expect(validateGraph(parseGraph(withNext), bodies)).toEqual([
+      expect.stringContaining(
+        '"register" opens another site but has no answer for when that fails',
+      ),
+      expect.stringContaining('"help" is unreachable'),
+    ]);
+
+    const oneAnswer = VALID.replace('      - { label: Нисам успео, next: help }\n', '');
+    expect(validateGraph(parseGraph(oneAnswer), bodies)).toEqual([
+      expect.stringContaining(
+        '"register" opens another site but has no answer for when that fails',
+      ),
+      expect.stringContaining('"help" is unreachable'),
+    ]);
+  });
+
   it('reports a step or card without a body', () => {
     const errors = validateGraph(parseGraph(VALID), new Set(['register']));
     expect(errors).toHaveLength(2);

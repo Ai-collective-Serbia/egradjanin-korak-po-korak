@@ -81,6 +81,11 @@ export function validateGraph(graph: Graph, bodyIds: Set<string>): string[] {
     if (needsBody && !bodyIds.has(id)) {
       errors.push(`node "${id}" (${node.type}) needs content/nodes/${id}/index.md`);
     }
+    if (node.type === 'step' && node.external && (node.answers?.length ?? 0) < 2) {
+      errors.push(
+        `node "${id}" opens another site but has no answer for when that fails; give it "answers" with at least 2 entries`,
+      );
+    }
   }
   for (const id of bodyIds) {
     if (!graph.nodes[id]) errors.push(`content/nodes/${id}/index.md has no node in graph.yaml`);
