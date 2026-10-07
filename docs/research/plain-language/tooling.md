@@ -14,7 +14,7 @@ Baseline numbers below were measured on the repo at commit `93be62c`.
 6. CLASSLA is the only strong free Serbian tagger and lemmatiser. Its models are trained on Latin-script text, it pulls PyTorch, and the Serbian model is about 173 MB. It fits a non-blocking optional job at best (Tier B).
 7. A pure-JS Serbian Snowball stemmer exists on npm and accepts Cyrillic. It conflates nouns and adjectives well but splits verb paradigms, so it is a fallback, not the main mechanism.
 8. No readability formula is calibrated for Serbian. Use hard per-sentence caps plus a corpus-level trend of average sentence length and share of words over six letters (the LIX inputs), not a per-node score gate.
-9. Current prose, excluding the 34 counter-list address tables, averages 7.6 words per sentence with a maximum of 21. Caps of 20 words (error) and 15 words (warning) fit what the team already writes.
+9. Current prose, excluding the 24 counter-list address tables, averages 7.6 words per sentence with a maximum of 21. Caps of 20 words (error) and 15 words (warning) fit what the team already writes.
 10. Meaning, one-action-per-step, ambiguity, tone and passive-voice judgement belong in the Claude PR review rubric (Tier C). Comprehension by elderly readers stays with user testing (Tier D).
 
 ## 2. Tools survey
@@ -91,7 +91,7 @@ Recommended proxy, all Tier A:
 3. Report corpus-level average sentence length, share of words over six letters, share of words of 10 or more letters, and LIX in the validate output, as a trend number, not a gate.
 4. Optionally warn on any single word of 15 or more letters outside an allowlist.
 
-Measured baseline, prose screens only (24 nodes; the 34 `counter-list-*` address tables are excluded because they are data, not prose):
+Measured baseline, prose screens only (34 nodes; the 24 `counter-list-*` address tables are excluded because they are data, not prose):
 
 | Measure | Value |
 | --- | --- |

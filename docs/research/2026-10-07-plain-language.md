@@ -100,6 +100,10 @@ endings after a hyphen ("ЈМБГ-а"), and a capital only on the first word of 
 | Abbreviations never explained           | ПИН, ЈМБГ, МУП, еИД, ИД, MB; QR explained four screens after first use  |
 | Instruction verbs                       | consistent: притисните 84, упишите 16; кликните and унесите never used   |
 
+The baseline audit and the tooling report measured the content with different sentence splitters
+(458 against 482 sentences; 16 against 19 sentences over 15 words). The baseline audit's figures are
+the canonical ones; the tooling report's agree in every conclusion.
+
 The 24 `counter-list-*` directory screens are address tables, excluded from prose statistics. They
 carry six Latin homoglyphs inside Cyrillic words (a Latin "o" in "oслобођења") that break search,
 screen readers and transliteration, and 27 opening-hours lines with missing spaces.
@@ -153,7 +157,7 @@ how many of the 31 world sources back it, with the check that enforces it:
 | 11  | Anything done in order is a numbered list. Three or more items of any kind are a list.                                                | 7         | CI: 3+ imperatives in one paragraph |
 | 12  | The action comes first on the screen and first in the sentence. Conditions live in question screens, not in step bodies.              | 6         | Claude review                      |
 | 13  | Literal language. No metaphors ("као два листа папира" needs care).                                                                    | 6         | Claude review                      |
-| 14  | Numbers as digits, including 2 to 9: "6 цифара". Round large numbers: "преко 1.400 шалтера". No percentages, no Roman numerals.        | 6         | CI: number words, Roman numerals   |
+| 14  | Numbers as digits, including 2 to 9: "6 цифара". Round large numbers and write four-digit numbers without a separator, as Pravopis does: "више од 1400 шалтера". No percentages, no Roman numerals. | 6 | CI: number words, Roman numerals |
 | 15  | Every image has alt text that says what to look for. Bold only the word to tap or the thing to look for.                              | 6         | CI: alt text present and 3+ words; bold span over 4 words |
 | 16  | One word for one thing, from the term list. Never a synonym, never a second meaning.                                                  | 5         | CI: term list                      |
 | 17  | At most 3 sentences per paragraph.                                                                                                    | 4         | CI: warning                        |
@@ -210,8 +214,8 @@ content. Each rule starts as a warning, the content is fixed, then it becomes an
 | Latin word not on the allowlist            | 0 once the allowlist is seeded                   |
 | Banned term or variant from the term list  | depends on the list; dozens at first             |
 | Unexplained abbreviation not on the allowlist | a handful (MB, ИД, еИД)                       |
-| Gender slash form                          | 22 in prose, 24 in labels (policy pending, see OQ2) |
-| Bold span over 4 words                     | about 25 (policy pending, see OQ3)               |
+| Gender slash form                          | 22 in bodies and labels, plus the one label repeated on 24 letter screens (policy pending, see OQ3) |
+| Bold span over 4 words                     | about 25 (policy pending, see OQ4)               |
 | Title over 50 / label over 40 characters   | 0                                                |
 | Alt text missing or under 3 words          | 0                                                |
 | Number words above ten, Roman numerals, double spaces, straight quotes | few                  |
@@ -241,12 +245,18 @@ to look for, text matches the screenshot labels.
 
 ## 5. Open questions for the team
 
-**OQ1 — the level:** plain language tuned for elderly readers, with the term list and selected
+Numbering continues the conversation in which this research was commissioned. (The tooling report
+has its own internal OQ1 and OQ2; they are OQ3 and OQ4 here.)
+
+**Decision (OQ1 — enforcement depth):** a written guide is mandatory, and automated checks go as
+deep as this research found feasible, which is the Tier A list in section 4.3.
+
+**OQ2 — the level:** plain language tuned for elderly readers, with the term list and selected
 easy-to-read layout rules (recommended), or full easy-to-read (one sentence per line, no
 subordinate clauses, mandatory validation by readers with intellectual disabilities). The
 recommendation keeps the current register, which is already close, and adds consistency.
 
-**OQ2 — gender slash forms** ("Урадио/ла сам", 46 uses). This is a legal and political question in
+**OQ3 — gender slash forms** ("Урадио/ла сам", 46 uses). This is a legal and political question in
 Serbia, not a style call: the 2021 gender equality law requires gender-sensitive language in some
 contexts, the Constitutional Court suspended the law in June 2024 with no final ruling found, the
 Serbian standardisation board advised against slash forms in 2011, the Slovenian easy-to-read
@@ -263,18 +273,18 @@ rules say to write "or" instead of "/", and the Croatian government e-services s
 - **Option 3 — double forms in full:** "Урадио сам / Урадила сам". Clearest, longest, and it
   doubles label length.
 
-**OQ3 — the bold banners.** The "Ово радите у X, не на овој страни." sentence appears on ten screens
+**OQ4 — the bold banners.** The "Ово радите у X, не на овој страни." sentence appears on ten screens
 in full bold, which breaks the "bold only the tap target" rule. Recommended: make it a fixed
 template with a single variable, rendered as a callout box by the site rather than by bold text.
 That is a small code change (a blockquote convention or a `where` field in the graph) and it also
 makes the sentence identical everywhere.
 
-**OQ4 — the guide's language.** The research and the checks are in English like the rest of the
+**OQ5 — the guide's language.** The research and the checks are in English like the rest of the
 repo. The writing guide is read by Serbian authors and is about Serbian words, so its examples must
 be Serbian. Recommended: the guide in Serbian Cyrillic with the rule names in English for the CI
 messages, and a short English summary in `CLAUDE.md`.
 
-**OQ5 — dates and times.** Pravopis practice is "13. 10. 2026." and "17.00"; easy-to-read says
+**OQ6 — dates and times.** Pravopis practice is "13. 10. 2026." and "17.00"; easy-to-read says
 "13.10.2026."; GOV.UK and Leichte Sprache prefer the month in words. The directory screens use
 "07:00–11:00" from the official source. Recommended: month in words for prose ("13. октобар"),
 "од 9 до 18 часова" for ranges in prose, and leave the directory tables in their source format.
