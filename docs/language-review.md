@@ -5,15 +5,18 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 
 ## Steps
 
-1. List the changed files under `content/` (`git diff --name-only main...HEAD -- content/`). Review
-   every screen whose `index.md`, title or labels changed. Read each one in full, with its entry in
-   `content/graph.yaml`.
+1. List the changed files under `content/`, uncommitted edits included. Compare the working tree
+   with `main` (`git diff --name-only main -- content/`) and add new files that git does not track
+   yet (`git status --porcelain -- content/`). If there is no local `main` branch, use
+   `origin/main` instead. Review every screen whose `index.md`, title, labels or images changed.
+   Read each one in full, with its entry in `content/graph.yaml`.
 2. Run `npm run validate` and read the language warnings for those screens.
 3. Score each criterion below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
    small slip you name, 1 broken in a way the reader will notice, 0 broken throughout.
-4. The verdict is `pass` when every criterion scores 2 or 3, otherwise `needs work`. If the change
-   touches no reader-visible text (an image swap, a typo in a file name), the verdict is
-   `not needed` followed by the reason.
+4. The verdict is `pass` when every criterion scores 2 or 3, otherwise `needs work`. If only images
+   changed, score criteria 9 and 10, write "n/a" for the others, and give the verdict from those
+   two. The verdict is `not needed` followed by the reason only when both the text and the images
+   are untouched, for example a file rename or a folder move.
 5. Print the result in the format below and nothing else.
 
 ## Criteria
