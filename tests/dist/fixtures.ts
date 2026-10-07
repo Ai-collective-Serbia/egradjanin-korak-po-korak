@@ -17,6 +17,16 @@ export const startId = graph.start;
 export const questionId = firstId((n) => n.type === 'question');
 export const externalStepId = firstId((n) => n.type === 'step' && n.external !== undefined);
 export const cardId = firstId((n) => n.type === 'card');
+export const endId = firstId((n) => n.type === 'end');
+/** First node whose body has a plain Markdown link to another site, with that link's URL. */
+export const bodyLink = entries
+  .map(([id]) => {
+    const file = path.resolve('content/nodes', id, 'index.md');
+    const match =
+      existsSync(file) && readFileSync(file, 'utf8').match(/\[[^\]]+\]\((https?:[^)\s]+)\)/);
+    return match ? { id, url: match[1] } : undefined;
+  })
+  .find((x) => x !== undefined);
 /** First node whose body references a relative image, or undefined. */
 export const imageNodeId = entries
   .map(([id]) => id)

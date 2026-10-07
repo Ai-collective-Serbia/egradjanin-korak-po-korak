@@ -4,7 +4,17 @@ import { describe, expect, it } from 'vitest';
 import { loadOverrides, loadUiStrings } from '../../src/lib/content';
 import { homePath, nodePath, withBase } from '../../src/lib/paths';
 import { transliterate } from '../../src/lib/translit';
-import { base, externalStepId, graph, imageNodeId, questionId, repo, startId } from './fixtures';
+import {
+  base,
+  bodyLink,
+  endId,
+  externalStepId,
+  graph,
+  imageNodeId,
+  questionId,
+  repo,
+  startId,
+} from './fixtures';
 
 const DIST = path.resolve('dist');
 const read = (p: string) => readFileSync(path.join(DIST, p), 'utf8');
@@ -81,6 +91,15 @@ describe('built pages', () => {
     },
   );
 
+  it.skipIf(!bodyLink)('opens plain Markdown links to other sites in a new tab', () => {
+    // Testers on an early build saw body links replace the guide; the build now adds the target.
+    const { id, url } = bodyLink!;
+    const html = page('cyr', id);
+    expect(html).toMatch(
+      new RegExp(`<a[^>]*href="${escapeRegex(esc(url))}"[^>]*target="_blank"[^>]*rel="noopener"`),
+    );
+  });
+
   it('has home pages in both scripts with resume hooks and the client script', () => {
     const cyr = read('index.html');
     const latHome = read('lat/index.html');
@@ -122,6 +141,20 @@ describe('built pages', () => {
   it('does not pin the answer bar on card pages', () => {
     const html = page('cyr', startId);
     expect(html).toMatch(/\.node-card \.answers[^{]*\{[^}]*position:static/);
+  });
+
+  it.skipIf(!endId)('shows a home button instead of Back on end pages', () => {
+    const html = page('cyr', endId as string);
+    // The inlined progress script mentions the selector, so match the rendered attribute only.
+    expect(html).not.toContain('class="nav-back"');
+    expect(html).not.toContain('data-back href=');
+    expect(html).toMatch(
+      new RegExp(
+        `class="nav-home"[\\s\\S]*href="${escapeRegex(withBase(base, homePath('cyr')))}"[^>]*>\\s*${esc(ui.toHome)}\\s*<`,
+      ),
+    );
+    // Every other screen keeps the Back button.
+    expect(page('cyr', startId)).toContain('data-back href=');
   });
 
   it('has a Cyrillic 404 page that links home', () => {

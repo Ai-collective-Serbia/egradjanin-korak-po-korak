@@ -29,6 +29,7 @@ const uiStringsSchema = z
     siteShortName: z.string(),
     disclaimer: z.string(),
     disclaimerSource: z.string(),
+    toHome: z.string(),
   })
   .strict();
 
