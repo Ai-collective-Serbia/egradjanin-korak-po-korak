@@ -14,6 +14,8 @@ You do not need to know Astro or TypeScript. You need a text editor and `npm`.
    - `card`: `title`, a body, one `next`. Rendered full screen with a print button.
    - `end`: `title`, optional body, no edges.
    - Optional `group` on any node, a Cyrillic label like `Регистрација`, used for the progress line.
+     Groups are numbered in the order they first appear in `graph.yaml`, so keep nodes in flow
+     order; adding a new group in the middle renumbers the ones after it.
 3. If the node has a body, create `content/nodes/<id>/index.md` and write it in Cyrillic Markdown.
    Put screenshots in the same folder and reference them as `![опис](./01-name.png)`. The alt text
    is read aloud by screen readers, so describe what is on the screenshot.

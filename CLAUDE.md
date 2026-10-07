@@ -58,6 +58,9 @@ nodes:
     title: Честитамо, имате налог и ID за сагласност
 ```
 
+Groups are numbered in the order they first appear in `graph.yaml`, so keep nodes in flow order;
+adding a new group in the middle renumbers the ones after it.
+
 Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `end` may have one.
 
 ## Rules the build enforces
@@ -85,7 +88,8 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
 
 1. `npm install` once (Node 22.12 or newer; 24 recommended).
 2. Edit `content/`.
-3. `npm run validate` — fast, prints every graph error at once.
+3. `npm run validate` — fast, prints every error the validator finds; fix schema errors first, then
+   run it again for link and reachability errors.
 4. Optional: `npm run dev` and open http://localhost:4321/egradjanin-korak-po-korak/ . Restart the
    dev server after editing `graph.yaml` or an `index.md` (the loader does not watch files).
 5. Commit on a branch, push, open a pull request against `main`. CI builds, tests, and runs a
