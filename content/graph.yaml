@@ -150,6 +150,8 @@ nodes:
         next: confirm-email
       - label: Већ сам регистрован/а
         next: confirm-email
+      - label: Пише да је ЈМБГ у употреби
+        next: help-account
       - label: И даље не ради
         next: help-account
 
@@ -178,6 +180,8 @@ nodes:
       - label: Нашао/ла сам поруку
         next: confirm-email
       - label: Погрешио/ла сам адресу
+        next: register-open
+      - label: Прошло је више од 24 сата
         next: register-open
       - label: Нема је ни после пола сата
         next: help-account
