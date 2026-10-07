@@ -543,7 +543,7 @@ nodes:
 
   activate-consentid:
     type: step
-    title: Укључите апликацију и смислите ПИН
+    title: Активирајте апликацију и смислите ПИН
     group: Апликација ConsentID
     next: scan-qr-code
 
