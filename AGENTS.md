@@ -101,6 +101,9 @@ In short:
   most 150 words per screen, 3 sentences per paragraph.
 - One word for one thing, from `docs/terms.md`; every term explained where it first appears on
   that path, never in a glossary.
+- A change to `docs/terms.md` or `docs/writing-guide.md` adds a dated row to
+  `docs/language-decisions.md` (decision, reason, source, who decided, where it applies) in the same
+  pull request.
 - Numbers as digits; dates as "13. октобар 2026."; ranges as "од 9 до 18 часова".
 - Gender forms as `успео/ла`, `пријављен/а`, `сигуран/на`; write "или", never "и/или".
 - Bold only the word to tap or the thing to look for. The "where you do this" banner is a
