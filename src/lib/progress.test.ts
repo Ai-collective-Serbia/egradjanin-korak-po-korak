@@ -40,6 +40,23 @@ describe('load/save/clear', () => {
     expect(loadProgress(s)).toBeNull();
     s.setItem(STORAGE_KEY, JSON.stringify({ v: 1, current: 'x', script: 'xx', path: [] }));
     expect(loadProgress(s)).toBeNull();
+    for (const path of [[null], [1], ['a'], [], [{ node: 'y' }]]) {
+      s.setItem(STORAGE_KEY, JSON.stringify({ v: 1, current: 'x', script: 'cyr', path }));
+      expect(loadProgress(s)).toBeNull();
+    }
+  });
+
+  it('loads a well-formed value unchanged', () => {
+    const s = fakeStorage();
+    const p = {
+      v: 1,
+      current: 'x',
+      script: 'cyr',
+      path: [{ node: 'x', answer: 'Да' }],
+      updatedAt: 1,
+    };
+    s.setItem(STORAGE_KEY, JSON.stringify(p));
+    expect(loadProgress(s)).toEqual(p);
   });
 });
 

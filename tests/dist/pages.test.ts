@@ -60,5 +60,8 @@ describe('built pages', () => {
     expect(cyr).toContain('<script type="module">');
     expect(cyr).toContain('egradjanin-progress');
     expect(lat).toContain('Nastavite gde ste stali');
+    const node = read('step/have-id-card/index.html');
+    expect(node).toContain('<script type="module">');
+    expect(node).toContain('egradjanin-progress');
   });
 });

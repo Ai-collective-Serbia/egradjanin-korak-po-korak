@@ -43,6 +43,12 @@ export function safeStorage(win: { localStorage?: StorageLike }): StorageLike {
   }
 }
 
+function isVisit(value: unknown): value is Visit {
+  if (typeof value !== 'object' || value === null) return false;
+  const v = value as Record<string, unknown>;
+  return typeof v.node === 'string' && (v.answer === undefined || typeof v.answer === 'string');
+}
+
 export function loadProgress(storage: StorageLike): Progress | null {
   try {
     const raw = storage.getItem(STORAGE_KEY);
@@ -52,6 +58,9 @@ export function loadProgress(storage: StorageLike): Progress | null {
     if (p.v !== 1 || typeof p.current !== 'string' || !Array.isArray(p.path) || !okScript) {
       return null;
     }
+    const path: unknown[] = p.path;
+    if (path.length === 0 || !path.every(isVisit)) return null;
+    if ((path[path.length - 1] as Visit).node !== p.current) return null;
     return p as Progress;
   } catch {
     return null;
