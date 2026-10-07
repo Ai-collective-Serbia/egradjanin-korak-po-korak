@@ -194,6 +194,7 @@ h1 {
   .site-header,
   .answers,
   .nav-back,
+  .nav-home,
   .progress,
   .print {
     display: none !important;

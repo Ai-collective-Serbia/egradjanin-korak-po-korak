@@ -82,6 +82,8 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
 - The reader is elderly and on a phone: short sentences, one action per step, numbered lists for
   anything done in order, bold only the word to tap or the thing to look for.
 - Every screenshot has alt text that says what is on it; screen readers read it aloud.
+- Links to other sites in a body are plain Markdown links, `[сајту МУП-а](https://...)`. The build
+  makes them open in a new tab; do not write HTML `<a>` tags.
 - Keep `start:` pointing at the first screen. The sample screens are placeholders; replace them and
   delete sample folders you no longer reference. Tests and the accessibility audit pick
   representative screens from `graph.yaml` automatically, so replacing the sample content needs no
