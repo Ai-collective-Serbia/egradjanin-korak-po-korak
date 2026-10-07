@@ -5,7 +5,8 @@ export const GET: APIRoute = () => {
   const base = import.meta.env.BASE_URL;
   const manifest = {
     name: ui.siteName,
-    short_name: 'еГрађанин',
+    short_name: ui.siteShortName,
+    description: ui.disclaimer,
     lang: 'sr-Cyrl',
     start_url: base,
     scope: base,
