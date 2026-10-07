@@ -95,6 +95,14 @@ describe('built pages', () => {
     expect(node).toContain('egradjanin-progress');
   });
 
+  it.skipIf(!questionId)('pins the answer bar to the bottom of the viewport', () => {
+    // The stylesheet is inlined into every page; the answers nav must be sticky at the bottom
+    // so buttons stay visible while a long body scrolls behind them.
+    const html = page('cyr', questionId as string);
+    expect(html).toMatch(/\.answers\{[^}]*position:sticky/);
+    expect(html).toMatch(/\.answers\{[^}]*bottom:0/);
+  });
+
   it('has a Cyrillic 404 page that links home', () => {
     expect(existsSync(path.join(DIST, '404.html'))).toBe(true);
     const html = read('404.html');
