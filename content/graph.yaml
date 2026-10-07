@@ -71,6 +71,13 @@ nodes:
     title: Како да прелазите између картица
     checked: 2026-10-07
     group: Припрема
+    next: find-tabs-button
+
+  find-tabs-button:
+    type: step
+    title: Где је дугме са квадратићима
+    checked: 2026-10-07
+    group: Припрема
     next: have-id-card
 
   have-id-card:
