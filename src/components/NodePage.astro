@@ -1,0 +1,85 @@
+---
+import { getEntry, render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import { groupPosition, outgoing } from '../lib/graph';
+import { makeT } from '../lib/i18n';
+import { homePath, nodePath, withBase } from '../lib/paths';
+import { collectionFor, type Script } from '../lib/script';
+import { graph, overrides, ui } from '../lib/site';
+
+interface Props {
+  script: Script;
+  id: string;
+}
+
+const { script, id } = Astro.props;
+const node = graph.nodes[id];
+if (!node) throw new Error(`unknown node "${id}"`);
+
+const t = makeT(script, overrides);
+const base = import.meta.env.BASE_URL;
+const entry = await getEntry(collectionFor(script), id);
+const Content = entry ? (await render(entry)).Content : null;
+const edges = outgoing(node);
+const position = groupPosition(graph, id);
+const external = node.type === 'step' ? node.external : undefined;
+---
+
+<Base
+  script={script}
+  title={node.title}
+  pagePath={nodePath('cyr', id)}
+  nodeId={id}
+  nodeType={node.type}
+>
+  <article class={`node node-${node.type}`}>
+    {position && (
+      <p class="progress">
+        {t(position.name)} · {t(ui.progressPart)} {position.index} {t(ui.progressOf)}{' '}
+        {position.total}
+      </p>
+    )}
+    <h1>{t(node.title)}</h1>
+    {Content && (
+      <div class="body">
+        <Content />
+      </div>
+    )}
+    {external && (
+      <>
+        <p class="external">
+          <a class="btn btn-external" href={external.url} target="_blank" rel="noopener">
+            {t(external.label)}
+            <span class="visually-hidden"> ({t(ui.opensNewTab)})</span>
+          </a>
+        </p>
+        <p class="after-external">{t(ui.afterExternal)}</p>
+      </>
+    )}
+    {edges.length > 0 && (
+      <nav class="answers" aria-label={t(ui.answersLabel)}>
+        {edges.map((edge) => (
+          <a
+            class="btn btn-answer"
+            href={withBase(base, nodePath(script, edge.next))}
+            data-answer={edge.label ?? ui.next}
+          >
+            {t(edge.label ?? ui.next)}
+          </a>
+        ))}
+      </nav>
+    )}
+    {node.type === 'card' && (
+      <p class="print">
+        <button type="button" class="btn btn-secondary" onclick="window.print()">
+          {t(ui.print)}
+        </button>
+      </p>
+    )}
+    <nav class="nav-back">
+      <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
+        {t(ui.back)}
+      </a>
+    </nav>
+  </article>
+</Base>

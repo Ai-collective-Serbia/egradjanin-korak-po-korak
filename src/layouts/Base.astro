@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import { makeT } from '../lib/i18n';
+import { homePath, withBase } from '../lib/paths';
+import { otherScript, scriptLang, type Script } from '../lib/script';
+import { overrides, ui } from '../lib/site';
+
+interface Props {
+  script: Script;
+  title: string;
+  /** Site-relative path without the script prefix, e.g. "step/have-id-card/" or "". */
+  pagePath: string;
+  nodeId?: string;
+  nodeType?: string;
+}
+
+const { script, title, pagePath, nodeId, nodeType } = Astro.props;
+const t = makeT(script, overrides);
+const base = import.meta.env.BASE_URL;
+const other = otherScript(script);
+const toggleHref = withBase(base, homePath(other) + pagePath);
+const toggleLabel = script === 'lat' ? ui.scriptToggleToCyrillic : ui.scriptToggleToLatin;
+---
+
+<!doctype html>
+<html lang={scriptLang(script)}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1d4ed8" />
+    <title>{t(title)} · {t(ui.siteName)}</title>
+  </head>
+  <body data-base={base} data-script={script} data-node={nodeId} data-node-type={nodeType}>
+    <header class="site-header">
+      <a class="home-link" href={withBase(base, homePath(script))}>
+        {t(ui.siteName)}
+      </a>
+      <a
+        class="script-toggle"
+        href={toggleHref}
+        hreflang={scriptLang(other)}
+        lang={scriptLang(other)}
+      >
+        {toggleLabel}
+      </a>
+    </header>
+    <main id="main">
+      <slot />
+    </main>
+  </body>
+</html>

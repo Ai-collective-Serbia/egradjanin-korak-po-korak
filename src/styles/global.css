@@ -1,0 +1,155 @@
+:root {
+  --fg: #111111;
+  --bg: #ffffff;
+  --muted: #444444;
+  --border: #c7c7c7;
+  --primary: #1d4ed8;
+  --primary-fg: #ffffff;
+  font-size: 125%; /* 20px base on phones */
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  font-family:
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  line-height: 1.5;
+  color: var(--fg);
+  background: var(--bg);
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.home-link {
+  color: inherit;
+  font-weight: 700;
+  text-decoration: none;
+  min-height: 48px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.script-toggle {
+  display: inline-flex;
+  align-items: center;
+  min-height: 48px;
+  padding: 0 0.75rem;
+  border: 2px solid var(--primary);
+  border-radius: 0.5rem;
+  color: var(--primary);
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+h1 {
+  font-size: 1.75rem;
+  line-height: 1.25;
+  margin: 0.5rem 0 1rem;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  margin: 0.5rem 0;
+  padding: 0.875rem 1rem;
+  font: inherit;
+  font-size: 1.125rem;
+  font-weight: 600;
+  text-align: center;
+  text-decoration: none;
+  border: 2px solid var(--primary);
+  border-radius: 0.75rem;
+  background: var(--bg);
+  color: var(--primary);
+  cursor: pointer;
+}
+
+.btn-primary,
+.btn-answer,
+.btn-external {
+  background: var(--primary);
+  color: var(--primary-fg);
+}
+
+:focus-visible {
+  outline: 3px solid #000;
+  outline-offset: 3px;
+}
+
+.progress {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.body img {
+  max-width: 100%;
+  height: auto;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+}
+
+.after-external {
+  font-weight: 600;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.node-card {
+  font-size: 1.25rem;
+}
+
+.node-card .body {
+  border: 3px solid var(--fg);
+  border-radius: 1rem;
+  padding: 1rem;
+}
+
+@media print {
+  .site-header,
+  .answers,
+  .nav-back,
+  .progress,
+  .print {
+    display: none !important;
+  }
+  body {
+    font-size: 14pt;
+  }
+  .node-card .body {
+    border: none;
+    padding: 0;
+  }
+}
