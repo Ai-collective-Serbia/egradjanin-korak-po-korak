@@ -40,6 +40,7 @@ whole-word override to `content/translit-overrides.yaml`:
 - Every node is reachable from `start`.
 - `step` and `card` nodes have an `index.md`; every `index.md` folder has a node.
 - Ids match `^[a-z0-9]+(-[a-z0-9]+)*$`.
+- Node objects have no unknown keys; a typo in a key name fails the build.
 
 ## Note on the dev server
 

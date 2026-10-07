@@ -21,7 +21,7 @@ npm run preview   # serve dist/ at the same base path
 ```bash
 npm run validate      # fast check of content/ against every graph rule
 npm run check         # TypeScript and .astro type errors
-npm test              # unit tests for graph, transliteration, progress, paths
+npm test              # unit tests for graph, transliteration, progress, paths, and the real content in content/
 npm run build && npm run test:dist   # built-output checks
 npm run lhci          # Lighthouse accessibility gate (needs Chrome)
 npm run format:check

@@ -69,7 +69,8 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
 
 - a `next` points to an id that is not in `nodes`,
 - a node cannot be reached from `start`,
-- a `step` or `card` has no `index.md`, or a folder under `content/nodes/` has no node,
+- a `step` or `card` has no `index.md`, or a folder under `content/nodes/` that contains an
+  `index.md` has no node (a folder with only images is ignored),
 - an id is not lowercase English words joined by hyphens (`^[a-z0-9]+(-[a-z0-9]+)*$`),
 - a `question` has fewer than two answers, a `step` has both or neither of `next`/`answers`,
   an `end` has an edge, or a node has an unknown key.
@@ -90,18 +91,20 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
 2. Edit `content/`.
 3. `npm run validate` — fast, prints every error the validator finds; fix schema errors first, then
    run it again for link and reachability errors.
-4. Optional: `npm run dev` and open http://localhost:4321/egradjanin-korak-po-korak/ . Restart the
+4. `npm run build` — also required before opening a pull request; it catches a wrong image path or
+   a Markdown problem that validate cannot see.
+5. Optional: `npm run dev` and open http://localhost:4321/egradjanin-korak-po-korak/. Restart the
    dev server after editing `graph.yaml` or an `index.md` (the loader does not watch files).
-5. Commit on a branch, push, open a pull request against `main`. CI builds, tests, and runs a
+6. Commit on a branch, push, open a pull request against `main`. CI builds, tests, and runs a
    mobile accessibility audit; a broken graph fails the check with the same message as step 3.
-6. Merging to `main` deploys to https://filippetrovic.github.io/egradjanin-korak-po-korak/ in
+7. Merging to `main` deploys to https://filippetrovic.github.io/egradjanin-korak-po-korak/ in
    about two minutes.
 
 ## Commands
 
-| Command                              | What it does                                           |
-| ------------------------------------ | ------------------------------------------------------ |
-| `npm run validate`                   | checks `content/` against every rule above, in seconds |
-| `npm run dev`                        | local preview with the base path                       |
-| `npm run build && npm run test:dist` | full build plus built-output checks, what CI runs      |
-| `npm test`                           | all unit tests, including the content check            |
+| Command                              | What it does                                                                                                    |
+| ------------------------------------ | --------------------------------------------------------------------------------------------------------------- |
+| `npm run validate`                   | checks `content/` against every rule above, in seconds                                                          |
+| `npm run dev`                        | local preview with the base path                                                                                |
+| `npm run build && npm run test:dist` | full build plus built-output checks (CI additionally runs format check, type check, unit tests, and Lighthouse) |
+| `npm test`                           | all unit tests, including the content check                                                                     |
