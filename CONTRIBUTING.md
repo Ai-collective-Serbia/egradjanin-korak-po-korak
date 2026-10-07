@@ -17,6 +17,7 @@ You do not need to know Astro or TypeScript. You need a text editor and `npm`.
    - Optional `group` on any node, a Cyrillic label like `Регистрација`, used for the progress line.
      Groups are numbered in the order they first appear in `graph.yaml`, so keep nodes in flow
      order; adding a new group in the middle renumbers the ones after it.
+   - `checked` on every node: the date you last checked the screen's text against eUprava, written `YYYY-MM-DD`, for example `checked: 2026-10-07`. Set it to today when you write or change the text.
 3. If the node has a body, create `content/nodes/<id>/index.md` and write it in Cyrillic Markdown.
    Put screenshots in the same folder and reference them as `![опис](./01-name.png)`. The alt text
    is read aloud by screen readers, so describe what is on the screenshot.
