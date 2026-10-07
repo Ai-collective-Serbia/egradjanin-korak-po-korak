@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { loadOverrides, loadUiStrings } from '../../src/lib/content';
 import { homePath, nodePath, withBase } from '../../src/lib/paths';
 import { transliterate } from '../../src/lib/translit';
-import { base, externalStepId, graph, imageNodeId, questionId, startId } from './fixtures';
+import { base, externalStepId, graph, imageNodeId, questionId, repo, startId } from './fixtures';
 
 const DIST = path.resolve('dist');
 const read = (p: string) => readFileSync(path.join(DIST, p), 'utf8');
@@ -107,7 +107,7 @@ describe('built pages', () => {
     const step = page('cyr', startId);
     const home = read('index.html');
     expect(step).toMatch(new RegExp(`<footer[^>]*>[\\s\\S]*${esc(ui.disclaimer)}`));
-    expect(step).toContain('href="https://github.com/filippetrovic/egradjanin-korak-po-korak"');
+    expect(step).toContain(`href="${repo}"`);
     expect(home).toMatch(new RegExp(`<p class="disclaimer">\\s*${esc(ui.disclaimer)}`));
     expect(read('lat/index.html')).toContain(esc(lat(ui.disclaimer)));
     // The home page states it once, above the start button, not again in the footer.
