@@ -25,6 +25,8 @@ const Content = entry ? (await render(entry)).Content : null;
 const edges = outgoing(node);
 const position = groupPosition(graph, id);
 const external = node.type === 'step' ? node.external : undefined;
+/** End screens have no Back (testers found it confusing); they offer a way home instead. */
+const isEnd = node.type === 'end';
 ---
 
 <Base
@@ -97,10 +99,17 @@ const external = node.type === 'step' ? node.external : undefined;
         </button>
       </p>
     )}
-    {!home && (
+    {!home && !isEnd && (
       <nav class="nav-back" aria-label={t(ui.back)}>
         <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
           {t(ui.back)}
+        </a>
+      </nav>
+    )}
+    {isEnd && (
+      <nav class="nav-home" aria-label={t(ui.toHome)}>
+        <a class="btn btn-secondary" href={withBase(base, homePath(script))}>
+          {t(ui.toHome)}
         </a>
       </nav>
     )}

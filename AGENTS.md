@@ -106,6 +106,8 @@ In short:
 - Bold only the word to tap or the thing to look for. The "where you do this" banner is a
   blockquote: `> Ово радите у формулару на сајту eid.gov.rs, не у водичу.`
 - Every screenshot has alt text, at least 3 words, saying what to look for.
+- Links to other sites in a body are plain Markdown links, `[сајту МУП-а](https://...)`. The build
+  makes them open in a new tab; do not write HTML `<a>` tags.
 - Keep `start:` pointing at the first screen. Tests and the accessibility audit pick representative
   screens from `graph.yaml` automatically, so content changes need no test changes.
 
