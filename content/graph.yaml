@@ -1,0 +1,93 @@
+# Sample content. Replace with the real flow from the content team.
+# Node ids are English, lowercase, hyphenated. All text is Cyrillic.
+start: welcome
+
+nodes:
+  welcome:
+    type: step
+    title: Шта добијате као еГрађанин
+    group: Увод
+    next: have-id-card
+
+  have-id-card:
+    type: question
+    title: Да ли имате личну карту са чипом?
+    group: Припрема
+    answers:
+      - label: Да
+        next: have-email
+      - label: Не
+        next: how-to-get-id-card
+      - label: Нисам сигуран/на
+        next: check-id-card
+
+  check-id-card:
+    type: step
+    title: Како да проверите да ли ваша лична карта има чип
+    group: Припрема
+    next: have-id-card
+
+  how-to-get-id-card:
+    type: step
+    title: Како да добијете личну карту са чипом
+    group: Припрема
+    external:
+      label: Отворите сајт МУП-а
+      url: https://www.mup.gov.rs/
+    answers:
+      - label: Урадио/ла сам
+        next: have-email
+      - label: Нисам успео/ла
+        next: help-contact
+
+  have-email:
+    type: question
+    title: Да ли имате имејл адресу?
+    group: Припрема
+    answers:
+      - label: Да
+        next: register-euprava
+      - label: Не
+        next: create-email
+
+  create-email:
+    type: step
+    title: Направите имејл адресу
+    group: Припрема
+    external:
+      label: Отворите Gmail
+      url: https://accounts.google.com/signup
+    answers:
+      - label: Урадио/ла сам
+        next: register-euprava
+      - label: Нисам успео/ла
+        next: help-contact
+
+  register-euprava:
+    type: step
+    title: Направите налог на еУправи
+    group: Регистрација
+    external:
+      label: Отворите еУправу
+      url: https://euprava.gov.rs/
+    answers:
+      - label: Урадио/ла сам
+        next: post-office-card
+      - label: Нисам успео/ла
+        next: help-contact
+
+  post-office-card:
+    type: card
+    title: Покажите ово на шалтеру поште
+    group: Пошта
+    next: done
+
+  done:
+    type: end
+    title: Честитамо, имате налог и ID за сагласност
+    group: Крај
+
+  help-contact:
+    type: end
+    title: Потражите помоћ
+    group: Крај

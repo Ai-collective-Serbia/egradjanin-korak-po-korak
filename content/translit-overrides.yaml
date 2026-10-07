@@ -1,0 +1,4 @@
+# Whole-word Cyrillic -> Latin overrides, applied before the letter map.
+# Example:
+# Гугл: Google
+{}
