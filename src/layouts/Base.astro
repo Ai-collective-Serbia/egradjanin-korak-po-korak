@@ -4,6 +4,7 @@ import { makeT } from '../lib/i18n';
 import { homePath, withBase } from '../lib/paths';
 import { otherScript, scriptLang, type Script } from '../lib/script';
 import { overrides, ui } from '../lib/site';
+import { repo } from '../../site.config.mjs';
 
 interface Props {
   script: Script;
@@ -20,6 +21,8 @@ const base = import.meta.env.BASE_URL;
 const other = otherScript(script);
 const toggleHref = withBase(base, homePath(other) + pagePath);
 const toggleLabel = script === 'lat' ? ui.scriptToggleToCyrillic : ui.scriptToggleToLatin;
+/** The home page states the disclaimer above the start button, so its footer keeps only the link. */
+const isHome = pagePath === '';
 ---
 
 <!doctype html>
@@ -36,7 +39,7 @@ const toggleLabel = script === 'lat' ? ui.scriptToggleToCyrillic : ui.scriptTogg
   <body data-base={base} data-script={script} data-node={nodeId} data-node-type={nodeType}>
     <header class="site-header">
       <a class="home-link" href={withBase(base, homePath(script))}>
-        {t(ui.siteName)}
+        {t(ui.siteShortName)}
       </a>
       <a
         class="script-toggle"
@@ -50,6 +53,14 @@ const toggleLabel = script === 'lat' ? ui.scriptToggleToCyrillic : ui.scriptTogg
     <main id="main">
       <slot />
     </main>
+    <footer class="site-footer">
+      {!isHome && <p>{t(ui.disclaimer)}</p>}
+      <p>
+        <a href={repo} rel="noopener">
+          {t(ui.disclaimerSource)}
+        </a>
+      </p>
+    </footer>
     <script src="../scripts/progress-client.ts"></script>
     <script src="../scripts/sw-register.ts"></script>
   </body>
