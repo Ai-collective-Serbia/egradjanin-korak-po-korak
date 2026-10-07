@@ -1,17 +1,31 @@
-# Sample content. Replace with the real flow from the content team.
+# Registration flow for the eID portal (eid.gov.rs), the account used for eUprava.
+# Order of steps follows the team's test run on a phone and the official guide
+# "Упутство за регистрацију корисничким именом и лозинком".
 # Node ids are English, lowercase, hyphenated. All text is Cyrillic.
 start: welcome
 
 nodes:
+  # --- Увод ---------------------------------------------------------------
   welcome:
     type: step
-    title: Шта добијате као еГрађанин
+    title: Послове са државом завршите од куће
     group: Увод
+    answers:
+      - label: Почните регистрацију
+        next: what-you-need
+      - label: Већ имам налог
+        next: have-smartphone
+
+  # --- Припрема -----------------------------------------------------------
+  what-you-need:
+    type: step
+    title: Шта вам треба да почнете
+    group: Припрема
     next: have-id-card
 
   have-id-card:
     type: question
-    title: Да ли имате личну карту са чипом?
+    title: Да ли имате важећу личну карту или пасош?
     group: Припрема
     answers:
       - label: Да
@@ -23,21 +37,25 @@ nodes:
 
   check-id-card:
     type: step
-    title: Како да проверите да ли ваша лична карта има чип
+    title: Како да проверите да ли вам лична карта важи
     group: Припрема
-    next: have-id-card
+    answers:
+      - label: Важи
+        next: have-email
+      - label: Не важи
+        next: how-to-get-id-card
 
   how-to-get-id-card:
     type: step
-    title: Како да добијете личну карту са чипом
+    title: Како да добијете нову личну карту
     group: Припрема
     external:
       label: Отворите сајт МУП-а
-      url: https://www.mup.gov.rs/
+      url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna+karta
     answers:
-      - label: Урадио/ла сам
+      - label: Добио/ла сам нову личну карту
         next: have-email
-      - label: Нисам успео/ла
+      - label: Треба ми помоћ
         next: help-contact
 
   have-email:
@@ -46,7 +64,7 @@ nodes:
     group: Припрема
     answers:
       - label: Да
-        next: register-euprava
+        next: prepare-id-photos
       - label: Не
         next: create-email
 
@@ -59,35 +77,174 @@ nodes:
       url: https://accounts.google.com/signup
     answers:
       - label: Урадио/ла сам
-        next: register-euprava
+        next: prepare-id-photos
       - label: Нисам успео/ла
         next: help-contact
 
-  register-euprava:
+  # --- Регистрација -------------------------------------------------------
+  prepare-id-photos:
     type: step
-    title: Направите налог на еУправи
+    title: Фотографишите личну карту са обе стране
+    group: Регистрација
+    next: register-open
+
+  register-open:
+    type: step
+    title: Отворите страницу за регистрацију
     group: Регистрација
     external:
-      label: Отворите еУправу
-      url: https://euprava.gov.rs/
+      label: Отворите регистрацију
+      url: https://registracija.eid.gov.rs/sr-Cyrl-RS/kreiranje-naloga?userCategory=Serbian
     answers:
-      - label: Урадио/ла сам
-        next: post-office-card
+      - label: Видим формулар
+        next: register-personal-data
+      - label: Страница се не отвара
+        next: help-contact
+
+  register-personal-data:
+    type: step
+    title: Упишите своје податке
+    group: Регистрација
+    next: register-login-data
+
+  register-login-data:
+    type: step
+    title: Упишите имејл и смислите лозинку
+    group: Регистрација
+    next: register-upload
+
+  register-upload:
+    type: step
+    title: Приложите фотографије личне карте
+    group: Регистрација
+    next: register-submit
+
+  register-submit:
+    type: step
+    title: Потврдите и пошаљите
+    group: Регистрација
+    answers:
+      - label: Пише да је захтев послат
+        next: confirm-email
+      - label: Појавила се грешка
+        next: register-error
+
+  register-error:
+    type: step
+    title: Шта да урадите ако се појави грешка
+    group: Регистрација
+    answers:
+      - label: Сада је успело
+        next: confirm-email
+      - label: Већ сам регистрован/а
+        next: confirm-email
+      - label: И даље не ради
+        next: help-contact
+
+  # --- Активација налога --------------------------------------------------
+  confirm-email:
+    type: step
+    title: Потврдите имејл адресу
+    group: Активација налога
+    answers:
+      - label: Притиснуо/ла сам „Потврди“
+        next: wait-activation
+      - label: Порука није стигла
+        next: email-missing
+
+  email-missing:
+    type: step
+    title: Порука није стигла
+    group: Активација налога
+    answers:
+      - label: Нашао/ла сам поруку
+        next: confirm-email
+      - label: Погрешио/ла сам адресу
+        next: register-open
+      - label: Нема је ни после пола сата
+        next: help-contact
+
+  wait-activation:
+    type: step
+    title: Сачекајте да вам активирају налог
+    group: Активација налога
+    answers:
+      - label: Стигла је порука да је налог активан
+        next: account-ready
+      - label: Прошло је више од 48 сати
+        next: help-contact
+
+  account-ready:
+    type: step
+    title: Ваш налог је активан
+    group: Активација налога
+    next: have-smartphone
+
+  # --- ConsentID ----------------------------------------------------------
+  have-smartphone:
+    type: question
+    title: Да ли имате паметни телефон?
+    group: Апликација ConsentID
+    answers:
+      - label: Да
+        next: install-consentid
+      - label: Не
+        next: done-basic
+
+  install-consentid:
+    type: step
+    title: Инсталирајте апликацију ConsentID
+    group: Апликација ConsentID
+    answers:
+      - label: Инсталирао/ла сам
+        next: find-counter
+      - label: Не могу да је нађем
+        next: help-contact
+
+  find-counter:
+    type: step
+    title: Идите на шалтер по QR код
+    group: Апликација ConsentID
+    next: counter-card
+
+  counter-card:
+    type: card
+    title: Покажите ово на шалтеру
+    group: Апликација ConsentID
+    next: activate-consentid
+
+  activate-consentid:
+    type: step
+    title: Активирајте апликацију QR кодом
+    group: Апликација ConsentID
+    answers:
+      - label: Апликација је активирана
+        next: cloud-certificate
       - label: Нисам успео/ла
         next: help-contact
 
-  post-office-card:
-    type: card
-    title: Покажите ово на шалтеру поште
-    group: Пошта
-    next: done
+  cloud-certificate:
+    type: step
+    title: Укључите потпис у клауду
+    group: Апликација ConsentID
+    external:
+      label: Отворите потпис у клауду
+      url: https://cloud.eid.gov.rs/
+    answers:
+      - label: Урадио/ла сам
+        next: done
+      - label: Урадићу касније
+        next: done
 
+  # --- Крај ---------------------------------------------------------------
   done:
     type: end
-    title: Честитамо, имате налог и ID за сагласност
-    group: Крај
+    title: Честитамо, сада сте еГрађанин
+
+  done-basic:
+    type: end
+    title: Имате налог за основне услуге
 
   help-contact:
     type: end
     title: Потражите помоћ
-    group: Крај
