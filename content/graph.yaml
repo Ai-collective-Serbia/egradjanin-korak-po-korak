@@ -20,6 +20,20 @@ nodes:
     title: Постаните еГрађанин
     checked: 2026-10-07
     group: Увод
+    next: what-you-can-do
+
+  what-you-can-do:
+    type: step
+    title: Шта све можете са налогом
+    checked: 2026-10-07
+    group: Увод
+    next: account-and-app
+
+  account-and-app:
+    type: step
+    title: Налог и апликација нису исто
+    checked: 2026-10-07
+    group: Увод
     answers:
       - label: Почните регистрацију
         next: what-you-need
