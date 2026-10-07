@@ -70,7 +70,7 @@ const PHONE_NUMBER = /(?<!\d)(?:\+381|0[1-9]\d)[ /-]?\d{2,4}[ -]?\d{3,4}(?:[ -]?
  */
 export const FORBIDDEN_PHRASES: { pattern: RegExp; write: string }[] = [
   { pattern: /вратите се овде/iu, write: 'Вратите се у водич.' },
-  { pattern: /на ову стран[уи]/iu, write: 'у водич' },
+  { pattern: /на ову стран[уи](?!\p{L})/iu, write: 'у водич' },
   { pattern: /портал[ау]? еид/iu, write: 'сајт eid.gov.rs' },
   { pattern: /(?<!\p{L})(?:улогујте|излогујте)/iu, write: 'пријавите се, одјавите се' },
   { pattern: /(?<!\p{L})(?:кликните|тапните|додирните)(?!\p{L})/iu, write: 'притисните' },

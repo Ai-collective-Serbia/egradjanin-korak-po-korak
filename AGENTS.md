@@ -63,9 +63,9 @@ adding a new group in the middle renumbers the ones after it.
 
 Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `end` may have one.
 
-An `end` node whose id starts with `help-` is a help screen: it keeps the Назад button so the reader
-can retry, and its body follows rule 28 of `docs/writing-guide.md` (it opens with „Нисте ништа
-покварили.“, names one next action, never gives a phone number). Every `step` with `external` needs
+A node whose id starts with `help-` is a help screen: its body follows rule 28 of
+`docs/writing-guide.md` (it opens with „Нисте ништа покварили.“, names one next action, never gives
+a phone number), and an `end` help screen keeps the Назад button so the reader can retry. Every `step` with `external` needs
 at least two answers, one of them for when the other site fails.
 
 ## Rules the build enforces
@@ -78,7 +78,7 @@ at least two answers, one of them for when the other site fails.
   `index.md` has no node (a folder with only images is ignored),
 - an id is not lowercase English words joined by hyphens (`^[a-z0-9]+(-[a-z0-9]+)*$`),
 - a `question` has fewer than two answers, a `step` has both or neither of `next`/`answers`,
-  an `end` has an edge, or a node has an unknown key.
+  an `end` has an edge, or a node has an unknown key,
 - a `step` with `external` has `next` or a single answer instead of at least two `answers` (a reader
   who leaves the guide can fail there and needs an answer that says so).
 

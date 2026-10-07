@@ -272,6 +272,7 @@ describe('forbidden phrases from the term list (rule 29, terms)', () => {
     expect(rules(checkBody('x', 'Пишите подршци Портала еИД.'))).toEqual(['error:terms']);
     expect(rules(checkBody('x', 'Унесите лозинку.'))).toEqual(['error:terms']);
     expect(rules(checkBody('x', 'Кликните на дугме.'))).toEqual(['error:terms']);
+    expect(rules(checkBody('x', 'Вратите се на ову страницу.'))).toEqual([]);
     expect(rules(checkBody('x', 'Проверите имејл. Упишите лозинку. Притисните дугме.'))).toEqual(
       [],
     );

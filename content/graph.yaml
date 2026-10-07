@@ -647,7 +647,7 @@ nodes:
 
   help-id-card:
     type: end
-    title: Прво вам треба лична карта са чипом
+    title: Прво вам треба лична карта или пасош
 
   help-email:
     type: end
