@@ -18,7 +18,8 @@ printf '%s\n' "$command" | tr ';|&' '\n\n\n' |
   grep -qE '^[[:space:]]*gh[[:space:]]+pr[[:space:]]+(create|edit)([[:space:]]|$)' || exit 0
 git fetch -q origin main 2>/dev/null
 # When the diff fails, files is empty and both checks below let the command run.
-files=$(git diff --name-only origin/main...HEAD 2>/dev/null)
+# --no-renames lists a renamed docs/terms.md under its old path too, so check 2 sees it.
+files=$(git diff --name-only --no-renames origin/main...HEAD 2>/dev/null)
 
 # Check 1: content/ changed, so the pull request body needs a language review verdict.
 if printf '%s\n' "$files" | grep -q '^content/'; then
