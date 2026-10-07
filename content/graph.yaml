@@ -64,7 +64,7 @@ nodes:
     title: Како да добијете нову личну карту
     group: Припрема
     external:
-      label: Отворите упутство МУП-а
+      label: Отворите упутство полиције
       url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna%20karta/vadjenje%20licne%20karte
     answers:
       - label: Добио/ла сам нову личну карту
@@ -236,7 +236,7 @@ nodes:
     title: Идите на шалтер по QR код
     group: Апликација ConsentID
     answers:
-      - label: Погледајте списак шалтера
+      - label: Хоћу списак шалтера
         next: counter-list
       - label: Знам где ћу ићи
         next: counter-card
@@ -543,7 +543,7 @@ nodes:
 
   activate-consentid:
     type: step
-    title: Укључите апликацију и смислите ПИН
+    title: Активирајте апликацију и смислите ПИН
     group: Апликација ConsentID
     next: scan-qr-code
 
@@ -590,13 +590,13 @@ nodes:
 
   cloud-issue:
     type: step
-    title: Укључите сертификат на сајту
+    title: Укључите потпис у клауду на сајту
     group: Апликација ConsentID
     external:
       label: Отворите сајт eid.gov.rs
       url: https://eid.gov.rs/
     answers:
-      - label: Сертификат је активан
+      - label: Потпис у клауду је активан
         next: done
       - label: Није успело
         next: cloud-check-login
@@ -615,7 +615,7 @@ nodes:
         next: cloud-issue
       - label: Пријављен/а сам, а и даље не иде
         next: help-account
-      - label: Сертификат је већ активан
+      - label: Потпис у клауду је већ активан
         next: done
 
   # --- Крај ---------------------------------------------------------------
