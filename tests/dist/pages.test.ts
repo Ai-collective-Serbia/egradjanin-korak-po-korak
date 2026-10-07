@@ -4,7 +4,7 @@ import { describe, expect, it } from 'vitest';
 import { loadOverrides, loadUiStrings } from '../../src/lib/content';
 import { homePath, nodePath, withBase } from '../../src/lib/paths';
 import { transliterate } from '../../src/lib/translit';
-import { base, externalStepId, graph, imageNodeId, questionId, startId } from './fixtures';
+import { base, externalStepId, graph, imageNodeId, questionId, repo, startId } from './fixtures';
 
 const DIST = path.resolve('dist');
 const read = (p: string) => readFileSync(path.join(DIST, p), 'utf8');
@@ -95,10 +95,41 @@ describe('built pages', () => {
     expect(node).toContain('egradjanin-progress');
   });
 
+  it.skipIf(!questionId)('pins the answer bar to the bottom of the viewport', () => {
+    // The stylesheet is inlined into every page; the answers nav must be sticky at the bottom
+    // so buttons stay visible while a long body scrolls behind them.
+    const html = page('cyr', questionId as string);
+    expect(html).toMatch(/\.answers\{[^}]*position:sticky/);
+    expect(html).toMatch(/\.answers\{[^}]*bottom:0/);
+  });
+
+  it('shows the community disclaimer in the footer of every page and on the home page', () => {
+    const step = page('cyr', startId);
+    const home = read('index.html');
+    expect(step).toMatch(new RegExp(`<footer[^>]*>[\\s\\S]*${esc(ui.disclaimer)}`));
+    expect(step).toContain(`href="${repo}"`);
+    expect(home).toMatch(new RegExp(`<p class="disclaimer">\\s*${esc(ui.disclaimer)}`));
+    expect(read('lat/index.html')).toContain(esc(lat(ui.disclaimer)));
+    // The home page states it once, above the start button, not again in the footer.
+    expect(home.split(esc(ui.disclaimer)).length - 1).toBe(1);
+  });
+
+  it('uses the short site name in the header', () => {
+    const html = page('cyr', startId);
+    expect(html).toMatch(new RegExp(`class="home-link"[^>]*>\\s*${esc(ui.siteShortName)}\\s*<`));
+  });
+
+  it('does not pin the answer bar on card pages', () => {
+    const html = page('cyr', startId);
+    expect(html).toMatch(/\.node-card \.answers[^{]*\{[^}]*position:static/);
+  });
+
   it('has a Cyrillic 404 page that links home', () => {
     expect(existsSync(path.join(DIST, '404.html'))).toBe(true);
     const html = read('404.html');
     expect(html).toContain('<html lang="sr-Cyrl"');
     expect(html).toContain(`href="${withBase(base, homePath('cyr'))}"`);
+    const latHome = `href="${withBase(base, homePath('lat'))}"`;
+    expect(html.split(latHome).length - 1).toBe(1);
   });
 });

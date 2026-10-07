@@ -3,7 +3,7 @@
 A free, phone-first guide that takes a non-technical person from nothing to a working eUprava
 account and consent ID. Static site, zero infrastructure cost, built for a community hackathon.
 
-Live: https://filippetrovic.github.io/egradjanin-korak-po-korak/
+Live: https://ai-collective-serbia.github.io/egradjanin-korak-po-korak/
 
 ## Run locally
 

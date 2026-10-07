@@ -114,6 +114,59 @@ h1 {
   border-radius: 0.5rem;
 }
 
+/* Answer bar: pinned to the bottom of the viewport so the way forward is always visible
+   while a long body scrolls behind it. Pure CSS; without JavaScript nothing changes. */
+.answers {
+  position: sticky;
+  bottom: 0;
+  margin: 1rem -1rem 0;
+  padding: 0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.answers .btn {
+  min-height: 52px;
+  margin: 0.375rem 0;
+}
+
+/* Card pages are short and meant to be shown whole to a clerk; keep the bar in flow. */
+.node-card .answers,
+/* Four or more answers would fill a small screen; fall back to the normal in-flow layout. */
+.answers:has(> :nth-child(4)) {
+  position: static;
+  margin: 1rem 0 0;
+  padding: 0;
+  border-top: 0;
+  box-shadow: none;
+}
+
+.disclaimer {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.site-footer {
+  max-width: 40rem;
+  margin: 2rem auto 0;
+  padding: 1rem;
+  border-top: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer p {
+  margin: 0.25rem 0;
+}
+
+.site-footer a {
+  color: var(--primary);
+  display: inline-block;
+  min-height: 48px;
+  line-height: 48px;
+}
+
 .after-external {
   font-weight: 600;
 }

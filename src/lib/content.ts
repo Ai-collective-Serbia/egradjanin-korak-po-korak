@@ -26,6 +26,9 @@ const uiStringsSchema = z
     notFoundTitle: z.string(),
     notFoundBody: z.string(),
     notFoundHome: z.string(),
+    siteShortName: z.string(),
+    disclaimer: z.string(),
+    disclaimerSource: z.string(),
   })
   .strict();
 

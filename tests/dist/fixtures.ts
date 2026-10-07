@@ -1,9 +1,10 @@
 import { existsSync, readFileSync } from 'node:fs';
 import path from 'node:path';
 import { loadGraph } from '../../src/lib/content';
-import { base as configuredBase } from '../../site.config.mjs';
+import { base as configuredBase, repo } from '../../site.config.mjs';
 
 export const graph = loadGraph();
+export { repo };
 /** Base path with a trailing slash, as Astro's BASE_URL renders it. */
 export const base = configuredBase.endsWith('/') ? configuredBase : `${configuredBase}/`;
 

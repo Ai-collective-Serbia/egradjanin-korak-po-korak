@@ -99,7 +99,7 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
    dev server after editing `graph.yaml` or an `index.md` (the loader does not watch files).
 6. Commit on a branch, push, open a pull request against `main`. CI builds, tests, and runs a
    mobile accessibility audit; a broken graph fails the check with the same message as step 3.
-7. Merging to `main` deploys to https://filippetrovic.github.io/egradjanin-korak-po-korak/ in
+7. Merging to `main` deploys to https://ai-collective-serbia.github.io/egradjanin-korak-po-korak/ in
    about two minutes.
 
 ## Commands
