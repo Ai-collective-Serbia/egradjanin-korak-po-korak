@@ -8,7 +8,12 @@ const nodeId = z
 const answerSchema = z.object({ label: z.string().min(1), next: nodeId }).strict();
 const externalSchema = z.object({ label: z.string().min(1), url: z.string().url() }).strict();
 
-const common = { title: z.string().min(1), group: z.string().min(1).optional() };
+const common = {
+  title: z.string().min(1),
+  /** Date the screen's text was last checked against eUprava, YYYY-MM-DD (rule 33). */
+  checked: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'checked is a date written YYYY-MM-DD'),
+  group: z.string().min(1).optional(),
+};
 
 const questionSchema = z
   .object({ type: z.literal('question'), ...common, answers: z.array(answerSchema).min(2) })

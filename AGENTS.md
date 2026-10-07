@@ -26,12 +26,14 @@ nodes:
   welcome: # step with one "Даље" button
     type: step
     title: Шта добијате као еГрађанин
+    checked: 2026-10-07 # date the text was last checked against eUprava, YYYY-MM-DD
     group: Увод # optional; shown as "Увод · део 1 од 5"
     next: have-id-card
 
   have-id-card: # question; any number of answers, two or more
     type: question
     title: Да ли имате личну карту са чипом?
+    checked: 2026-10-07
     group: Припрема
     answers:
       - { label: Да, next: have-email }
@@ -41,6 +43,7 @@ nodes:
   register-euprava: # step that sends the user to another site
     type: step
     title: Направите налог на еУправи
+    checked: 2026-10-07
     group: Регистрација
     external: { label: Отворите еУправу, url: https://euprava.gov.rs/ }
     answers:
@@ -50,12 +53,14 @@ nodes:
   post-office-card: # card: large text to show or print at a counter
     type: card
     title: Покажите ово на шалтеру поште
+    checked: 2026-10-07
     group: Пошта
     next: done
 
   done: # end: no edges
     type: end
     title: Честитамо, имате налог и ID за сагласност
+    checked: 2026-10-07
 ```
 
 Groups are numbered in the order they first appear in `graph.yaml`, so keep nodes in flow order;
@@ -79,6 +84,8 @@ at least two answers, one of them for when the other site fails.
 - an id is not lowercase English words joined by hyphens (`^[a-z0-9]+(-[a-z0-9]+)*$`),
 - a `question` has fewer than two answers, a `step` has both or neither of `next`/`answers`,
   an `end` has an edge, or a node has an unknown key,
+- a node has no `checked` date, or it is not written `YYYY-MM-DD`, is not on the calendar, or is in
+  the future (`checked-date`),
 - a `step` with `external` has `next` or a single answer instead of at least two `answers` (a reader
   who leaves the guide can fail there and needs an answer that says so).
 
@@ -97,16 +104,17 @@ and, from the language check in the same command (`src/lib/language.ts`), when:
 The same check prints warnings that do not fail the build: sentences over 15 words, paragraphs over
 3 sentences, numbered steps with 3 or more sentences, screens over 150 words, bold spans over 4
 words, a bold "Ово радите" or "Ово проверавате" banner instead of the blockquote callout, dashes
-between numbers, double spaces, a space before punctuation. Fix them when you touch the screen.
+between numbers, double spaces, a space before punctuation, a `checked` date older than 6 months.
+Fix them when you touch the screen.
 
 CI also fails a pull request that changes `docs/terms.md` or `docs/writing-guide.md` without a
 dated row in `docs/language-decisions.md` (`scripts/check-pr-language-review.mjs`).
 
 ## Writing rules
 
-The standard is `docs/writing-guide.md` (Serbian, 32 rules with examples) and the words we use are
+The standard is `docs/writing-guide.md` (Serbian, 33 rules with examples) and the words we use are
 in `docs/terms.md`. Read both before writing or reviewing a screen. The checker reports these rule
-ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation, help-screen, terms`.
+ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation, help-screen, terms, checked-date`.
 In short:
 
 - Titles, answer labels, and bodies are Serbian Cyrillic only. Latin pages are generated at build.
@@ -133,6 +141,8 @@ In short:
 - When an eUprava step changes, fix the screen in the same pull request; when a step disappears,
   repoint every `next` to it, delete its node from `content/graph.yaml` and delete its folder. Never
   leave a stale screen with a note.
+- Every node carries `checked: YYYY-MM-DD`, the date its text was last checked against eUprava; set
+  it to today when you change the text.
 
 ## Language review before a pull request
 

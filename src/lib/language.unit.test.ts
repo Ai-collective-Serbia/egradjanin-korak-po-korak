@@ -145,21 +145,24 @@ nodes:
   a:
     type: question
     title: ${'Н'.repeat(51)}
+    checked: 2026-10-07
     answers:
       - { label: ${'о'.repeat(41)}, next: b }
       - { label: Нисам сигуран/-на, next: b }
   b:
     type: step
     title: Кратак наслов
+    checked: 2026-10-07
     external: { label: ${'о'.repeat(41)}, url: https://example.rs/ }
     next: c
   c:
     type: end
     title: Крај
+    checked: 2026-10-07
 `);
 
   it('errors on long titles and labels, external labels included, and on bad slash forms', () => {
-    const findings = checkGraphText(graph);
+    const findings = checkGraphText(graph, new Date('2026-10-07T12:00:00Z'));
     expect(rules(findings).sort()).toEqual(
       [
         'error:title-label-length',
@@ -203,6 +206,7 @@ describe('formatting and rule ids', () => {
         'alt-text',
         'bold',
         'callout',
+        'checked-date',
         'dates',
         'gender-form',
         'help-screen',
@@ -300,14 +304,19 @@ nodes:
   a:
     type: question
     title: Пишите подршци Портала еИД
+    checked: 2026-10-07
     answers:
       - { label: Кликните овде, next: b }
       - { label: Даље, next: b }
   b:
     type: end
     title: Крај
+    checked: 2026-10-07
 `);
-    expect(rules(checkGraphText(graph))).toEqual(['error:terms', 'error:terms']);
+    expect(rules(checkGraphText(graph, new Date('2026-10-07T12:00:00Z')))).toEqual([
+      'error:terms',
+      'error:terms',
+    ]);
   });
 
   it('errors on a listed phrase in an interface string', () => {
@@ -319,5 +328,35 @@ nodes:
     expect(checkUiStrings({ afterExternal: 'вратите се овде' })[0].file).toBe(
       'content/ui-strings.yaml',
     );
+  });
+});
+
+describe('checked date (rule 33, checked-date)', () => {
+  const graphWith = (checked: string) =>
+    parseGraph(`
+start: a
+nodes:
+  a:
+    type: end
+    title: Крај
+    checked: ${checked}
+`);
+  const today = new Date('2026-10-07T12:00:00Z');
+
+  it('is quiet for a date within the last 6 months', () => {
+    expect(rules(checkGraphText(graphWith('2026-10-07'), today))).toEqual([]);
+    expect(rules(checkGraphText(graphWith('2026-04-08'), today))).toEqual([]);
+  });
+
+  it('warns when the date is older than 6 months', () => {
+    const findings = checkGraphText(graphWith('2026-04-06'), today);
+    expect(rules(findings)).toEqual(['warning:checked-date']);
+    expect(findings[0].message).toContain('2026-04-06');
+    expect(findings[0].message).toContain('"a"');
+  });
+
+  it('errors on a date in the future or not on the calendar', () => {
+    expect(rules(checkGraphText(graphWith('2026-10-08'), today))).toEqual(['error:checked-date']);
+    expect(rules(checkGraphText(graphWith('2026-02-30'), today))).toEqual(['error:checked-date']);
   });
 });

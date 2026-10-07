@@ -35,6 +35,7 @@ export const LIMITS = {
   altWords: 3,
   titleChars: 50,
   labelChars: 40,
+  checkedMonths: 6,
 } as const;
 
 export const RULE_IDS = [
@@ -52,6 +53,7 @@ export const RULE_IDS = [
   'punctuation',
   'help-screen',
   'terms',
+  'checked-date',
 ] as const;
 
 /** Rule 28: every help screen (id "help-…") opens with this sentence, the one allowed exception to rule 4. */
@@ -339,7 +341,7 @@ export function checkBody(id: string, markdown: string): Finding[] {
   return findings;
 }
 
-export function checkGraphText(graph: Graph): Finding[] {
+export function checkGraphText(graph: Graph, today: Date = new Date()): Finding[] {
   const file = 'content/graph.yaml';
   const findings: Finding[] = [];
   const push = (rule: (typeof RULE_IDS)[number], message: string, text: string) =>
@@ -368,6 +370,33 @@ export function checkGraphText(graph: Graph): Finding[] {
       for (const error of genderFormErrors(text)) push('gender-form', `on "${id}": ${error}`, text);
       for (const hit of forbiddenPhrases(text))
         push('terms', `on "${id}": ${termsMessage(hit)}`, text);
+    }
+    const [y, m, d] = node.checked.split('-').map(Number);
+    const checked = new Date(Date.UTC(y, m - 1, d));
+    const onCalendar =
+      checked.getUTCFullYear() === y &&
+      checked.getUTCMonth() === m - 1 &&
+      checked.getUTCDate() === d;
+    const todayUtc = Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+    if (!onCalendar || checked.getTime() > todayUtc) {
+      push(
+        'checked-date',
+        `"${id}" has checked: ${node.checked}, which is not a past date on the calendar`,
+        node.checked,
+      );
+    } else {
+      const limit = new Date(todayUtc);
+      limit.setUTCMonth(limit.getUTCMonth() - LIMITS.checkedMonths);
+      if (checked.getTime() < limit.getTime()) {
+        findings.push({
+          file,
+          line: 0,
+          rule: 'checked-date',
+          severity: 'warning',
+          message: `"${id}" was last checked on ${node.checked}, more than ${LIMITS.checkedMonths} months ago; walk the screen against eUprava and update "checked"`,
+          excerpt: node.title,
+        });
+      }
     }
   }
   return findings;
