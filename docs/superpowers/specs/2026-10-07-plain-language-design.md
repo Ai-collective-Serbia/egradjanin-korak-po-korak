@@ -124,7 +124,7 @@ recognise it on screen.
   `> Ово радите у <place>, не у водичу.` where `<place>` is one of a few fixed phrases
   ("формулару на сајту eid.gov.rs", "апликацији ConsentID на телефону", "својој имејл пошти",
   "продавници апликација на телефону"). A second sentence is allowed only for the image disclaimer
-  template: `Слике су само пример, на њих не треба да притискате.`
+  template: `Слике су само пример. Не притискајте их.`
 - Rendering: `src/styles/global.css` styles `.body blockquote` as a box: left border in the accent
   colour, light background, 16px padding, 20px text, no italics. No component or schema change.
 - Migration: the ten bodies that open with a bold banner are converted to the blockquote wording.

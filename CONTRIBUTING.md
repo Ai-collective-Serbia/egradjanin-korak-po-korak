@@ -1,6 +1,7 @@
 # Contributing content
 
-If you work with Claude Code, it reads `CLAUDE.md` automatically; this file is the longer version.
+If you work with Claude Code or Codex, it reads `AGENTS.md` automatically; this file is the longer
+version. The writing standard is `docs/writing-guide.md`, the words we use are in `docs/terms.md`.
 
 You do not need to know Astro or TypeScript. You need a text editor and `npm`.
 

@@ -114,6 +114,20 @@ h1 {
   border-radius: 0.5rem;
 }
 
+/* "Where you do this" callout: a Markdown blockquote at the top of a body. */
+.body blockquote {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border-left: 0.375rem solid var(--primary);
+  border-radius: 0.5rem;
+  background: #eef2ff;
+  font-style: normal;
+}
+
+.body blockquote p {
+  margin: 0;
+}
+
 /* Answer bar: pinned to the bottom of the viewport so the way forward is always visible
    while a long body scrolls behind it. Pure CSS; without JavaScript nothing changes. */
 .answers {

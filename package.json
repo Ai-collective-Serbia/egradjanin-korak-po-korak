@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "lhci": "lhci autorun --config=lighthouserc.cjs",
-    "validate": "vitest run src/lib/content.test.ts"
+    "validate": "vitest run --reporter=default src/lib/content.test.ts src/lib/language.test.ts"
   },
   "dependencies": {
     "astro": "^7.3.6",
