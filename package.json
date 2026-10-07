@@ -14,7 +14,8 @@
     "test:dist": "vitest run --config vitest.dist.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lhci": "lhci autorun"
+    "lhci": "lhci autorun",
+    "validate": "vitest run src/lib/content.test.ts"
   },
   "dependencies": {
     "astro": "^7.3.6",
