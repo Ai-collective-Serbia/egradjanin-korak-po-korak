@@ -88,7 +88,7 @@ nodes:
   why-egradjanin:
     type: step
     title: Шта добијате као еГрађанин
-    next: have-id-card            # single next renders one "Даље" button
+    next: have-id-card # single next renders one "Даље" button
 
   register-euprava:
     type: step
@@ -116,12 +116,12 @@ nodes:
 
 Node types:
 
-| type     | body     | outgoing edges                     | extras             |
-|----------|----------|------------------------------------|--------------------|
-| question | optional | `answers`, two or more (no upper limit) | —             |
+| type     | body     | outgoing edges                               | extras              |
+| -------- | -------- | -------------------------------------------- | ------------------- |
+| question | optional | `answers`, two or more (no upper limit)      | —                   |
 | step     | required | either one `next` or `answers` (one or more) | optional `external` |
-| card     | required | one `next`                         | print layout       |
-| end      | optional | none                               | —                  |
+| card     | required | one `next`                                   | print layout        |
+| end      | optional | none                                         | —                   |
 
 Rules enforced at build time; any violation fails the build:
 
@@ -165,7 +165,7 @@ Answer labels and titles are transliterated with everything else.
 ## Wizard runtime on the phone
 
 - Progress storage: one local-storage key holding `{ current, path:
-  [{ node, answer }], updatedAt }`. Written on every node page load.
+[{ node, answer }], updatedAt }`. Written on every node page load.
   Nothing leaves the device.
 - Home page: if progress exists, the first element is a large "Наставите
   где сте стали" button linking to `current`; below it a smaller "Почните
