@@ -140,8 +140,8 @@ Answer labels and titles are transliterated with everything else.
 
 ## Build and transliteration
 
-- Tooling: Astro, Node 22 (pinned in `.nvmrc` and `package.json`
-  `engines`), pnpm. No UI framework. Zod validates the graph and
+- Tooling: Astro, Node 24 in `.nvmrc` and CI, `engines.node >=22.12.0`,
+  npm with a committed lockfile. No UI framework. Zod validates the graph and
   front matter at build time.
 - Routes: Cyrillic at the root, Latin under `/lat/`.
   - `/` and `/lat/` — home page with resume button.
@@ -154,6 +154,11 @@ Answer labels and titles are transliterated with everything else.
   image paths, and HTML attributes are left untouched.
 - Images go through Astro's image pipeline: resized for phone widths,
   served as WebP with original as fallback. Authors drop in any size.
+- The Latin mirror is produced by the content loader, not by
+  post-processing HTML: each node's Markdown source is read twice, once
+  raw and once transliterated, and both are rendered by Astro's Markdown
+  pipeline. Transliteration touches only Cyrillic code points, so
+  Markdown syntax, image paths, and URLs are untouched by construction.
 - Output is static HTML/CSS/JS/images with the Pages base path baked in
   via Astro `site` and `base` config.
 
@@ -177,10 +182,13 @@ Answer labels and titles are transliterated with everything else.
 - Card nodes: full-screen layout, larger type, print stylesheet that hides
   navigation and prints body only. Script toggle visible so a clerk can
   read Latin if preferred.
-- Home-screen install: web-app manifest (name, icons, `start_url: /`,
-  `display: standalone`) plus `apple-touch-icon` for iPhone.
-- Offline (stretch, done last): service worker via Astro's PWA integration
-  caching visited pages and their images.
+- Home-screen install: web-app manifest (name, icons, `start_url` and
+  `scope` equal to the Pages base path (`/egradjanin-korak-po-korak/`),
+  generated at build from Astro config so a custom domain later needs no
+  manual edit, `display: standalone`) plus `apple-touch-icon` for iPhone.
+- Offline (stretch, done last): a hand-written `public/sw.js`, registered
+  under the base path, caching visited pages and `/_astro/` assets. No
+  PWA integration (the Astro one does not support Astro 7).
 - Without JavaScript every page renders and every link works. Only the
   resume button, stored back path, and progress display are absent.
 
@@ -195,7 +203,8 @@ Answer labels and titles are transliterated with everything else.
 - Lighthouse CI runs a mobile profile against the home page, one question,
   one step with `external`, and one card. Accessibility score below 90
   fails the check.
-- Prettier and ESLint with the Astro plugin.
+- Prettier with the Astro plugin, and `astro check` for TypeScript errors
+  in `.astro` and `.ts` files. No ESLint in v1.
 
 ## Testing
 
@@ -213,6 +222,10 @@ Answer labels and titles are transliterated with everything else.
 - Manual gate before the demo, recorded in CONTRIBUTING: open on a real
   Android and a real iPhone, add to home screen, complete one path,
   resume after closing the app, print a card.
+- Built-output tests (Vitest, separate config, run after `astro build`):
+  every node has a Cyrillic and a Latin page, `<html lang>` is correct, a
+  Markdown image is served from `/_astro/`, the manifest `start_url`
+  equals the base path.
 
 ## Contributing notes (to be written as CONTRIBUTING.md)
 
