@@ -79,12 +79,28 @@ describe('parseBlocks', () => {
     expect(blocks.map((b) => b.kind)).toEqual(['heading', 'paragraph']);
     expect(blocks[0]).toMatchObject({ text: 'Шта пише у менију' });
   });
+
+  it('reads an indented image and an image with a title', () => {
+    const blocks = parseBlocks('   ![Пример: дугме Даље на дну](./a.png "наслов")');
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatchObject({
+      kind: 'image',
+      alt: 'Пример: дугме Даље на дну',
+      file: './a.png',
+    });
+  });
 });
 
 describe('plainText', () => {
   it('removes inline markup and keeps the words', () => {
     expect(plainText('Притисните **Даље** и [сајт](https://x.rs) <a href="/">овде</a> \\*')).toBe(
       'Притисните Даље и сајт овде *',
+    );
+  });
+
+  it('drops inline images together with their alt text', () => {
+    expect(plainText('Видећете ![Дугме](./a.png) дугме ![x](./b.png "наслов").')).toBe(
+      'Видећете дугме.',
     );
   });
 });

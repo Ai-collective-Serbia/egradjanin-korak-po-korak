@@ -5,7 +5,8 @@
 import { pathToFileURL } from 'node:url';
 
 const HEADING = '## Language review';
-const VERDICT = /^\s*Verdict:\s*(pass|needs work|not needed\b.*)\s*$/im;
+// "not needed" must carry a reason on the same line, such as "not needed (image rename)".
+const VERDICT = /^\s*Verdict:\s*(pass|needs work|not needed[ \t]+\S.*)\s*$/im;
 
 export const MESSAGE =
   'content/ changed but the pull request has no language review. ' +

@@ -32,6 +32,6 @@ if [ $? -eq 0 ]; then
   [ -n "$file" ] && [ -r "$file" ] || exit 0
   body="$body $(cat "$file")"
 fi
-if printf '%s' "$body" | grep -qiE 'Verdict: *(pass|needs work|not needed)'; then exit 0; fi
+if printf '%s' "$body" | grep -qiE 'Verdict: *(pass|needs work|not needed +[^ ])'; then exit 0; fi
 echo 'content/ changed but the pull request has no language review. Run /language-review and paste the result under "## Language review".' >&2
 exit 2

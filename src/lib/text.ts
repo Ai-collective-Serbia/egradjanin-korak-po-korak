@@ -16,7 +16,10 @@ export type Block =
 const HEADING = /^#{1,6}\s+(.*)$/;
 const SUMMARY = /^\s*<summary>(.*?)<\/summary>\s*$/i;
 const HTML_WRAPPER = /^\s*<\/?(details|div|p|br)[^>]*>\s*$/i;
-const IMAGE = /^!\[([^\]]*)\]\(([^)\s]+)\)\s*$/;
+// Image syntax with an optional quoted title: ![alt](src "title").
+const IMAGE_SYNTAX = String.raw`!\[([^\]]*)\]\(([^)\s]+)(?:\s+(?:"[^"]*"|'[^']*'))?\)`;
+const IMAGE = new RegExp(`^\\s*${IMAGE_SYNTAX}\\s*$`);
+const INLINE_IMAGE = new RegExp(`\\s*${IMAGE_SYNTAX}`, 'g');
 const QUOTE = /^>\s?(.*)$/;
 const LIST_ITEM = /^(\s*)(?:[-*+]|\d+[.)])\s+(.*)$/;
 const ORDERED = /^\s*\d+[.)]\s+/;
@@ -101,10 +104,16 @@ export function parseBlocks(markdown: string): Block[] {
   return blocks;
 }
 
+/** Images written inside a line of prose, such as a paragraph or a list item. */
+export function inlineImages(inline: string): { alt: string; file: string }[] {
+  return [...inline.matchAll(INLINE_IMAGE)].map((m) => ({ alt: m[1].trim(), file: m[2] }));
+}
+
+/** Reader-visible text: markup removed, inline images (alt text included) dropped. */
 export function plainText(inline: string): string {
   return inline
     .replace(/<[^>]+>/g, '')
-    .replace(/!\[([^\]]*)\]\([^)]*\)/g, '$1')
+    .replace(INLINE_IMAGE, '')
     .replace(/\[([^\]]*)\]\([^)]*\)/g, '$1')
     .replace(/\*\*|__/g, '')
     .replace(/\\([\\*_`#])/g, '$1');

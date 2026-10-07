@@ -4,6 +4,7 @@ import path from 'node:path';
 import { outgoing, parseGraph, type Graph } from './graph';
 import {
   boldSpans,
+  inlineImages,
   letters,
   mixesScripts,
   parseBlocks,
@@ -88,6 +89,14 @@ export function genderFormErrors(text: string): string[] {
   return errors;
 }
 
+function altTextProblem(alt: string, file: string): boolean {
+  const base = path.basename(file).replace(/\.[a-z0-9]+$/i, '');
+  return !alt || alt === base || words(alt).length < LIMITS.altWords;
+}
+
+// A bold banner that opens a screen: „Ово“ and a verb ending in -те (радите, проверавате).
+const BOLD_BANNER = /^\*\*Ово\s+\p{Ll}+те(?!\p{L})/u;
+
 export function checkBody(id: string, markdown: string): Finding[] {
   const file = `content/nodes/${id}/index.md`;
   const blocks = parseBlocks(markdown);
@@ -105,7 +114,10 @@ export function checkBody(id: string, markdown: string): Finding[] {
   };
 
   for (const block of blocks) {
-    const texts = block.kind === 'image' ? [block.alt] : proseTexts(block);
+    const texts =
+      block.kind === 'image'
+        ? [block.alt]
+        : proseTexts(block).flatMap((t) => [t, ...inlineImages(t).map((i) => i.alt)]);
     for (const text of texts) {
       for (const word of words(plainText(text))) {
         if (mixesScripts(word))
@@ -125,8 +137,7 @@ export function checkBody(id: string, markdown: string): Finding[] {
   for (const block of blocks) {
     if (block.kind === 'image') {
       const alt = block.alt.trim();
-      const base = path.basename(block.file).replace(/\.[a-z0-9]+$/i, '');
-      if (!alt || alt === base || words(alt).length < LIMITS.altWords) {
+      if (altTextProblem(alt, block.file)) {
         add(
           block,
           'alt-text',
@@ -139,6 +150,17 @@ export function checkBody(id: string, markdown: string): Finding[] {
     }
     const units = block.kind === 'list' ? block.items : [{ text: block.text, line: block.line }];
     for (const unit of units) {
+      for (const image of inlineImages(unit.text)) {
+        if (altTextProblem(image.alt, image.file))
+          add(
+            block,
+            'alt-text',
+            'error',
+            `alt text must say what to look for, in at least ${LIMITS.altWords} words`,
+            image.alt || image.file,
+            unit.line,
+          );
+      }
       const plain = plainText(unit.text);
       screenWords += words(plain).length;
       for (const error of genderFormErrors(plain))
@@ -223,7 +245,7 @@ export function checkBody(id: string, markdown: string): Finding[] {
     });
   }
   const first = blocks[0];
-  if (first?.kind === 'paragraph' && /^\*\*Ово радите/u.test(first.text.trim())) {
+  if (first?.kind === 'paragraph' && BOLD_BANNER.test(first.text.trim())) {
     add(
       first,
       'callout',

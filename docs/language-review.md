@@ -6,8 +6,9 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 ## Steps
 
 1. List the changed files under `content/`, uncommitted edits included. Compare the working tree
-   with `main` (`git diff --name-only main -- content/`) and add new files that git does not track
-   yet (`git status --porcelain -- content/`). If there is no local `main` branch, use
+   with the point where this branch left `main`
+   (`git diff --name-only "$(git merge-base main HEAD)" -- content/`) and add new files that git does
+   not track yet (`git status --porcelain -- content/`). If there is no local `main` branch, use
    `origin/main` instead. Review every screen whose `index.md`, title, labels or images changed.
    Read each one in full, with its entry in `content/graph.yaml`.
 2. Run `npm run validate` and read the language warnings for those screens.

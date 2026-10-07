@@ -34,6 +34,21 @@ describe('pull-request language review gate', () => {
     }
   });
 
+  it('requires a reason on the same line after "not needed"', () => {
+    const changedFiles = ['content/nodes/a/index.md'];
+    const withVerdict = (v: string) => review.replace('Verdict: pass', v);
+    expect(checkPullRequest({ body: withVerdict('Verdict: not needed'), changedFiles }).ok).toBe(
+      false,
+    );
+    expect(
+      checkPullRequest({ body: withVerdict('Verdict: not needed\n\nThanks'), changedFiles }).ok,
+    ).toBe(false);
+    expect(
+      checkPullRequest({ body: withVerdict('Verdict: not needed (image rename)'), changedFiles })
+        .ok,
+    ).toBe(true);
+  });
+
   it('reads the last Language review section when a pasted review repeats the heading', () => {
     const pasted =
       '## Language review\n\n<!-- paste -->\n\n## Language review\n\n| # | Criterion |\n\n';

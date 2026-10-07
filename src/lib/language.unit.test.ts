@@ -79,6 +79,19 @@ describe('images, bold, callout, dates, punctuation', () => {
     expect(rules(checkBody('x', '![Пример: дугме Даље на дну](./next.png)'))).toEqual([]);
   });
 
+  it('checks alt text of indented, titled and inline images, and does not count it as prose', () => {
+    expect(
+      rules(checkBody('x', '1. Притисните **Даље**.\n   ![](./a.png)\n2. Сачекајте.')),
+    ).toEqual(['error:alt-text']);
+    expect(rules(checkBody('x', '![Дугме Даље на дну](./a.png "наслов")'))).toEqual([]);
+    const fifteen = 'реч '.repeat(15).trim();
+    expect(rules(checkBody('x', `${fifteen} ![Дугме](./a.png).`))).toEqual(['error:alt-text']);
+    expect(rules(checkBody('x', `${fifteen} ![Дугме](./a.png "наслов") овде.`))).toEqual([
+      'error:alt-text',
+      'warning:sentence-length',
+    ]);
+  });
+
   it('warns on a bold span over 4 words', () => {
     expect(rules(checkBody('x', '**Ово је предуга подебљана реченица.** Даље.'))).toEqual([
       'warning:bold',
@@ -94,6 +107,10 @@ describe('images, bold, callout, dates, punctuation', () => {
     expect(
       rules(checkBody('x', '> Ово радите у формулару на сајту eid.gov.rs, не у водичу.')),
     ).toEqual([]);
+    expect(rules(checkBody('x', '**Ово проверавате у пошти.** Текст.'))).toContain(
+      'warning:callout',
+    );
+    expect(rules(checkBody('x', '**Ово је важно.** Текст.'))).not.toContain('warning:callout');
   });
 
   it('warns on a dash between numbers and on punctuation slips', () => {

@@ -85,13 +85,15 @@ and, from the language check in the same command (`src/lib/language.ts`), when:
 
 The same check prints warnings that do not fail the build: sentences over 15 words, paragraphs over
 3 sentences, numbered steps with 3 or more sentences, screens over 150 words, bold spans over 4
-words, a bold "Ово радите" banner instead of the blockquote callout, dashes between numbers, double
-spaces. Fix them when you touch the screen.
+words, a bold "Ово радите" or "Ово проверавате" banner instead of the blockquote callout, dashes
+between numbers, double spaces, a space before punctuation. Fix them when you touch the screen.
 
 ## Writing rules
 
 The standard is `docs/writing-guide.md` (Serbian, 27 rules with examples) and the words we use are
-in `docs/terms.md`. Read both before writing or reviewing a screen. In short:
+in `docs/terms.md`. Read both before writing or reviewing a screen. The checker reports these rule
+ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation`.
+In short:
 
 - Titles, answer labels, and bodies are Serbian Cyrillic only. Latin pages are generated at build.
 - Ids, folder names, and image file names are English, lowercase, hyphenated.
@@ -128,7 +130,8 @@ Before opening or updating a pull request that changes anything under `content/`
    a Markdown problem that validate cannot see.
 5. Optional: `npm run dev` and open http://localhost:4321/egradjanin-korak-po-korak/. Restart the
    dev server after editing `graph.yaml` or an `index.md` (the loader does not watch files).
-6. Commit on a branch, push, open a pull request against `main`. CI builds, tests, and runs a
+6. Commit on a branch, push, run the language review (see above), paste its result into the pull
+   request description, then open the pull request against `main`. CI builds, tests, and runs a
    mobile accessibility audit; a broken graph fails the check with the same message as step 3.
 7. Merging to `main` deploys to https://ai-collective-serbia.github.io/egradjanin-korak-po-korak/ in
    about two minutes.
