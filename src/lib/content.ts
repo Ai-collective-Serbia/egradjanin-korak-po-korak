@@ -23,6 +23,9 @@ const uiStringsSchema = z
     print: z.string(),
     scriptToggleToLatin: z.string(),
     scriptToggleToCyrillic: z.string(),
+    notFoundTitle: z.string(),
+    notFoundBody: z.string(),
+    notFoundHome: z.string(),
   })
   .strict();
 

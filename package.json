@@ -14,7 +14,7 @@
     "test:dist": "vitest run --config vitest.dist.config.ts",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "lhci": "lhci autorun",
+    "lhci": "lhci autorun --config=lighthouserc.cjs",
     "validate": "vitest run src/lib/content.test.ts"
   },
   "dependencies": {

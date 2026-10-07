@@ -83,7 +83,9 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
   anything done in order, bold only the word to tap or the thing to look for.
 - Every screenshot has alt text that says what is on it; screen readers read it aloud.
 - Keep `start:` pointing at the first screen. The sample screens are placeholders; replace them and
-  delete sample folders you no longer reference.
+  delete sample folders you no longer reference. Tests and the accessibility audit pick
+  representative screens from `graph.yaml` automatically, so replacing the sample content needs no
+  test changes.
 
 ## Workflow for a content change
 

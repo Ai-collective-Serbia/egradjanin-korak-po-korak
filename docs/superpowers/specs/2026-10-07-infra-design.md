@@ -154,7 +154,8 @@ Answer labels and titles are transliterated with everything else.
   names, digraph edge cases). Only Cyrillic code points change, so URLs,
   image paths, and Markdown syntax are untouched.
 - Images go through Astro's image pipeline: resized for phone widths,
-  served as WebP with original as fallback. Authors drop in any size.
+  served as WebP (supported by iOS 14+ and Android 4.2+; a `<picture>`
+  fallback for older iOS is a follow-up). Authors drop in any size.
 - The Latin mirror is produced by the content loader, not by
   post-processing HTML: each node's Markdown source is read twice, once
   raw and once transliterated, and both are rendered by Astro's Markdown

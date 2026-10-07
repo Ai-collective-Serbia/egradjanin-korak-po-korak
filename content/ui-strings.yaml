@@ -14,3 +14,6 @@ progressOf: од
 print: Одштампај
 scriptToggleToLatin: Latinica
 scriptToggleToCyrillic: Ћирилица
+notFoundTitle: Страница није пронађена
+notFoundBody: Можда је веза застарела. Вратите се на почетак и наставите где сте стали.
+notFoundHome: На почетну страну

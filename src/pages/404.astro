@@ -1,0 +1,29 @@
+---
+import Base from '../layouts/Base.astro';
+import { homePath, withBase } from '../lib/paths';
+import { ui } from '../lib/site';
+
+const base = import.meta.env.BASE_URL;
+---
+
+<Base script="cyr" title={ui.notFoundTitle} pagePath="">
+  <section class="not-found">
+    <h1>{ui.notFoundTitle}</h1>
+    <p class="lead">{ui.notFoundBody}</p>
+    <p>
+      <a class="btn btn-primary" href={withBase(base, homePath('cyr'))}>
+        {ui.notFoundHome}
+      </a>
+    </p>
+    <p>
+      <a
+        class="btn btn-secondary"
+        href={withBase(base, homePath('lat'))}
+        hreflang="sr-Latn"
+        lang="sr-Latn"
+      >
+        {ui.scriptToggleToLatin}
+      </a>
+    </p>
+  </section>
+</Base>
