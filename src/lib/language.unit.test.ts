@@ -62,6 +62,8 @@ describe('scripts and gender forms', () => {
     expect(genderFormErrors('Нашао/ло')).toHaveLength(1);
     expect(genderFormErrors('и/или')).toHaveLength(1);
     expect(genderFormErrors('Сајт eid.gov.rs/usluge и 01.01.-31.03.')).toEqual([]);
+    expect(genderFormErrors('карту/пасош')).toHaveLength(1);
+    expect(genderFormErrors('Нашао/–ла сам')).toHaveLength(1);
   });
 
   it('reports gender-form errors from a body', () => {

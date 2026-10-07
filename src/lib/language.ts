@@ -71,7 +71,8 @@ function proseTexts(block: Block): string[] {
   }
 }
 
-const SLASH_FORM = /(\p{Script=Cyrillic}+)( ?-? ?)\/( ?-? ?)(\p{Script=Cyrillic}{1,3})(?!\p{L})/gu;
+const SLASH_FORM =
+  /(\p{Script=Cyrillic}+)( *[-–]? *)\/( *[-–]? *)(\p{Script=Cyrillic}+)(?!\p{L})/gu;
 const ENDINGS = new Set(['ла', 'а', 'на']);
 
 export function genderFormErrors(text: string): string[] {
