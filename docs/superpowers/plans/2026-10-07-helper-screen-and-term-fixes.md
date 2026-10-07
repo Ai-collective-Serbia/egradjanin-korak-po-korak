@@ -469,3 +469,36 @@ Expected: all PASS.
 ```
 
 Do not push and do not open a pull request.
+
+## Language review
+
+Screens: switch-tabs, register-open, register-upload, register-personal-data, register-document-data, register-login-data, register-submit, register-error, help-upload, prepare-id-photos, has-helper, for-helper, find-counter, check-id-card
+
+| # | Criterion | Score | Note |
+| --- | --- | --- | --- |
+| 1 | One action per step | 2 | validate still warns on register-upload step 2 (3 sentences: the menu opens, press the item, why); help-upload step 1 asks for 2 presses ("притисните дугме са квадратићима, па картицу eid.gov.rs"); switch-tabs step 1 and for-helper steps 3 and 4 now ask for one action each |
+| 2 | Imperative, addressed as "ви" | 3 | no "се"-passive, no "потребно је", no "ти", no authors' "ми"; for-helper speaks to the helper in "ви" and uses "Нека она…" for what the account holder does, as rule 30 allows only on that screen |
+| 3 | Positive phrasing | 3 | "не" appears only in real warnings ("Не чувајте их у свом телефону", "Не региструјте се поново", "Не затварајте ниједну картицу", "не на ваш"); has-helper's „Не, радим сам/а“ is an answer, not an instruction |
+| 4 | Clear referents | 2 | register-open "Тим налогом се пријављујете на еУправу" has no earlier "налог" on the screen; for-helper "она", "јој", "њен" all point to "особа којој помажете"; register-document-data "Узмите је у руке" is the ID card |
+| 5 | Terms explained in place | 3 | switch-tabs explains картица (два листа папира) and now says where the дугме са квадратићима is before step 1; for-helper now glosses ПИН as "број од 6 цифара који сама смисли"; find-counter explains QR код and the counter paper by its title |
+| 6 | One word for one thing | 2 | switch-tabs no longer says "дугме за картице" (a listed "не пишемо" variant); register-error no longer says "слика" for an uploaded photo or "пошта" for the mailbox; remaining slips: register-upload "сличицом слика" and "са својом сликом" (passport portrait), prepare-id-photos "страну са својом сликом", switch-tabs "као мале слике" for tab previews; the per-phone lines on switch-tabs ("квадратић са бројем") describe how the button looks, matching the screenshot |
+| 7 | Consistent with the flow | 2 | button names in the text match the labels (Видим формулар, Приложио/ла сам фотографије, Сада је успело, И даље не могу, Већ сам регистрован/а, Пише да је ЈМБГ у употреби, Хоћу списак шалтера, Знам где ћу ићи, Даље); register-open names the switch-tabs title „Како да прелазите између картица“ as in graph.yaml; has-helper answers share one voice; the find-counter link to euprava.gov.rs/eidlokacije opens in a new tab without the „отвара се у новој картици“ hint the external buttons carry; register-error has no "Ово радите у формулару" callout, unlike the other register-* screens |
+| 8 | Calm tone | 3 | no exclamation marks, no "просто"; "само" means "only" ("У водичу само читате"); for-helper opens with "Хвала што помажете." |
+| 9 | Alt text says what to look for | 2 | prepare-id-photos alt ("предња страна горе, задња страна доле") says what the picture shows, not the 4 corners to look for; register-upload upload-menu alt lists 4 items without pointing at Photo Library (carried from the last review); switch-tabs and register-document-data alts name the circled button and the Рег. бр. and Важи до rows |
+| 10 | Text matches the screenshot | 3 | no screenshot changed; Рег. бр. and Важи до appear on id-card-front.jpg, "квадратић са бројем" matches tabs-iphone-chrome.jpg, Приложите документа and Photo Library match register-upload |
+| 11 | Help and failure screens | 3 | help-upload opens with „Нисте ништа покварили.“ after its callout, names one next action, offers the counter, gives no phone number; register-open, register-upload, register-submit and register-error all keep a failure answer to help-technical, help-upload, register-error or help-account |
+| 12 | Helper safety | 3 | for-helper says the account holder types the password and PIN, the helper deletes ID-card photos (and from the deleted-photos bin), signs out of her email and eUprava, and ConsentID goes on her phone; prepare-id-photos says to delete the photos from a borrowed phone; the register-* screens are typed in by the account holder per for-helper, so they need no line of their own |
+| 13 | Statistics carry a source | 3 | find-counter no longer claims "преко 1000" counters and links the official list; the remaining numbers (13 цифара, 8 до 20 знакова, 3 MB, 6 цифара) are values the reader acts on, from the official site; nothing is claimed for people over 75 |
+
+Verdict: pass
+
+Edits (applied before this review; the first pass scored criterion 6 at 1 because switch-tabs introduced the tab-switch button under a listed "не пишемо" name and register-error used „слика“ and „пошта“ in the wrong sense):
+- switch-tabs: "1. Притисните дугме за картице. Где је, зависи од телефона. Погледајте слике испод." → "Дугме са квадратићима је на дну или на врху екрана. Где тачно, зависи од телефона. Погледајте слике испод." (paragraph before the list) and "1. Притисните дугме са квадратићима."
+- switch-tabs heading: "Где је дугме за картице" → "Где је дугме са квадратићима"
+- register-error: "потражите поруку за потврду у пошти" → "потражите поруку за потврду у свом имејлу"
+- register-error: "свака слика може да има највише 3 MB. Ако је слика превелика" → "свака фотографија може да има највише 3 MB. Ако је фотографија превелика"
+- register-error: "Пређите на формулар на сајту eid.gov.rs и погледајте која су поља означена црвеном бојом." → "У формулару погледајте која су поља означена црвеном бојом." (the sentence before it already says how to switch to the form)
+- prepare-id-photos: "Ако сликате туђим телефоном" → "Ако фотографишете туђим телефоном" (same verb as the steps)
+- for-helper: "Нека она сама упише лозинку и ПИН." → "Нека она сама упише лозинку и ПИН, број од 6 цифара који сама смисли."
+- for-helper: "3. Ако сликате личну карту својим телефоном, после обришите те фотографије. Обришите их и из корпе за обрисане фотографије." → "3. Ако фотографишете личну карту својим телефоном, после обришите те фотографије." and "4. Обришите их и из корпе за обрисане фотографије."
+- for-helper: "Читајте екран наглас и сачекајте да она сама притисне дугме. Притисните **Даље**." → "На следећим екранима читајте упутство наглас. Сачекајте да она сама притисне свако дугме. Сада притисните **Даље**."
