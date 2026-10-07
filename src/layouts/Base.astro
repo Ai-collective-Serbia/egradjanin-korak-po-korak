@@ -28,6 +28,9 @@ const toggleLabel = script === 'lat' ? ui.scriptToggleToCyrillic : ui.scriptTogg
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#1d4ed8" />
+    <link rel="manifest" href={withBase(base, 'manifest.webmanifest')} />
+    <link rel="apple-touch-icon" href={withBase(base, 'icons/apple-touch-icon.png')} />
+    <link rel="icon" href={withBase(base, 'icons/icon-192.png')} type="image/png" />
     <title>{t(title)} · {t(ui.siteName)}</title>
   </head>
   <body data-base={base} data-script={script} data-node={nodeId} data-node-type={nodeType}>
