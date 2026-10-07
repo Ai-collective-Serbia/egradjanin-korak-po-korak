@@ -13,7 +13,7 @@
 2. Упишите свој ПИН за ConsentID.
 3. На екрану **Захтеви** (на енглеском **Requests**) видите поруку латиницом: „Potvrdite da biste se prijavili“. Притисните је.
 
-![Пример: екран Захтеви у апликацији ConsentID са поруком Потврдите да бисте се пријавили](./consentid-requests.jpg)
+![Пример: екран Захтеви у апликацији ConsentID са поруком латиницом Potvrdite da biste se prijavili](./consentid-requests.jpg)
 
 4. Притисните плаво дугме **Потврди** (на енглеском **Approve**).
 

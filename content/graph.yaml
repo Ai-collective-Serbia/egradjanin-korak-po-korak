@@ -64,7 +64,7 @@ nodes:
     title: Како да добијете нову личну карту
     group: Припрема
     external:
-      label: Отворите упутство МУП-а
+      label: Отворите упутство полиције
       url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna%20karta/vadjenje%20licne%20karte
     answers:
       - label: Добио/ла сам нову личну карту
@@ -236,7 +236,7 @@ nodes:
     title: Идите на шалтер по QR код
     group: Апликација ConsentID
     answers:
-      - label: Погледајте списак шалтера
+      - label: Хоћу списак шалтера
         next: counter-list
       - label: Знам где ћу ићи
         next: counter-card
