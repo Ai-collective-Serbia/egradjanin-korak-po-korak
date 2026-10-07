@@ -83,7 +83,7 @@ with
   bottom: 0;
   display: flex;
   flex-direction: column;
-  /* 16 px between stacked buttons: older adults mis-tap neighbouring targets. */
+  /* 1rem (20 px at the 125% root font) between stacked buttons: older adults mis-tap neighbouring targets. */
   gap: 1rem;
   margin: 1rem -1rem 0;
   padding: 0.5rem 1rem calc(0.5rem + env(safe-area-inset-bottom, 0px));
@@ -118,7 +118,7 @@ Expected: all PASS, including the existing sticky-bar and card tests.
 
 ```bash
 /usr/bin/git add src/styles/global.css tests/dist/pages.test.ts
-/usr/bin/git commit -m "feat: 16 px gap between stacked answer buttons"
+/usr/bin/git commit -m "feat: 20 px gap between stacked answer buttons"
 ```
 
 ---
@@ -452,7 +452,7 @@ Expected: no output.
 
 - [ ] **Step 1: Click-through**
 
-Run `npm run build`, start `npm run preview` in the background, and with headless Chrome (the repo's `puppeteer-core`, as the previous plan's Task 6 did) or by reading `dist/` confirm: `what-you-need` leads to `has-helper`; „Да, помаже ми неко“ leads to `for-helper`, whose Даље leads to `switch-tabs`; „Не, радим сам/а“ leads to `switch-tabs`; the progress label on `for-helper` reads „Припрема · део 2 од 5“; a question page's answer buttons are 16 px apart (computed `gap` of `.answers` is `16px`). Stop the preview server.
+Run `npm run build`, start `npm run preview` in the background, and with headless Chrome (the repo's `puppeteer-core`, as the previous plan's Task 6 did) or by reading `dist/` confirm: `what-you-need` leads to `has-helper`; „Да, помаже ми неко“ leads to `for-helper`, whose Даље leads to `switch-tabs`; „Не, радим сам/а“ leads to `switch-tabs`; the progress label on `for-helper` reads „Припрема · део 2 од 5“; a question page's answer buttons are 20 px apart (computed `gap` of `.answers` is `20px`). Stop the preview server.
 
 - [ ] **Step 2: Language review**
 
@@ -487,8 +487,8 @@ Screens: switch-tabs, register-open, register-upload, register-personal-data, re
 | 9 | Alt text says what to look for | 2 | prepare-id-photos alt ("предња страна горе, задња страна доле") says what the picture shows, not the 4 corners to look for; register-upload upload-menu alt lists 4 items without pointing at Photo Library (carried from the last review); switch-tabs and register-document-data alts name the circled button and the Рег. бр. and Важи до rows |
 | 10 | Text matches the screenshot | 3 | no screenshot changed; Рег. бр. and Важи до appear on id-card-front.jpg, "квадратић са бројем" matches tabs-iphone-chrome.jpg, Приложите документа and Photo Library match register-upload |
 | 11 | Help and failure screens | 3 | help-upload opens with „Нисте ништа покварили.“ after its callout, names one next action, offers the counter, gives no phone number; register-open, register-upload, register-submit and register-error all keep a failure answer to help-technical, help-upload, register-error or help-account |
-| 12 | Helper safety | 3 | for-helper says the account holder types the password and PIN, the helper deletes ID-card photos (and from the deleted-photos bin), signs out of her email and eUprava, and ConsentID goes on her phone; prepare-id-photos says to delete the photos from a borrowed phone; the register-* screens are typed in by the account holder per for-helper, so they need no line of their own |
-| 13 | Statistics carry a source | 3 | find-counter no longer claims "преко 1000" counters and links the official list; the remaining numbers (13 цифара, 8 до 20 знакова, 3 MB, 6 цифара) are values the reader acts on, from the official site; nothing is claimed for people over 75 |
+| 12 | Helper safety | 3 | for-helper carries every rule for using someone else's phone: the account holder types the password and PIN, the helper deletes the ID-card photos (and from the deleted-photos bin), signs out of her email and eUprava, and ConsentID goes on her phone; prepare-id-photos, where the photos are taken, repeats in one sentence „после обришите фотографије са њега и из корпе за обрисане фотографије“, bin included; no other changed screen needs a line of its own under the narrowed rule 30 |
+| 13 | Statistics carry a source | 3 | checked against rule 31 „Подаци са извором“ (title only changed, body the same): find-counter no longer claims "преко 1000" counters and links the official list; the remaining numbers (13 цифара, 8 до 20 знакова, 3 MB, 6 цифара) are values the reader acts on, from the official site; nothing is claimed for people over 75 |
 
 Verdict: pass
 
@@ -499,6 +499,7 @@ Edits (applied before this review; the first pass scored criterion 6 at 1 becaus
 - register-error: "свака слика може да има највише 3 MB. Ако је слика превелика" → "свака фотографија може да има највише 3 MB. Ако је фотографија превелика"
 - register-error: "Пређите на формулар на сајту eid.gov.rs и погледајте која су поља означена црвеном бојом." → "У формулару погледајте која су поља означена црвеном бојом." (the sentence before it already says how to switch to the form)
 - prepare-id-photos: "Ако сликате туђим телефоном" → "Ако фотографишете туђим телефоном" (same verb as the steps)
+- prepare-id-photos (final review): "после обришите фотографије са њега." → "после обришите фотографије са њега и из корпе за обрисане фотографије." (narrowed rule 30 and criterion 12 ask this screen to name the bin)
 - for-helper: "Нека она сама упише лозинку и ПИН." → "Нека она сама упише лозинку и ПИН, број од 6 цифара који сама смисли."
 - for-helper: "3. Ако сликате личну карту својим телефоном, после обришите те фотографије. Обришите их и из корпе за обрисане фотографије." → "3. Ако фотографишете личну карту својим телефоном, после обришите те фотографије." and "4. Обришите их и из корпе за обрисане фотографије."
 - for-helper: "Читајте екран наглас и сачекајте да она сама притисне дугме. Притисните **Даље**." → "На следећим екранима читајте упутство наглас. Сачекајте да она сама притисне свако дугме. Сада притисните **Даље**."

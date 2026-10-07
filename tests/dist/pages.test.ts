@@ -125,7 +125,8 @@ describe('built pages', () => {
 
   it.skipIf(!questionId)('spaces stacked answer buttons at least 16 px apart', () => {
     // Older adults mis-tap neighbouring targets; the evidence asks for 16–24 CSS px between
-    // stacked buttons (Jin et al. 2007 via W3C; Gomez-Hernandez et al. 2023).
+    // stacked buttons (1rem renders as 20 px here) (Jin et al. 2007 via W3C;
+    // Gomez-Hernandez et al. 2023).
     const html = page('cyr', questionId as string);
     expect(html).toMatch(/\.answers\{[^}]*display:flex/);
     expect(html).toMatch(/\.answers\{[^}]*flex-direction:column/);
