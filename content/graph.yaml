@@ -2,10 +2,18 @@
 # Order of steps follows the team's test run on a phone and the official guide
 # "Упутство за регистрацију корисничким именом и лозинком".
 # Node ids are English, lowercase, hyphenated. All text is Cyrillic.
-start: welcome
+start: about-guide
 
 nodes:
   # --- Увод ---------------------------------------------------------------
+  about-guide:
+    type: step
+    title: Шта је овај водич
+    group: Увод
+    answers:
+      - label: Почните
+        next: welcome
+
   welcome:
     type: step
     title: Постаните еГрађанин
@@ -535,7 +543,13 @@ nodes:
 
   activate-consentid:
     type: step
-    title: Активирајте апликацију QR кодом
+    title: Укључите апликацију и смислите ПИН
+    group: Апликација ConsentID
+    next: scan-qr-code
+
+  scan-qr-code:
+    type: step
+    title: Скенирајте QR код са потврде
     group: Апликација ConsentID
     answers:
       - label: Апликација је активирана
