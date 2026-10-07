@@ -5,7 +5,7 @@ ConsentID је бесплатна апликација којом потврђу
 1. Притисните линк за свој телефон:
    - **Android телефон:** [Отворите ConsentID у продавници Google Play](https://play.google.com/store/apps/details?id=nl.aeteurope.mpki.gui)
    - **iPhone:** [Отворите ConsentID у продавници App Store](https://apps.apple.com/us/app/consentid/id883224643)
-2. Отвориће се продавница апликација, на страни апликације ConsentID.
+2. Отвориће се продавница апликација, на страници апликације ConsentID.
 3. Притисните **Инсталирај** (на енглеском **Install** или **Get**).
 4. Када се инсталира, вратите се у водич.
 
