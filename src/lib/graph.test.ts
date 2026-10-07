@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupPosition, outgoing, parseGraph, validateGraph } from './graph';
+import { groupPosition, isHelpNode, outgoing, parseGraph, validateGraph } from './graph';
 
 const VALID = `
 start: have-id-card
@@ -123,6 +123,16 @@ describe('outgoing', () => {
     expect(outgoing(g.nodes['get-id-card'])).toEqual([{ next: 'register' }]);
     expect(outgoing(g.nodes['card'])).toEqual([{ next: 'done' }]);
     expect(outgoing(g.nodes['done'])).toEqual([]);
+  });
+});
+
+describe('isHelpNode', () => {
+  it('is true only for ids that start with "help-"', () => {
+    expect(isHelpNode('help-account')).toBe(true);
+    expect(isHelpNode('help-upload')).toBe(true);
+    expect(isHelpNode('help')).toBe(false);
+    expect(isHelpNode('helper-screen')).toBe(false);
+    expect(isHelpNode('done')).toBe(false);
   });
 });
 

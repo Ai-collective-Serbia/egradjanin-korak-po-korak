@@ -1,7 +1,7 @@
 ---
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { groupPosition, outgoing } from '../lib/graph';
+import { groupPosition, isHelpNode, outgoing } from '../lib/graph';
 import { makeT } from '../lib/i18n';
 import { homePath, nodePath, withBase } from '../lib/paths';
 import { collectionFor, type Script } from '../lib/script';
@@ -25,8 +25,12 @@ const Content = entry ? (await render(entry)).Content : null;
 const edges = outgoing(node);
 const position = groupPosition(graph, id);
 const external = node.type === 'step' ? node.external : undefined;
-/** End screens have no Back (testers found it confusing); they offer a way home instead. */
+/**
+ * End screens have no Back (testers found it confusing); they offer a way home instead.
+ * Help screens (ids starting with "help-") are end screens reached mid-flow, so they keep Back too.
+ */
 const isEnd = node.type === 'end';
+const showBack = !home && (!isEnd || isHelpNode(id));
 ---
 
 <Base
@@ -99,7 +103,7 @@ const isEnd = node.type === 'end';
         </button>
       </p>
     )}
-    {!home && !isEnd && (
+    {showBack && (
       <nav class="nav-back" aria-label={t(ui.back)}>
         <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
           {t(ui.back)}

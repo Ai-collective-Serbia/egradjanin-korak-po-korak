@@ -63,6 +63,11 @@ export function outgoing(node: GraphNode): Edge[] {
   }
 }
 
+/** A help screen: an id that starts with "help-". Help screens keep the Назад button and follow writing rule 28. */
+export function isHelpNode(id: string): boolean {
+  return id.startsWith('help-');
+}
+
 export function validateGraph(graph: Graph, bodyIds: Set<string>): string[] {
   const errors: string[] = [];
   if (!graph.nodes[graph.start]) errors.push(`start "${graph.start}" is not a node`);
