@@ -934,3 +934,26 @@ Expected: all PASS.
 ```
 
 Do not push and do not open a pull request; the branch owner does that.
+
+## Language review
+
+Screens: help-account, help-technical, help-email, help-id-card, help-upload, register-upload, cloud-login, confirm-email
+
+| # | Criterion | Score | Note |
+| --- | --- | --- | --- |
+| 1 | One action per step | 2 | validate warns on cloud-login step 2 (4 sentences) and register-upload step 2 (3 sentences); help-upload step 1 asks for 2 presses ("притисните дугме са квадратићима, па страницу eid.gov.rs"); help-account step 3 ("Службеник може да провери ваш налог…") is information, not an action |
+| 2 | Imperative, addressed as "ви" | 3 | no "се"-passive, no "потребно је", no "ти", no authors' "ми"; help-email "Имејл адресу је лакше направити удвоје" is a statement, not an instruction |
+| 3 | Positive phrasing | 2 | help-id-card "Без важеће личне карте или пасоша нико не може да се региструје" could say what is needed instead; "не треба вам" in register-upload and "не Камера" in help-upload are real guidance; „Нисте ништа покварили.“ is the rule 28 exception |
+| 4 | Clear referents | 3 | "Ово" in help-technical and help-account points to the screen title or the sentence before it; "га" in confirm-email is the email |
+| 5 | Terms explained in place | 2 | help-technical step 1: "Wi-Fi" appears on no other screen and is not explained; terms.md gloss „интернет код куће, без трошења мобилних података“ fits; картица is explained in cloud-login and earlier on switch-tabs |
+| 6 | One word for one thing | 2 | help-upload step 1 and register-upload line 3 use "страницу eid.gov.rs" for a browser tab, a listed "не пишемо" variant, but it is the shared wording of every register-* screen and of the switch-tabs title, so the reader meets one consistent word; register-upload uses "слика" for illustration ("Слике су само пример"), for photos ("сличицом слика") and for the passport portrait ("са својом сликом") |
+| 7 | Consistent with the flow | 2 | button names in the text match the labels (Приложио/ла сам фотографије, Сада је успело, И даље не могу, Урадио/ла сам, Порука није стигла, Назад); help-upload step 4 names Android "Галерија" but drops "Фотографије", which register-upload lists; help-id-card title says "лична карта са чипом" while have-id-card and the body say "лична карта или пасош"; help-account is now reached from help-upload before an account exists, but its step 3 speaks of "ваш налог" and a new QR код |
+| 8 | Calm tone | 2 | no exclamation marks, no "просто"; help-upload "или сте у менију изабрали погрешну ставку" puts the fault on the reader right after „Нисте ништа покварили.“ |
+| 9 | Alt text says what to look for | 2 | register-upload upload-menu alt lists all 4 menu items without saying to look for Photo Library; the other alts name the control to find (Приложите документа, Мобилна апликација, Корисничко име, Пријавите се, Потврди) |
+| 10 | Text matches the screenshot | 3 | Приложите документа, Photo Library, Take photo, Choose File, Google Drive, Мобилна апликација, Корисничко име, Пријавите се, verifikacija, Потврди all appear as written |
+| 11 | Help and failure screens | 3 | all 5 help screens open with „Нисте ништа покварили.“ (help-upload after its callout); each names one next action per situation; help-account, help-technical, help-email and help-upload offer the counter, help-id-card sends the reader to the police station; no phone number on any screen |
+
+Verdict: pass
+
+Edits:
+- none
