@@ -29,6 +29,22 @@ nodes:
     type: step
     title: Шта вам треба да почнете
     group: Припрема
+    next: has-helper
+
+  has-helper:
+    type: question
+    title: Да ли вам неко помаже?
+    group: Припрема
+    answers:
+      - label: Да, помаже ми неко
+        next: for-helper
+      - label: Не, радим сам/а
+        next: switch-tabs
+
+  for-helper:
+    type: step
+    title: Ако помажете некоме
+    group: Припрема
     next: switch-tabs
 
   switch-tabs:

@@ -35,6 +35,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 | 9 | Alt text says what to look for | Each image's alt text names the control or detail the reader must find, not only what the picture shows. |
 | 10 | Text matches the screenshot | Every label the text names appears, with the same spelling, in the screenshot it refers to. |
 | 11 | Help and failure screens | A screen whose id starts with `help-` opens with „Нисте ништа покварили.“, names one next action, offers the counter as a normal route where it applies, and gives no phone number. A step where the reader acts outside the guide and can get stuck has a failure answer that leads to a help screen or to the step to repeat. A set of changed screens with none of these scores 3. |
+| 12 | Helper safety | A screen where the reader may use someone else's phone (photographing the ID card, opening email) says in one sentence what the helper deletes or signs out of afterwards; the password and PIN are always typed by the account holder. A set of changed screens with no such screen scores 3. |
 
 ## Output format
 
