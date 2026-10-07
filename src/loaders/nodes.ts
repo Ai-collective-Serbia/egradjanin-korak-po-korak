@@ -22,11 +22,14 @@ export function nodesLoader(script: Script, overrides: Overrides): Loader {
           continue;
         }
         const text = script === 'lat' ? transliterate(source, overrides) : source;
+        const rendered = await renderMarkdown(text, { fileURL });
         store.set({
           id: entry.name,
           data: {},
           body: text,
-          rendered: await renderMarkdown(text, { fileURL }),
+          filePath: `content/nodes/${entry.name}/index.md`,
+          rendered,
+          assetImports: rendered.metadata?.imagePaths,
         });
         count += 1;
       }
