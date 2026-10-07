@@ -20,14 +20,15 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - name: Require a language review when content changed
+      # --no-renames lists a renamed docs/terms.md under its old path too, so the decision-log check sees it.
+      - name: Require a language review and a decision-log row
         if: github.event_name == 'pull_request'
         env:
           PR_BODY: ${{ github.event.pull_request.body }}
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           git fetch --no-tags --depth=1 origin "$BASE_SHA"
-          node scripts/check-pr-language-review.mjs $(git diff --name-only "$BASE_SHA" HEAD)
+          node scripts/check-pr-language-review.mjs $(git diff --name-only --no-renames "$BASE_SHA" HEAD)
       - run: npm run format:check
       - run: npm run check
       - run: npm test
