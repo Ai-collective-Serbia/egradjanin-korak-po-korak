@@ -8,7 +8,7 @@ nodes:
   # --- Увод ---------------------------------------------------------------
   welcome:
     type: step
-    title: Постаните еГрађанин. Послове са државом завршите од куће.
+    title: Послове са државом завршите од куће
     group: Увод
     answers:
       - label: Почните регистрацију
@@ -51,7 +51,7 @@ nodes:
     group: Припрема
     external:
       label: Отворите сајт МУП-а
-      url: https://www.mup.gov.rs/
+      url: https://www.mup.gov.rs/wps/portal/sr/gradjani/dokumenta/licna+karta
     answers:
       - label: Добио/ла сам нову личну карту
         next: have-email
@@ -136,6 +136,8 @@ nodes:
     answers:
       - label: Сада је успело
         next: confirm-email
+      - label: Већ сам регистрован/а
+        next: confirm-email
       - label: И даље не ради
         next: help-contact
 
@@ -157,6 +159,8 @@ nodes:
     answers:
       - label: Нашао/ла сам поруку
         next: confirm-email
+      - label: Погрешио/ла сам адресу
+        next: register-open
       - label: Нема је ни после пола сата
         next: help-contact
 
@@ -216,7 +220,7 @@ nodes:
     answers:
       - label: Апликација је активирана
         next: cloud-certificate
-      - label: Није успело
+      - label: Нисам успео/ла
         next: help-contact
 
   cloud-certificate:
@@ -236,14 +240,11 @@ nodes:
   done:
     type: end
     title: Честитамо, сада сте еГрађанин
-    group: Крај
 
   done-basic:
     type: end
     title: Имате налог за основне услуге
-    group: Крај
 
   help-contact:
     type: end
     title: Потражите помоћ
-    group: Крај
