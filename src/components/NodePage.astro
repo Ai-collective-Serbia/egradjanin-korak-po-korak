@@ -10,9 +10,11 @@ import { bodyIds, graph, overrides, ui } from '../lib/site';
 interface Props {
   script: Script;
   id: string;
+  /** Render as the site's home page: no back button, plus the resume block for returning visitors. */
+  home?: boolean;
 }
 
-const { script, id } = Astro.props;
+const { script, id, home = false } = Astro.props;
 const node = graph.nodes[id];
 if (!node) throw new Error(`unknown node "${id}"`);
 
@@ -28,11 +30,29 @@ const external = node.type === 'step' ? node.external : undefined;
 <Base
   script={script}
   title={node.title}
-  pagePath={nodePath('cyr', id)}
-  nodeId={id}
-  nodeType={node.type}
+  pagePath={home ? '' : nodePath('cyr', id)}
+  nodeId={home ? undefined : id}
+  nodeType={home ? undefined : node.type}
 >
   <article class={`node node-${node.type}`}>
+    {home && (
+      <>
+        <div data-fresh></div>
+        <div class="resume" data-resume hidden>
+          <a class="btn btn-primary" data-resume-link href={withBase(base, nodePath(script, id))}>
+            {t(ui.resume)}
+          </a>
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-reset
+            data-confirm={t(ui.resetConfirm)}
+          >
+            {t(ui.reset)}
+          </button>
+        </div>
+      </>
+    )}
     {position && (
       <p class="progress">
         {t(position.name)} · {t(ui.progressPart)} {position.index} {t(ui.progressOf)}{' '}
@@ -56,6 +76,7 @@ const external = node.type === 'step' ? node.external : undefined;
         <p class="after-external">{t(ui.afterExternal)}</p>
       </>
     )}
+    {home && <p class="disclaimer">{t(ui.disclaimer)}</p>}
     {edges.length > 0 && (
       <nav class="answers" aria-label={t(ui.answersLabel)}>
         {edges.map((edge) => (
@@ -76,10 +97,12 @@ const external = node.type === 'step' ? node.external : undefined;
         </button>
       </p>
     )}
-    <nav class="nav-back" aria-label={t(ui.back)}>
-      <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
-        {t(ui.back)}
-      </a>
-    </nav>
+    {!home && (
+      <nav class="nav-back" aria-label={t(ui.back)}>
+        <a class="btn btn-secondary" data-back href={withBase(base, homePath(script))}>
+          {t(ui.back)}
+        </a>
+      </nav>
+    )}
   </article>
 </Base>
