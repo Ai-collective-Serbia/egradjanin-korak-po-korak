@@ -9,6 +9,7 @@ nodes:
   about-guide:
     type: step
     title: Шта је овај водич
+    checked: 2026-10-07
     group: Увод
     answers:
       - label: Почните
@@ -17,6 +18,21 @@ nodes:
   welcome:
     type: step
     title: Постаните еГрађанин
+    checked: 2026-10-07
+    group: Увод
+    next: what-you-can-do
+
+  what-you-can-do:
+    type: step
+    title: Шта све можете са налогом
+    checked: 2026-10-07
+    group: Увод
+    next: account-and-app
+
+  account-and-app:
+    type: step
+    title: Налог и апликација нису исто
+    checked: 2026-10-07
     group: Увод
     answers:
       - label: Почните регистрацију
@@ -28,18 +44,46 @@ nodes:
   what-you-need:
     type: step
     title: Шта вам треба да почнете
+    checked: 2026-10-07
+    group: Припрема
+    next: has-helper
+
+  has-helper:
+    type: question
+    title: Да ли вам неко помаже?
+    checked: 2026-10-07
+    group: Припрема
+    answers:
+      - label: Да, помаже ми неко
+        next: for-helper
+      - label: Не, радим сам/а
+        next: switch-tabs
+
+  for-helper:
+    type: step
+    title: Ако помажете некоме
+    checked: 2026-10-07
     group: Припрема
     next: switch-tabs
 
   switch-tabs:
     type: step
-    title: Како да прелазите између страница
+    title: Како да прелазите између картица
+    checked: 2026-10-07
+    group: Припрема
+    next: find-tabs-button
+
+  find-tabs-button:
+    type: step
+    title: Где је дугме са квадратићима
+    checked: 2026-10-07
     group: Припрема
     next: have-id-card
 
   have-id-card:
     type: question
     title: Да ли имате важећу личну карту или пасош?
+    checked: 2026-10-07
     group: Припрема
     answers:
       - label: Да
@@ -52,6 +96,7 @@ nodes:
   check-id-card:
     type: step
     title: Како да проверите да ли вам лична карта важи
+    checked: 2026-10-07
     group: Припрема
     answers:
       - label: Важи
@@ -62,6 +107,7 @@ nodes:
   how-to-get-id-card:
     type: step
     title: Како да добијете нову личну карту
+    checked: 2026-10-07
     group: Припрема
     external:
       label: Отворите упутство полиције
@@ -75,6 +121,7 @@ nodes:
   have-email:
     type: question
     title: Да ли имате имејл адресу?
+    checked: 2026-10-07
     group: Припрема
     answers:
       - label: Да
@@ -85,6 +132,7 @@ nodes:
   create-email:
     type: step
     title: Направите имејл адресу
+    checked: 2026-10-07
     group: Припрема
     external:
       label: Отворите Gmail
@@ -99,49 +147,78 @@ nodes:
   prepare-id-photos:
     type: step
     title: Фотографишите личну карту са обе стране
+    checked: 2026-10-07
     group: Регистрација
     next: register-open
 
   register-open:
     type: step
     title: Отворите страницу за регистрацију
+    checked: 2026-10-07
     group: Регистрација
     external:
       label: Отворите регистрацију
       url: https://registracija.eid.gov.rs/sr-Cyrl-RS/kreiranje-naloga?userCategory=Serbian
     answers:
       - label: Видим формулар
-        next: register-upload
+        next: upload-menu
       - label: Страница се не отвара
         next: help-technical
+
+  upload-menu:
+    type: step
+    title: Шта пише у менију за фотографије
+    checked: 2026-10-07
+    group: Регистрација
+    next: register-upload
 
   register-upload:
     type: step
     title: Приложите фотографије личне карте
+    checked: 2026-10-07
     group: Регистрација
-    next: register-personal-data
+    answers:
+      - label: Приложио/ла сам фотографије
+        next: register-personal-data
+      - label: Не могу да приложим фотографије
+        next: help-upload
+
+  help-upload:
+    type: step
+    title: Ако не можете да приложите фотографије
+    checked: 2026-10-07
+    group: Регистрација
+    answers:
+      - label: Сада је успело
+        next: register-personal-data
+      - label: И даље не могу
+        next: help-account
 
   register-personal-data:
     type: step
     title: Упишите своје податке
+    checked: 2026-10-07
     group: Регистрација
     next: register-document-data
 
   register-document-data:
     type: step
     title: Упишите податке о личној карти
+    checked: 2026-10-07
     group: Регистрација
     next: register-login-data
 
   register-login-data:
     type: step
     title: Упишите имејл и смислите лозинку
+    checked: 2026-10-07
     group: Регистрација
     next: register-submit
 
   register-submit:
     type: step
     title: Потврдите и пошаљите
+    checked: 2026-10-07
     group: Регистрација
     answers:
       - label: Пише да је захтев послат
@@ -152,6 +229,7 @@ nodes:
   register-error:
     type: step
     title: Шта да урадите ако се појави грешка
+    checked: 2026-10-07
     group: Регистрација
     answers:
       - label: Сада је успело
@@ -167,6 +245,7 @@ nodes:
   confirm-email:
     type: step
     title: Потврдите имејл адресу
+    checked: 2026-10-07
     group: Активација налога
     external:
       label: Отворите Gmail
@@ -180,6 +259,7 @@ nodes:
   email-missing:
     type: step
     title: Порука није стигла
+    checked: 2026-10-07
     group: Активација налога
     external:
       label: Отворите Gmail
@@ -197,6 +277,7 @@ nodes:
   wait-activation:
     type: step
     title: Сачекајте да вам активирају налог
+    checked: 2026-10-07
     group: Активација налога
     answers:
       - label: Стигла је порука да је налог активан
@@ -207,6 +288,7 @@ nodes:
   account-ready:
     type: step
     title: Ваш налог је активан
+    checked: 2026-10-07
     group: Активација налога
     next: have-smartphone
 
@@ -214,6 +296,7 @@ nodes:
   have-smartphone:
     type: question
     title: Да ли имате паметни телефон?
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Да
@@ -224,6 +307,7 @@ nodes:
   install-consentid:
     type: step
     title: Инсталирајте апликацију ConsentID
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Инсталирао/ла сам
@@ -234,6 +318,7 @@ nodes:
   find-counter:
     type: step
     title: Идите на шалтер по QR код
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Хоћу списак шалтера
@@ -244,6 +329,7 @@ nodes:
   counter-list:
     type: question
     title: Којим словом почиње име вашег места?
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: "А: Ада, Александровац…"
@@ -298,6 +384,7 @@ nodes:
   counter-list-a:
     type: step
     title: Шалтери, слово А
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -308,6 +395,7 @@ nodes:
   counter-list-b:
     type: step
     title: Шалтери, слово Б
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -318,6 +406,7 @@ nodes:
   counter-list-v:
     type: step
     title: Шалтери, слово В
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -328,6 +417,7 @@ nodes:
   counter-list-g:
     type: step
     title: Шалтери, слово Г
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -338,6 +428,7 @@ nodes:
   counter-list-d:
     type: step
     title: Шалтери, слово Д
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -348,6 +439,7 @@ nodes:
   counter-list-zh:
     type: step
     title: Шалтери, слово Ж
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -358,6 +450,7 @@ nodes:
   counter-list-z:
     type: step
     title: Шалтери, слово З
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -368,6 +461,7 @@ nodes:
   counter-list-i:
     type: step
     title: Шалтери, слово И
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -378,6 +472,7 @@ nodes:
   counter-list-j:
     type: step
     title: Шалтери, слово Ј
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -388,6 +483,7 @@ nodes:
   counter-list-k:
     type: step
     title: Шалтери, слово К
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -398,6 +494,7 @@ nodes:
   counter-list-l:
     type: step
     title: Шалтери, слово Л
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -408,6 +505,7 @@ nodes:
   counter-list-lj:
     type: step
     title: Шалтери, слово Љ
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -418,6 +516,7 @@ nodes:
   counter-list-m:
     type: step
     title: Шалтери, слово М
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -428,6 +527,7 @@ nodes:
   counter-list-n:
     type: step
     title: Шалтери, слово Н
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -438,6 +538,7 @@ nodes:
   counter-list-o:
     type: step
     title: Шалтери, слово О
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -448,6 +549,7 @@ nodes:
   counter-list-p:
     type: step
     title: Шалтери, слово П
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -458,6 +560,7 @@ nodes:
   counter-list-r:
     type: step
     title: Шалтери, слово Р
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -468,6 +571,7 @@ nodes:
   counter-list-s:
     type: step
     title: Шалтери, слово С
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -478,6 +582,7 @@ nodes:
   counter-list-t:
     type: step
     title: Шалтери, слово Т
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -488,6 +593,7 @@ nodes:
   counter-list-tj:
     type: step
     title: Шалтери, слово Ћ
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -498,6 +604,7 @@ nodes:
   counter-list-u:
     type: step
     title: Шалтери, слово У
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -508,6 +615,7 @@ nodes:
   counter-list-c:
     type: step
     title: Шалтери, слово Ц
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -518,6 +626,7 @@ nodes:
   counter-list-ch:
     type: step
     title: Шалтери, слово Ч
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -528,6 +637,7 @@ nodes:
   counter-list-sh:
     type: step
     title: Шалтери, слово Ш
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Нашао/ла сам шалтер
@@ -538,18 +648,28 @@ nodes:
   counter-card:
     type: card
     title: Покажите ово на шалтеру
+    checked: 2026-10-07
     group: Апликација ConsentID
     next: activate-consentid
 
   activate-consentid:
     type: step
     title: Активирајте апликацију и смислите ПИН
+    checked: 2026-10-07
     group: Апликација ConsentID
     next: scan-qr-code
 
   scan-qr-code:
     type: step
     title: Скенирајте QR код са потврде
+    checked: 2026-10-07
+    group: Апликација ConsentID
+    next: scan-qr-result
+
+  scan-qr-result:
+    type: step
+    title: Проверите да ли је успело
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Апликација је активирана
@@ -560,6 +680,7 @@ nodes:
   cloud-certificate:
     type: step
     title: Укључите потпис у клауду
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Хоћу да га укључим сада
@@ -570,15 +691,21 @@ nodes:
   cloud-login:
     type: step
     title: Пријавите се на сајт eid.gov.rs
+    checked: 2026-10-07
     group: Апликација ConsentID
     external:
       label: Отворите пријаву на eid.gov.rs
       url: https://eid.gov.rs/sr-Cyrl-RS/eid
-    next: cloud-approve
+    answers:
+      - label: Урадио/ла сам
+        next: cloud-approve
+      - label: Не могу да се пријавим
+        next: help-account
 
   cloud-approve:
     type: step
     title: Потврдите пријаву у апликацији ConsentID
+    checked: 2026-10-07
     group: Апликација ConsentID
     answers:
       - label: Пријављен/а сам
@@ -591,6 +718,7 @@ nodes:
   cloud-issue:
     type: step
     title: Укључите потпис у клауду на сајту
+    checked: 2026-10-07
     group: Апликација ConsentID
     external:
       label: Отворите сајт eid.gov.rs
@@ -604,6 +732,7 @@ nodes:
   cloud-check-login:
     type: step
     title: Проверите да ли сте пријављени
+    checked: 2026-10-07
     group: Апликација ConsentID
     external:
       label: Отворите сајт eid.gov.rs
@@ -622,23 +751,29 @@ nodes:
   done:
     type: end
     title: Честитамо, сада сте еГрађанин
+    checked: 2026-10-07
 
   done-basic:
     type: end
     title: Имате налог за основне услуге
+    checked: 2026-10-07
 
   help-id-card:
     type: end
-    title: Прво вам треба лична карта са чипом
+    title: Прво вам треба лична карта или пасош
+    checked: 2026-10-07
 
   help-email:
     type: end
     title: Треба вам имејл адреса
+    checked: 2026-10-07
 
   help-technical:
     type: end
     title: Страница или апликација не ради
+    checked: 2026-10-07
 
   help-account:
     type: end
-    title: Пишите подршци Портала еИД
+    title: Затражите помоћ за налог
+    checked: 2026-10-07

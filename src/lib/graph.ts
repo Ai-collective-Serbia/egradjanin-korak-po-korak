@@ -8,7 +8,12 @@ const nodeId = z
 const answerSchema = z.object({ label: z.string().min(1), next: nodeId }).strict();
 const externalSchema = z.object({ label: z.string().min(1), url: z.string().url() }).strict();
 
-const common = { title: z.string().min(1), group: z.string().min(1).optional() };
+const common = {
+  title: z.string().min(1),
+  /** Date the screen's text was last checked against eUprava, YYYY-MM-DD (rule 33). */
+  checked: z.string().regex(/^\d{4}-\d{2}-\d{2}$/, 'checked is a date written YYYY-MM-DD'),
+  group: z.string().min(1).optional(),
+};
 
 const questionSchema = z
   .object({ type: z.literal('question'), ...common, answers: z.array(answerSchema).min(2) })
@@ -63,6 +68,11 @@ export function outgoing(node: GraphNode): Edge[] {
   }
 }
 
+/** A help screen: an id that starts with "help-". Help screens keep the Назад button and follow writing rule 28. */
+export function isHelpNode(id: string): boolean {
+  return id.startsWith('help-');
+}
+
 export function validateGraph(graph: Graph, bodyIds: Set<string>): string[] {
   const errors: string[] = [];
   if (!graph.nodes[graph.start]) errors.push(`start "${graph.start}" is not a node`);
@@ -75,6 +85,11 @@ export function validateGraph(graph: Graph, bodyIds: Set<string>): string[] {
     const needsBody = node.type === 'step' || node.type === 'card';
     if (needsBody && !bodyIds.has(id)) {
       errors.push(`node "${id}" (${node.type}) needs content/nodes/${id}/index.md`);
+    }
+    if (node.type === 'step' && node.external && (node.answers?.length ?? 0) < 2) {
+      errors.push(
+        `node "${id}" opens another site but has no answer for when that fails; give it "answers" with at least 2 entries`,
+      );
     }
   }
   for (const id of bodyIds) {

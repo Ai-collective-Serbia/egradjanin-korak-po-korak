@@ -4,8 +4,10 @@ import { parseGraph } from './graph';
 import {
   checkBody,
   checkGraphText,
+  checkUiStrings,
   formatFinding,
   genderFormErrors,
+  HELP_OPENER,
   isDirectoryNode,
   LIMITS,
   RULE_IDS,
@@ -143,21 +145,24 @@ nodes:
   a:
     type: question
     title: ${'Н'.repeat(51)}
+    checked: 2026-10-07
     answers:
       - { label: ${'о'.repeat(41)}, next: b }
       - { label: Нисам сигуран/-на, next: b }
   b:
     type: step
     title: Кратак наслов
+    checked: 2026-10-07
     external: { label: ${'о'.repeat(41)}, url: https://example.rs/ }
     next: c
   c:
     type: end
     title: Крај
+    checked: 2026-10-07
 `);
 
   it('errors on long titles and labels, external labels included, and on bad slash forms', () => {
-    const findings = checkGraphText(graph);
+    const findings = checkGraphText(graph, new Date('2026-10-07T12:00:00Z'));
     expect(rules(findings).sort()).toEqual(
       [
         'error:title-label-length',
@@ -201,16 +206,157 @@ describe('formatting and rule ids', () => {
         'alt-text',
         'bold',
         'callout',
+        'checked-date',
         'dates',
         'gender-form',
+        'help-screen',
         'one-action',
         'paragraph-length',
         'punctuation',
         'scripts',
         'screen-length',
         'sentence-length',
+        'terms',
         'title-label-length',
       ].sort(),
     );
+  });
+});
+
+describe('help screens (rule 28, help-screen)', () => {
+  const opener = HELP_OPENER + ' Ово се дешава многима.';
+
+  it('requires the fixed opening sentence as the first sentence of the first paragraph', () => {
+    expect(rules(checkBody('help-account', opener))).toEqual([]);
+    expect(
+      rules(checkBody('help-account', 'Ако активација није успела, идите на шалтер.')),
+    ).toEqual(['error:help-screen']);
+    expect(rules(checkBody('help-account', 'Ово се дешава многима. ' + HELP_OPENER))).toEqual([
+      'error:help-screen',
+    ]);
+  });
+
+  it('looks past the callout blockquote and a heading to find the first paragraph', () => {
+    const body = '> Ово радите у формулару на сајту eid.gov.rs, не у водичу.\n\n' + opener;
+    expect(rules(checkBody('help-upload', body))).toEqual([]);
+    const headed = '## Шта да урадите\n\n' + opener;
+    expect(rules(checkBody('help-upload', headed))).toEqual([]);
+  });
+
+  it('does not apply to screens whose id does not start with "help-"', () => {
+    expect(rules(checkBody('register-upload', 'Приложите 2 фотографије.'))).toEqual([]);
+    expect(rules(checkBody('helper-screen', 'Приложите 2 фотографије.'))).toEqual([]);
+  });
+
+  it('rejects a phone number on a help screen, but not ordinary numbers', () => {
+    // toContain, not toEqual: "1234-567" also trips the existing dates warning, which is fine.
+    for (const phone of [
+      'Позовите 011 123 456.',
+      'Позовите 011/1234-567.',
+      'Позовите +381 11 1234567.',
+    ]) {
+      expect(rules(checkBody('help-account', opener + ' ' + phone))).toContain('error:help-screen');
+    }
+    // Separate paragraphs, so the paragraph-length warning does not fire.
+    const ordinary = [
+      opener,
+      'ЈМБГ има 13 цифара. Чекате највише 48 сати.',
+      'На потврди су 2 броја. Шалтера има преко 1000.',
+      'Лозинка има од 8 до 20 знакова. ПИН је на пример 482913.',
+    ].join('\n\n');
+    expect(rules(checkBody('help-account', ordinary))).toEqual([]);
+    // Phone numbers are fine on ordinary screens; the rule is about help screens only.
+    expect(rules(checkBody('find-counter', 'Позовите 011 123 456.'))).toEqual([]);
+  });
+});
+
+describe('forbidden phrases from the term list (rule 29, terms)', () => {
+  it('errors on a listed phrase in a body, case-insensitively and with letter boundaries', () => {
+    expect(rules(checkBody('x', 'Када завршите, вратите се овде.'))).toEqual(['error:terms']);
+    expect(rules(checkBody('x', 'Пишите подршци Портала еИД.'))).toEqual(['error:terms']);
+    expect(rules(checkBody('x', 'Унесите лозинку.'))).toEqual(['error:terms']);
+    expect(rules(checkBody('x', 'Кликните на дугме.'))).toEqual(['error:terms']);
+    expect(rules(checkBody('x', 'Вратите се на ову страницу.'))).toEqual([]);
+    expect(rules(checkBody('x', 'Проверите имејл. Упишите лозинку. Притисните дугме.'))).toEqual(
+      [],
+    );
+    expect(rules(checkBody('counter-list-a', '- **Пошта**, кликните овде.'))).toEqual([
+      'error:terms',
+    ]);
+  });
+
+  it('names the phrase and what to write instead', () => {
+    const [finding] = checkBody('x', 'Када завршите, вратите се овде.');
+    expect(finding.message).toContain('вратите се овде');
+    expect(finding.message).toContain('Вратите се у водич.');
+  });
+
+  it('forbids „браузер“ and names „прегледач“', () => {
+    expect(rules(checkBody('x', 'Отворите страницу у другом браузеру.'))).toEqual(['error:terms']);
+    expect(checkBody('x', 'Отворите браузер.')[0].message).toContain('прегледач');
+    expect(rules(checkBody('x', 'Отворите страницу у другом прегледачу.'))).toEqual([]);
+  });
+
+  it('errors on a listed phrase in a title or answer label', () => {
+    const graph = parseGraph(`
+start: a
+nodes:
+  a:
+    type: question
+    title: Пишите подршци Портала еИД
+    checked: 2026-10-07
+    answers:
+      - { label: Кликните овде, next: b }
+      - { label: Даље, next: b }
+  b:
+    type: end
+    title: Крај
+    checked: 2026-10-07
+`);
+    expect(rules(checkGraphText(graph, new Date('2026-10-07T12:00:00Z')))).toEqual([
+      'error:terms',
+      'error:terms',
+    ]);
+  });
+
+  it('errors on a listed phrase in an interface string', () => {
+    expect(rules(checkUiStrings({ afterExternal: 'Када завршите, вратите се овде.' }))).toEqual([
+      'error:terms',
+    ]);
+    expect(checkUiStrings({ afterExternal: 'Када завршите, вратите се у водич.' })).toEqual([]);
+    expect(checkUiStrings({ back: 'Назад' })[0]?.file).toBeUndefined();
+    expect(checkUiStrings({ afterExternal: 'вратите се овде' })[0].file).toBe(
+      'content/ui-strings.yaml',
+    );
+  });
+});
+
+describe('checked date (rule 33, checked-date)', () => {
+  const graphWith = (checked: string) =>
+    parseGraph(`
+start: a
+nodes:
+  a:
+    type: end
+    title: Крај
+    checked: ${checked}
+`);
+  const today = new Date('2026-10-07T12:00:00Z');
+
+  it('is quiet for a date within the last 6 months', () => {
+    expect(rules(checkGraphText(graphWith('2026-10-07'), today))).toEqual([]);
+    expect(rules(checkGraphText(graphWith('2026-04-08'), today))).toEqual([]);
+  });
+
+  it('warns when the date is older than 6 months', () => {
+    const findings = checkGraphText(graphWith('2026-04-06'), today);
+    expect(rules(findings)).toEqual(['warning:checked-date']);
+    expect(findings[0].message).toContain('2026-04-06');
+    expect(findings[0].message).toContain('"a"');
+  });
+
+  it('errors on a date in the future or not on the calendar', () => {
+    expect(rules(checkGraphText(graphWith('2026-10-08'), today))).toEqual(['error:checked-date']);
+    expect(rules(checkGraphText(graphWith('2026-02-30'), today))).toEqual(['error:checked-date']);
   });
 });

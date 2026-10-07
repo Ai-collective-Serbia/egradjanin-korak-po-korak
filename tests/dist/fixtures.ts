@@ -18,6 +18,8 @@ export const questionId = firstId((n) => n.type === 'question');
 export const externalStepId = firstId((n) => n.type === 'step' && n.external !== undefined);
 export const cardId = firstId((n) => n.type === 'card');
 export const endId = firstId((n) => n.type === 'end');
+/** First end node that is a help screen (id starts with "help-"), or undefined. */
+export const helpEndId = entries.find(([id, n]) => n.type === 'end' && id.startsWith('help-'))?.[0];
 /** First node whose body has a plain Markdown link to another site, with that link's URL. */
 export const bodyLink = entries
   .map(([id]) => {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { groupPosition, outgoing, parseGraph, validateGraph } from './graph';
+import { groupPosition, isHelpNode, outgoing, parseGraph, validateGraph } from './graph';
 
 const VALID = `
 start: have-id-card
@@ -7,6 +7,7 @@ nodes:
   have-id-card:
     type: question
     title: Да ли имате личну карту?
+    checked: 2026-10-07
     group: Припрема
     answers:
       - { label: Да, next: register }
@@ -15,11 +16,13 @@ nodes:
   get-id-card:
     type: step
     title: Како до личне карте
+    checked: 2026-10-07
     group: Припрема
     next: register
   register:
     type: step
     title: Регистрација
+    checked: 2026-10-07
     group: Регистрација
     external: { label: Отворите еУправу, url: https://euprava.gov.rs/ }
     answers:
@@ -28,14 +31,17 @@ nodes:
   card:
     type: card
     title: Покажите на шалтеру
+    checked: 2026-10-07
     group: Пошта
     next: done
   help:
     type: end
     title: Потражите помоћ
+    checked: 2026-10-07
   done:
     type: end
     title: Готово
+    checked: 2026-10-07
 `;
 
 const bodies = new Set(['get-id-card', 'register', 'card']);
@@ -71,6 +77,22 @@ describe('parseGraph', () => {
     expect(() => parseGraph(VALID.replace('    next: register\n', ''))).toThrow();
   });
 
+  it('requires a checked date on every node, as YYYY-MM-DD', () => {
+    expect(() =>
+      parseGraph(
+        VALID.replace('    checked: 2026-10-07\n    group: Пошта\n', '    group: Пошта\n'),
+      ),
+    ).toThrow();
+    expect(() =>
+      parseGraph(
+        VALID.replace(
+          'checked: 2026-10-07\n    group: Пошта',
+          'checked: 7.10.2026\n    group: Пошта',
+        ),
+      ),
+    ).toThrow();
+  });
+
   it('rejects an end node with an edge', () => {
     expect(() =>
       parseGraph(VALID.replace('    title: Готово\n', '    title: Готово\n    next: help\n')),
@@ -92,9 +114,31 @@ describe('validateGraph', () => {
   });
 
   it('reports an unreachable node', () => {
-    const extra = VALID + '  orphan:\n    type: end\n    title: Сироче\n';
+    const extra = VALID + '  orphan:\n    type: end\n    title: Сироче\n    checked: 2026-10-07\n';
     expect(validateGraph(parseGraph(extra), bodies)).toEqual([
       expect.stringContaining('"orphan" is unreachable'),
+    ]);
+  });
+
+  it('requires at least two answers on a step that opens another site', () => {
+    // A reader who leaves the guide can fail there; "next" alone gives them no way to say so.
+    const withNext = VALID.replace(
+      /    answers:\n      - \{ label: Урадио сам, next: card \}\n      - \{ label: Нисам успео, next: help \}\n/,
+      '    next: card\n',
+    );
+    expect(validateGraph(parseGraph(withNext), bodies)).toEqual([
+      expect.stringContaining(
+        '"register" opens another site but has no answer for when that fails',
+      ),
+      expect.stringContaining('"help" is unreachable'),
+    ]);
+
+    const oneAnswer = VALID.replace('      - { label: Нисам успео, next: help }\n', '');
+    expect(validateGraph(parseGraph(oneAnswer), bodies)).toEqual([
+      expect.stringContaining(
+        '"register" opens another site but has no answer for when that fails',
+      ),
+      expect.stringContaining('"help" is unreachable'),
     ]);
   });
 
@@ -123,6 +167,16 @@ describe('outgoing', () => {
     expect(outgoing(g.nodes['get-id-card'])).toEqual([{ next: 'register' }]);
     expect(outgoing(g.nodes['card'])).toEqual([{ next: 'done' }]);
     expect(outgoing(g.nodes['done'])).toEqual([]);
+  });
+});
+
+describe('isHelpNode', () => {
+  it('is true only for ids that start with "help-"', () => {
+    expect(isHelpNode('help-account')).toBe(true);
+    expect(isHelpNode('help-upload')).toBe(true);
+    expect(isHelpNode('help')).toBe(false);
+    expect(isHelpNode('helper-screen')).toBe(false);
+    expect(isHelpNode('done')).toBe(false);
   });
 });
 

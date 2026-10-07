@@ -9,6 +9,7 @@ import {
   bodyLink,
   endId,
   externalStepId,
+  helpEndId,
   graph,
   imageNodeId,
   questionId,
@@ -122,6 +123,17 @@ describe('built pages', () => {
     expect(html).toMatch(/\.answers\{[^}]*bottom:0/);
   });
 
+  it.skipIf(!questionId)('spaces stacked answer buttons at least 16 px apart', () => {
+    // Older adults mis-tap neighbouring targets; the evidence asks for 16–24 CSS px between
+    // stacked buttons (1rem renders as 20 px here) (Jin et al. 2007 via W3C;
+    // Gomez-Hernandez et al. 2023).
+    const html = page('cyr', questionId as string);
+    expect(html).toMatch(/\.answers\{[^}]*display:flex/);
+    expect(html).toMatch(/\.answers\{[^}]*flex-direction:column/);
+    expect(html).toMatch(/\.answers\{[^}]*gap:1rem/);
+    expect(html).toMatch(/\.answers \.btn\{[^}]*margin:0(?:;|\})/);
+  });
+
   it('shows the community disclaimer in the footer of every page and on the home page', () => {
     const step = page('cyr', startId);
     const home = read('index.html');
@@ -155,6 +167,13 @@ describe('built pages', () => {
     );
     // Every other screen keeps the Back button.
     expect(page('cyr', startId)).toContain('data-back href=');
+  });
+
+  it.skipIf(!helpEndId)('keeps Back on help end pages, next to the home button', () => {
+    // A help screen is reached from the middle of the flow; the reader must be able to retry.
+    const html = page('cyr', helpEndId as string);
+    expect(html).toContain('data-back href=');
+    expect(html).toContain('class="nav-home"');
   });
 
   it('has a Cyrillic 404 page that links home', () => {
