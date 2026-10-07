@@ -1,37 +1,13 @@
 ---
-import Base from '../layouts/Base.astro';
-import { makeT } from '../lib/i18n';
-import { nodePath, withBase } from '../lib/paths';
 import type { Script } from '../lib/script';
-import { graph, overrides, ui } from '../lib/site';
+import { graph } from '../lib/site';
+import NodePage from './NodePage.astro';
 
 interface Props {
   script: Script;
 }
 
 const { script } = Astro.props;
-const t = makeT(script, overrides);
-const base = import.meta.env.BASE_URL;
-const startHref = withBase(base, nodePath(script, graph.start));
 ---
 
-<Base script={script} title={ui.tagline} pagePath="">
-  <section class="home">
-    <h1>{t(ui.siteName)}</h1>
-    <p class="lead">{t(ui.tagline)}</p>
-    <p class="disclaimer">{t(ui.disclaimer)}</p>
-    <div data-fresh>
-      <a class="btn btn-primary" href={startHref}>
-        {t(ui.start)}
-      </a>
-    </div>
-    <div data-resume hidden>
-      <a class="btn btn-primary" data-resume-link href={startHref}>
-        {t(ui.resume)}
-      </a>
-      <button type="button" class="btn btn-secondary" data-reset data-confirm={t(ui.resetConfirm)}>
-        {t(ui.reset)}
-      </button>
-    </div>
-  </section>
-</Base>
+<NodePage script={script} id={graph.start} home />
