@@ -1,7 +1,8 @@
 // src/lib/language.ts
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import path from 'node:path';
-import { outgoing, parseGraph, type Graph } from './graph';
+import { parse } from 'yaml';
+import { isHelpNode, outgoing, parseGraph, type Graph } from './graph';
 import {
   boldSpans,
   inlineImages,
@@ -49,7 +50,53 @@ export const RULE_IDS = [
   'callout',
   'dates',
   'punctuation',
+  'help-screen',
+  'terms',
 ] as const;
+
+/** Rule 28: every help screen (id "help-…") opens with this sentence, the one allowed exception to rule 4. */
+export const HELP_OPENER = 'Нисте ништа покварили.';
+
+/**
+ * Rule 28: help screens never give a phone number (the official help has a contact form only).
+ * Matches a Serbian number such as 011 123 456, 011/1234-567 or +381 11 1234567, not "13 цифара".
+ */
+const PHONE_NUMBER = /(?<!\d)(?:\+381|0[1-9]\d)[ /-]?\d{2,4}[ -]?\d{3,4}(?:[ -]?\d{1,3})?(?!\d)/u;
+
+/**
+ * Rule 29: phrases from the "Не пишемо" column of docs/terms.md that are never right, with the
+ * replacement from the "Пишемо" column. Ambiguous words from that column (страна, пошта, слика …)
+ * are left to the language review.
+ */
+export const FORBIDDEN_PHRASES: { pattern: RegExp; write: string }[] = [
+  { pattern: /вратите се овде/iu, write: 'Вратите се у водич.' },
+  { pattern: /на ову стран[уи]/iu, write: 'у водич' },
+  { pattern: /портал[ау]? еид/iu, write: 'сајт eid.gov.rs' },
+  { pattern: /(?<!\p{L})(?:улогујте|излогујте)/iu, write: 'пријавите се, одјавите се' },
+  { pattern: /(?<!\p{L})(?:кликните|тапните|додирните)(?!\p{L})/iu, write: 'притисните' },
+  { pattern: /(?<!\p{L})(?:укуцајте|унесите)(?!\p{L})/iu, write: 'упишите' },
+  { pattern: /(?<!\p{L})(?:штиклирајте|чекирајте)(?!\p{L})/iu, write: 'означите' },
+  { pattern: /(?<!\p{L})(?:јузернејм|пасворд)(?!\p{L})/iu, write: 'корисничко име, лозинка' },
+  { pattern: /(?<!\p{L})скриншот/iu, write: 'слика' },
+  { pattern: /(?<!\p{L})веб-сајт/iu, write: 'сајт' },
+  { pattern: /(?<!\p{L})е-пошт/iu, write: 'имејл' },
+  { pattern: /(?<!\p{L})мејл(?!\p{L})/iu, write: 'имејл' },
+  { pattern: /(?<!\p{L})икониц/iu, write: 'сличица' },
+];
+
+/** The forbidden phrases a text contains, as (phrase as written, replacement) pairs. */
+export function forbiddenPhrases(text: string): { found: string; write: string }[] {
+  const hits: { found: string; write: string }[] = [];
+  for (const { pattern, write } of FORBIDDEN_PHRASES) {
+    const m = text.match(pattern);
+    if (m) hits.push({ found: m[0], write });
+  }
+  return hits;
+}
+
+function termsMessage(hit: { found: string; write: string }): string {
+  return `"${hit.found}" is on the "не пишемо" list in docs/terms.md; write "${hit.write}"`;
+}
 
 export function isDirectoryNode(id: string): boolean {
   return id.startsWith('counter-list-');
@@ -129,6 +176,8 @@ export function checkBody(id: string, markdown: string): Finding[] {
             text,
           );
       }
+      for (const hit of forbiddenPhrases(plainText(text)))
+        add(block, 'terms', 'error', termsMessage(hit), text);
     }
   }
   if (isDirectoryNode(id)) return findings;
@@ -254,6 +303,38 @@ export function checkBody(id: string, markdown: string): Finding[] {
       first.text,
     );
   }
+  if (isHelpNode(id)) {
+    const firstParagraph = blocks.find((b) => b.kind === 'paragraph');
+    const firstSentence = firstParagraph
+      ? (splitSentences(plainText(firstParagraph.text))[0] ?? '').trim()
+      : '';
+    if (!firstParagraph || firstSentence !== HELP_OPENER) {
+      findings.push({
+        file,
+        line: firstParagraph?.line ?? 1,
+        rule: 'help-screen',
+        severity: 'error',
+        message: `a help screen opens with "${HELP_OPENER}" as the first sentence of its first paragraph`,
+        excerpt: excerpt(firstParagraph?.text ?? ''),
+      });
+    }
+    for (const block of blocks) {
+      for (const text of proseTexts(block)) {
+        const plain = plainText(text);
+        if (PHONE_NUMBER.test(plain)) {
+          findings.push({
+            file,
+            line: block.line,
+            rule: 'help-screen',
+            severity: 'error',
+            message:
+              'a help screen never gives a phone number; the official help has a contact form only',
+            excerpt: excerpt(plain),
+          });
+        }
+      }
+    }
+  }
   return findings;
 }
 
@@ -284,7 +365,27 @@ export function checkGraphText(graph: Graph): Finding[] {
     }
     for (const text of [node.title, ...labels]) {
       for (const error of genderFormErrors(text)) push('gender-form', `on "${id}": ${error}`, text);
+      for (const hit of forbiddenPhrases(text))
+        push('terms', `on "${id}": ${termsMessage(hit)}`, text);
     }
+  }
+  return findings;
+}
+
+/** Rule 29 on the interface strings: a forbidden phrase under every external button is on every screen. */
+export function checkUiStrings(strings: Record<string, string>): Finding[] {
+  const file = 'content/ui-strings.yaml';
+  const findings: Finding[] = [];
+  for (const [key, text] of Object.entries(strings)) {
+    for (const hit of forbiddenPhrases(text))
+      findings.push({
+        file,
+        line: 0,
+        rule: 'terms',
+        severity: 'error',
+        message: `${key}: ${termsMessage(hit)}`,
+        excerpt: excerpt(text),
+      });
   }
   return findings;
 }
@@ -294,6 +395,14 @@ export type Trend = { meanSentenceLength: number; longWordShare: number };
 export function checkContent(root = process.cwd()): { findings: Finding[]; trend: Trend } {
   const graph = parseGraph(readFileSync(path.join(root, 'content', 'graph.yaml'), 'utf8'));
   const findings = checkGraphText(graph);
+  const uiFile = path.join(root, 'content', 'ui-strings.yaml');
+  if (existsSync(uiFile)) {
+    const strings = parse(readFileSync(uiFile, 'utf8')) as Record<string, unknown>;
+    const onlyStrings = Object.fromEntries(
+      Object.entries(strings ?? {}).filter((e): e is [string, string] => typeof e[1] === 'string'),
+    );
+    findings.push(...checkUiStrings(onlyStrings));
+  }
   const nodesDir = path.join(root, 'content', 'nodes');
   const sentenceLengths: number[] = [];
   let wordCount = 0;

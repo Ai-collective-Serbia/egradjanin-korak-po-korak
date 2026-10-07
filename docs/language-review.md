@@ -12,7 +12,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
    `origin/main` instead. Review every screen whose `index.md`, title, labels or images changed.
    Read each one in full, with its entry in `content/graph.yaml`.
 2. Run `npm run validate` and read the language warnings for those screens.
-3. Score each criterion below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
+3. Score each of the 11 criteria below from 0 to 3 for the set of changed screens: 3 fully met, 2 met with a
    small slip you name, 1 broken in a way the reader will notice, 0 broken throughout.
 4. The verdict is `pass` when every criterion scores 2 or 3, otherwise `needs work`. If only images
    changed, score criteria 9 and 10, write "n/a" for the others, and give the verdict from those
@@ -34,6 +34,7 @@ coding agent or person can run it; in Claude Code, `/language-review` does these
 | 8 | Calm tone | No blame, no exclamation marks, no "просто" or "само" that makes a hard step sound trivial. |
 | 9 | Alt text says what to look for | Each image's alt text names the control or detail the reader must find, not only what the picture shows. |
 | 10 | Text matches the screenshot | Every label the text names appears, with the same spelling, in the screenshot it refers to. |
+| 11 | Help and failure screens | A screen whose id starts with `help-`, and every screen a failure answer leads to, opens with „Нисте ништа покварили.“, names one next action, offers the counter as a normal route where it applies, and gives no phone number. A set of changed screens with no such screen scores 3. |
 
 ## Output format
 

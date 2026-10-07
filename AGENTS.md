@@ -63,6 +63,11 @@ adding a new group in the middle renumbers the ones after it.
 
 Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `end` may have one.
 
+An `end` node whose id starts with `help-` is a help screen: it keeps the Назад button so the reader
+can retry, and its body follows rule 28 of `docs/writing-guide.md` (it opens with „Нисте ништа
+покварили.“, names one next action, never gives a phone number). Every `step` with `external` needs
+at least two answers, one of them for when the other site fails.
+
 ## Rules the build enforces
 
 `npm run validate` (and CI on every pull request) fails with a list of what is wrong when:
@@ -74,6 +79,8 @@ Bodies: `step` and `card` need `content/nodes/<id>/index.md`; `question` and `en
 - an id is not lowercase English words joined by hyphens (`^[a-z0-9]+(-[a-z0-9]+)*$`),
 - a `question` has fewer than two answers, a `step` has both or neither of `next`/`answers`,
   an `end` has an edge, or a node has an unknown key.
+- a `step` with `external` has `next` or a single answer instead of at least two `answers` (a reader
+  who leaves the guide can fail there and needs an answer that says so).
 
 and, from the language check in the same command (`src/lib/language.ts`), when:
 
@@ -81,7 +88,11 @@ and, from the language check in the same command (`src/lib/language.ts`), when:
 - a word mixes Latin and Cyrillic letters, such as a Latin "o" inside a Cyrillic word (`scripts`),
 - a gender slash form is not `реч/ла`, `реч/а` or `реч/на`, or `и/или` is used (`gender-form`),
 - an image has no alt text, alt text equal to its file name, or under 3 words (`alt-text`),
-- a title has more than 50 characters or an answer label more than 40 (`title-label-length`).
+- a title has more than 50 characters or an answer label more than 40 (`title-label-length`),
+- a help screen (an id starting with `help-`) does not open with „Нисте ништа покварили.“ or gives
+  a phone number (`help-screen`),
+- a body, title, answer label or interface string uses a phrase from the fixed forbidden list in
+  rule 29 of `docs/writing-guide.md`, such as „вратите се овде“ or „кликните“ (`terms`).
 
 The same check prints warnings that do not fail the build: sentences over 15 words, paragraphs over
 3 sentences, numbered steps with 3 or more sentences, screens over 150 words, bold spans over 4
@@ -93,9 +104,9 @@ dated row in `docs/language-decisions.md` (`scripts/check-pr-language-review.mjs
 
 ## Writing rules
 
-The standard is `docs/writing-guide.md` (Serbian, 27 rules with examples) and the words we use are
+The standard is `docs/writing-guide.md` (Serbian, 29 rules with examples) and the words we use are
 in `docs/terms.md`. Read both before writing or reviewing a screen. The checker reports these rule
-ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation`.
+ids, which are the ids in `docs/writing-guide.md`: `sentence-length, paragraph-length, one-action, screen-length, scripts, gender-form, alt-text, title-label-length, bold, callout, dates, punctuation, help-screen, terms`.
 In short:
 
 - Titles, answer labels, and bodies are Serbian Cyrillic only. Latin pages are generated at build.
