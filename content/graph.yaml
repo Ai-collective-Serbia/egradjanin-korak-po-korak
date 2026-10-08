@@ -295,7 +295,7 @@ nodes:
   account-ready:
     type: step
     title: Ваш налог је активан
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Активација налога
     next: have-smartphone
 
@@ -303,7 +303,7 @@ nodes:
   have-smartphone:
     type: question
     title: Да ли имате паметни телефон?
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Апликација ConsentID
     answers:
       - label: Да
@@ -763,12 +763,12 @@ nodes:
   done-basic:
     type: end
     title: Имате налог за основне услуге
-    checked: 2026-10-07
+    checked: 2026-10-08
 
   help-id-card:
     type: end
     title: Прво вам треба лична карта или пасош
-    checked: 2026-10-07
+    checked: 2026-10-08
 
   help-email:
     type: end
