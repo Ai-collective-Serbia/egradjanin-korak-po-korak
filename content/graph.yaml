@@ -9,11 +9,18 @@ nodes:
   about-guide:
     type: step
     title: Шта је овај водич
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Увод
     answers:
       - label: Почните
-        next: welcome
+        next: how-to-use
+
+  how-to-use:
+    type: step
+    title: Како се користи водич
+    checked: 2026-10-08
+    group: Увод
+    next: welcome
 
   welcome:
     type: step
@@ -32,7 +39,7 @@ nodes:
   account-and-app:
     type: step
     title: Налог и апликација нису исто
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Увод
     answers:
       - label: Почните регистрацију
@@ -107,7 +114,7 @@ nodes:
   how-to-get-id-card:
     type: step
     title: Како да добијете нову личну карту
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Припрема
     external:
       label: Отворите упутство полиције
@@ -288,7 +295,7 @@ nodes:
   account-ready:
     type: step
     title: Ваш налог је активан
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Активација налога
     next: have-smartphone
 
@@ -296,7 +303,7 @@ nodes:
   have-smartphone:
     type: question
     title: Да ли имате паметни телефон?
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Апликација ConsentID
     answers:
       - label: Да
@@ -307,7 +314,7 @@ nodes:
   install-consentid:
     type: step
     title: Инсталирајте апликацију ConsentID
-    checked: 2026-10-07
+    checked: 2026-10-08
     group: Апликација ConsentID
     answers:
       - label: Инсталирао/ла сам
@@ -679,8 +686,8 @@ nodes:
 
   cloud-certificate:
     type: step
-    title: Укључите потпис у клауду
-    checked: 2026-10-07
+    title: Укључивање потписа у клауду
+    checked: 2026-10-08
     group: Апликација ConsentID
     answers:
       - label: Хоћу да га укључим сада
@@ -751,17 +758,17 @@ nodes:
   done:
     type: end
     title: Честитамо, сада сте еГрађанин
-    checked: 2026-10-07
+    checked: 2026-10-08
 
   done-basic:
     type: end
     title: Имате налог за основне услуге
-    checked: 2026-10-07
+    checked: 2026-10-08
 
   help-id-card:
     type: end
     title: Прво вам треба лична карта или пасош
-    checked: 2026-10-07
+    checked: 2026-10-08
 
   help-email:
     type: end
