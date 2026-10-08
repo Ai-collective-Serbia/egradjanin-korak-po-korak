@@ -160,7 +160,8 @@ h1 {
   box-shadow: none;
 }
 
-.disclaimer {
+.disclaimer,
+.checked {
   color: var(--muted);
   font-size: 0.95rem;
 }
