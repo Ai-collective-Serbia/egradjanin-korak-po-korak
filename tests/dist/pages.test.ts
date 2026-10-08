@@ -164,14 +164,15 @@ describe('built pages', () => {
     expect(html).toMatch(/\.node-card \.answers[^{]*\{[^}]*position:static/);
   });
 
-  it.skipIf(!endId)('shows a home button instead of Back on end pages', () => {
+  it.skipIf(!endId)('shows a feedback button instead of Back or home on finish pages', () => {
     const html = page('cyr', endId as string);
     // The inlined progress script mentions the selector, so match the rendered attribute only.
     expect(html).not.toContain('class="nav-back"');
     expect(html).not.toContain('data-back href=');
+    expect(html).not.toContain('class="nav-home"');
     expect(html).toMatch(
       new RegExp(
-        `class="nav-home"[\\s\\S]*href="${escapeRegex(withBase(base, homePath('cyr')))}"[^>]*>\\s*${esc(ui.toHome)}\\s*<`,
+        `class="nav-feedback"[\\s\\S]*href="mailto:${escapeRegex(ui.feedbackEmail)}\\?subject=[^"]+"[^>]*>\\s*${esc(ui.feedback)}\\s*<`,
       ),
     );
     // Every other screen keeps the Back button.
