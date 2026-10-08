@@ -112,6 +112,17 @@ export function validateGraph(graph: Graph, bodyIds: Set<string>): string[] {
   return errors;
 }
 
+/**
+ * The date the whole guide was last checked against eUprava: the oldest "checked" of any node,
+ * since the guide as a whole is only as current as its least recently checked screen.
+ * Dates are YYYY-MM-DD, so string order is date order.
+ */
+export function guideChecked(graph: Graph): string {
+  return Object.values(graph.nodes)
+    .map((node) => node.checked)
+    .reduce((oldest, date) => (date < oldest ? date : oldest));
+}
+
 export function groupOrder(graph: Graph): string[] {
   const order: string[] = [];
   for (const node of Object.values(graph.nodes)) {

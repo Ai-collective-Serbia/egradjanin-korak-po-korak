@@ -1,5 +1,12 @@
 import { describe, expect, it } from 'vitest';
-import { groupPosition, isHelpNode, outgoing, parseGraph, validateGraph } from './graph';
+import {
+  groupPosition,
+  guideChecked,
+  isHelpNode,
+  outgoing,
+  parseGraph,
+  validateGraph,
+} from './graph';
 
 const VALID = `
 start: have-id-card
@@ -186,5 +193,18 @@ describe('groupPosition', () => {
     expect(groupPosition(g, 'get-id-card')).toEqual({ name: 'Припрема', index: 1, total: 3 });
     expect(groupPosition(g, 'card')).toEqual({ name: 'Пошта', index: 3, total: 3 });
     expect(groupPosition(g, 'done')).toBeNull();
+  });
+});
+
+describe('guideChecked', () => {
+  it('is the oldest checked date of any node, since the guide is only as current as that screen', () => {
+    const graph = parseGraph(`
+start: a
+nodes:
+  a: { type: step, title: А, checked: 2026-10-07, next: b }
+  b: { type: step, title: Б, checked: 2026-09-30, next: c }
+  c: { type: end, title: Ц, checked: 2026-10-05 }
+`);
+    expect(guideChecked(graph)).toBe('2026-09-30');
   });
 });

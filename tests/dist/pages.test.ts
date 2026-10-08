@@ -3,6 +3,8 @@ import path from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { loadOverrides, loadUiStrings } from '../../src/lib/content';
 import { homePath, nodePath, withBase } from '../../src/lib/paths';
+import { formatDate } from '../../src/lib/dates';
+import { guideChecked } from '../../src/lib/graph';
 import { transliterate } from '../../src/lib/translit';
 import {
   base,
@@ -143,6 +145,13 @@ describe('built pages', () => {
     expect(read('lat/index.html')).toContain(esc(lat(ui.disclaimer)));
     // The home page states it once, above the start button, not again in the footer.
     expect(home.split(esc(ui.disclaimer)).length - 1).toBe(1);
+  });
+
+  it('tells on the intro screen when the whole guide was last checked, in both scripts', () => {
+    const line = `${ui.lastChecked}: ${formatDate(guideChecked(graph))}`;
+    expect(read('index.html')).toContain(`<p class="checked">${esc(line)}</p>`);
+    expect(page('cyr', startId)).toContain(`<p class="checked">${esc(line)}</p>`);
+    expect(read('lat/index.html')).toContain(esc(lat(line)));
   });
 
   it('uses the short site name in the header', () => {

@@ -1,7 +1,8 @@
 ---
 import { getEntry, render } from 'astro:content';
 import Base from '../layouts/Base.astro';
-import { groupPosition, isHelpNode, outgoing } from '../lib/graph';
+import { formatDate } from '../lib/dates';
+import { groupPosition, guideChecked, isHelpNode, outgoing } from '../lib/graph';
 import { makeT } from '../lib/i18n';
 import { homePath, nodePath, withBase } from '../lib/paths';
 import { collectionFor, type Script } from '../lib/script';
@@ -31,6 +32,9 @@ const external = node.type === 'step' ? node.external : undefined;
  */
 const isEnd = node.type === 'end';
 const showBack = !home && (!isEnd || isHelpNode(id));
+/** The intro screen says when the whole guide was last checked; it renders as the home page and as its own step. */
+const checkedLine =
+  id === graph.start ? `${ui.lastChecked}: ${formatDate(guideChecked(graph))}` : undefined;
 ---
 
 <Base
@@ -71,6 +75,7 @@ const showBack = !home && (!isEnd || isHelpNode(id));
         <Content />
       </div>
     )}
+    {checkedLine && <p class="checked">{t(checkedLine)}</p>}
     {external && (
       <>
         <p class="external">
