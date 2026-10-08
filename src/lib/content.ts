@@ -30,6 +30,9 @@ const uiStringsSchema = z
     disclaimer: z.string(),
     disclaimerSource: z.string(),
     toHome: z.string(),
+    feedback: z.string(),
+    feedbackEmail: z.string().email(),
+    feedbackSubject: z.string(),
     lastChecked: z.string(),
   })
   .strict();

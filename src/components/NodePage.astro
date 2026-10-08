@@ -27,8 +27,9 @@ const edges = outgoing(node);
 const position = groupPosition(graph, id);
 const external = node.type === 'step' ? node.external : undefined;
 /**
- * End screens have no Back (testers found it confusing); they offer a way home instead.
- * Help screens (ids starting with "help-") are end screens reached mid-flow, so they keep Back too.
+ * End screens have no Back (testers found it confusing). A finish screen offers a feedback e-mail
+ * button instead: the reader is done and has no reason to go home. Help screens (ids starting with
+ * "help-") are end screens reached mid-flow, so they keep Back and the home button.
  */
 const isEnd = node.type === 'end';
 const showBack = !home && (!isEnd || isHelpNode(id));
@@ -115,7 +116,17 @@ const checkedLine =
         </a>
       </nav>
     )}
-    {isEnd && (
+    {isEnd && !isHelpNode(id) && (
+      <nav class="nav-feedback" aria-label={t(ui.feedback)}>
+        <a
+          class="btn btn-secondary"
+          href={`mailto:${ui.feedbackEmail}?subject=${encodeURIComponent(t(ui.feedbackSubject))}`}
+        >
+          {t(ui.feedback)}
+        </a>
+      </nav>
+    )}
+    {isEnd && isHelpNode(id) && (
       <nav class="nav-home" aria-label={t(ui.toHome)}>
         <a class="btn btn-secondary" href={withBase(base, homePath(script))}>
           {t(ui.toHome)}
